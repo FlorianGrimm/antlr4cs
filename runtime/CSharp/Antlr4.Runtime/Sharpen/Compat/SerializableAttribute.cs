@@ -1,4 +1,5 @@
-﻿#if PORTABLE && !NETSTANDARD2_0
+﻿#if false
+#if PORTABLE && !NETSTANDARD2_0
 
 namespace System
 {
@@ -8,4 +9,5 @@ namespace System
     }
 }
 
+#endif
 #endif

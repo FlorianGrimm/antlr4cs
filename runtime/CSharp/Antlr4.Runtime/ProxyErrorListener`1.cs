@@ -37,7 +37,7 @@ namespace Antlr4.Runtime
             }
         }
 
-        public virtual void SyntaxError([NotNull] IRecognizer recognizer, [Nullable] Symbol offendingSymbol, int line, int charPositionInLine, [NotNull] string msg, [Nullable] RecognitionException e)
+        public virtual void SyntaxError([NotNull] IRecognizer recognizer, Symbol? offendingSymbol, int line, int charPositionInLine, [NotNull] string msg, RecognitionException? e)
         {
             foreach (IAntlrErrorListener<Symbol> listener in delegates)
             {

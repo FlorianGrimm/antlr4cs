@@ -177,7 +177,7 @@ namespace Antlr4.Runtime.Atn
             return s.nextTokenWithinRule;
         }
 
-        public virtual void AddState([Nullable] ATNState state)
+        public virtual void AddState(ATNState? state)
         {
             if (state != null)
             {
@@ -275,7 +275,7 @@ namespace Antlr4.Runtime.Atn
         /// <paramref name="stateNumber"/>
         /// </exception>
         [return: NotNull]
-        public virtual IntervalSet GetExpectedTokens(int stateNumber, [Nullable] RuleContext context)
+        public virtual IntervalSet GetExpectedTokens(int stateNumber, RuleContext? context)
         {
             if (stateNumber < 0 || stateNumber >= states.Count)
             {

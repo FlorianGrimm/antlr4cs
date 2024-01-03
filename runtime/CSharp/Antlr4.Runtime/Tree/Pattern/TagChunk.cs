@@ -130,8 +130,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// if no label is
         /// assigned to the chunk.
         /// </returns>
-        [Nullable]
-        public string Label
+        public string? Label
         {
             get
             {

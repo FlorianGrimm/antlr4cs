@@ -11,7 +11,7 @@ namespace Antlr4.Parse
     using BaseRecognizer = Antlr.Runtime.BaseRecognizer;
     using CommonToken = Antlr.Runtime.CommonToken;
     using NotNullAttribute = Antlr4.Runtime.Misc.NotNullAttribute;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
     using Tuple = System.Tuple;
 
     /**
@@ -40,12 +40,12 @@ namespace Antlr4.Parse
          * <p>
          * convert to an attribute scope.</p>
          */
-        public static AttributeDict ParseTypedArgList([Nullable] ActionAST action, string s, Grammar g)
+        public static AttributeDict ParseTypedArgList(ActionAST? action, string s, Grammar g)
         {
             return Parse(action, s, ',', g);
         }
 
-        public static AttributeDict Parse([Nullable] ActionAST action, string s, char separator, Grammar g)
+        public static AttributeDict Parse(ActionAST? action, string s, char separator, Grammar g)
         {
             AttributeDict dict = new AttributeDict();
             IList<System.Tuple<string, int>> decls = SplitDecls(s, separator);
@@ -66,7 +66,7 @@ namespace Antlr4.Parse
          * but if the separator is ',' you cannot use ',' in the initvalue
          * unless you escape use "\," escape.
          */
-        public static Attribute ParseAttributeDef([Nullable] ActionAST action, [NotNull] System.Tuple<string, int> decl, Grammar g)
+        public static Attribute ParseAttributeDef(ActionAST? action, [NotNull] System.Tuple<string, int> decl, Grammar g)
         {
             if (decl.Item1 == null)
                 return null;

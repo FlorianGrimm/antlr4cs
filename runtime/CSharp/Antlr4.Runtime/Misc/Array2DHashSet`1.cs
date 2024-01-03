@@ -267,7 +267,7 @@ namespace Antlr4.Runtime.Misc
             return ContainsFast(AsElementType(o));
         }
 
-        public virtual bool ContainsFast([Nullable] T obj)
+        public virtual bool ContainsFast(T? obj)
         {
             if (obj == null)
             {
@@ -335,7 +335,7 @@ namespace Antlr4.Runtime.Misc
             return RemoveFast(AsElementType(o));
         }
 
-        public virtual bool RemoveFast([Nullable] T obj)
+        public virtual bool RemoveFast(T? obj)
         {
             if (obj == null)
             {

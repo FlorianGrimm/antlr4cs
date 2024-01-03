@@ -284,7 +284,7 @@ namespace Antlr4.Tool
             if (templates != null)
                 return;
 
-            string codeBaseLocation = new Uri(typeof(AntlrTool).GetTypeInfo().Assembly.CodeBase).LocalPath;
+            string codeBaseLocation = typeof(AntlrTool).GetTypeInfo().Assembly.Location;
             string baseDirectory = Path.GetDirectoryName(codeBaseLocation);
             string fileName = Path.Combine("Tool", "Templates", "depend.stg");
             templates = new TemplateGroupFile(

@@ -90,7 +90,7 @@ namespace Antlr4.Runtime.Atn
         /// .
         /// </returns>
         [return: NotNull]
-        public static Antlr4.Runtime.Atn.LexerActionExecutor Append([Nullable] Antlr4.Runtime.Atn.LexerActionExecutor lexerActionExecutor, [NotNull] ILexerAction lexerAction)
+        public static Antlr4.Runtime.Atn.LexerActionExecutor Append(Antlr4.Runtime.Atn.LexerActionExecutor? lexerActionExecutor, [NotNull] ILexerAction lexerAction)
         {
             if (lexerActionExecutor == null)
             {

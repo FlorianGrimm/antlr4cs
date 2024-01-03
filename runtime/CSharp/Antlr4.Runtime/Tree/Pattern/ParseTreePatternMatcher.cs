@@ -373,8 +373,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// was successful. The specific node returned depends on the matching
         /// algorithm used by the implementation, and may be overridden.
         /// </returns>
-        [return: Nullable]
-        protected internal virtual IParseTree MatchImpl([NotNull] IParseTree tree, [NotNull] IParseTree patternTree, [NotNull] MultiMap<string, IParseTree> labels)
+        protected internal virtual IParseTree? MatchImpl([NotNull] IParseTree tree, [NotNull] IParseTree patternTree, [NotNull] MultiMap<string, IParseTree> labels)
         {
             if (tree == null)
             {

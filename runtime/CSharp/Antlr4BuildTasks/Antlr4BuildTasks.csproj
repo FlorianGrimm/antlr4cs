@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard1.5;net40</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <EnableDefaultNoneItems>False</EnableDefaultNoneItems>
 
     <RootNamespace>Antlr4.Build.Tasks</RootNamespace>
@@ -28,38 +28,20 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <Choose>
-    <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
-      <ItemGroup>
-        <PackageReference Include="Microsoft.Build.Framework" Version="15.7.179" />
-        <PackageReference Include="Microsoft.Build.Tasks.Core" Version="15.7.179" />
-      </ItemGroup>
-      <ItemGroup>
-        <ProjectReference Include="..\Antlr4.Tool\Antlr4.Tool.csproj" />
-      </ItemGroup>
-    </When>
-    <When Condition="'$(TargetFramework)' == 'netstandard1.5'">
-      <ItemGroup>
-        <PackageReference Include="Microsoft.Build.Framework" Version="14.3" />
-        <PackageReference Include="Microsoft.Build.Tasks.Core" Version="14.3" />
-      </ItemGroup>
-      <ItemGroup>
-        <ProjectReference Include="..\Antlr4.Tool\Antlr4.Tool.csproj" />
-      </ItemGroup>
-    </When>
-    <When Condition="'$(TargetFramework)' == 'net40'">
-      <ItemGroup>
-        <Reference Include="Microsoft.Build.Framework" />
-        <Reference Include="Microsoft.Build.Tasks.v4.0" />
-        <Reference Include="Microsoft.Build.Utilities.v4.0" />
-      </ItemGroup>
-    </When>
-  </Choose>
-
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Framework" Version="15.7.179" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="15.7.179" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Antlr4.Tool\Antlr4.Tool.csproj" />
+  </ItemGroup>
+  
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile Condition="'$(KeyConfiguration)' == 'Final'">..\..\..\build\keys\Antlr4.snk</AssemblyOriginatorKeyFile>
     <AssemblyOriginatorKeyFile Condition="'$(KeyConfiguration)' != 'Final'">..\..\..\build\keys\Antlr4.dev.snk</AssemblyOriginatorKeyFile>
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

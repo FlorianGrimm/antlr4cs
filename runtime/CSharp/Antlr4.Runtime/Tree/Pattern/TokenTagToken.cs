@@ -25,7 +25,6 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// <see cref="TokenName()"/>
         /// .
         /// </summary>
-        [NotNull]
         private readonly string tokenName;
 
         /// <summary>
@@ -33,8 +32,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// <see cref="Label()"/>
         /// .
         /// </summary>
-        [Nullable]
-        private readonly string label;
+        private readonly string? label;
 
         /// <summary>
         /// Constructs a new instance of
@@ -63,7 +61,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// if
         /// the token tag is unlabeled.
         /// </param>
-        public TokenTagToken([NotNull] string tokenName, int type, [Nullable] string label)
+        public TokenTagToken([NotNull] string tokenName, int type, string? label)
             : base(type)
         {
             this.tokenName = tokenName;
@@ -87,8 +85,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// <see langword="null"/>
         /// if this is an unlabeled rule tag.
         /// </returns>
-        [Nullable]
-        public string Label
+        public string? Label
         {
             get
             {

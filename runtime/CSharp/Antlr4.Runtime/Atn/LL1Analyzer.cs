@@ -44,8 +44,7 @@ namespace Antlr4.Runtime.Atn
         /// <paramref name="s"/>
         /// .
         /// </returns>
-        [return: Nullable]
-        public virtual IntervalSet[] GetDecisionLookahead([Nullable] ATNState s)
+        public virtual IntervalSet[]? GetDecisionLookahead(ATNState? s)
         {
             //		System.out.println("LOOK("+s.stateNumber+")");
             if (s == null)
@@ -162,7 +161,7 @@ namespace Antlr4.Runtime.Atn
         /// .
         /// </returns>
         [return: NotNull]
-        public virtual IntervalSet Look([NotNull] ATNState s, [Nullable] ATNState stopState, [NotNull] PredictionContext ctx)
+        public virtual IntervalSet Look([NotNull] ATNState s, ATNState? stopState, [NotNull] PredictionContext ctx)
         {
             IntervalSet r = new IntervalSet();
             bool seeThruPreds = true;
@@ -252,7 +251,7 @@ namespace Antlr4.Runtime.Atn
         /// <see cref="PredictionContext.EmptyLocal"/>
         /// .
         /// </param>
-        protected internal virtual void Look([NotNull] ATNState s, [Nullable] ATNState stopState, [NotNull] PredictionContext ctx, [NotNull] IntervalSet look, [NotNull] HashSet<ATNConfig> lookBusy, [NotNull] BitSet calledRuleStack, bool seeThruPreds, bool addEOF)
+        protected internal virtual void Look([NotNull] ATNState s, ATNState? stopState, [NotNull] PredictionContext ctx, [NotNull] IntervalSet look, [NotNull] HashSet<ATNConfig> lookBusy, [NotNull] BitSet calledRuleStack, bool seeThruPreds, bool addEOF)
         {
             //		System.out.println("_LOOK("+s.stateNumber+", ctx="+ctx);
             ATNConfig c = ATNConfig.Create(s, 0, ctx);

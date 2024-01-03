@@ -18,7 +18,7 @@ namespace Antlr4.Automata
     using InvalidOperationException = System.InvalidOperationException;
     using ITree = Antlr.Runtime.Tree.ITree;
     using NotNullAttribute = Antlr4.Runtime.Misc.NotNullAttribute;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
     using RecognitionException = Antlr.Runtime.RecognitionException;
     using StringComparison = System.StringComparison;
     using TokenConstants = Antlr4.Runtime.TokenConstants;
@@ -665,7 +665,7 @@ namespace Antlr4.Automata
         }
 
         [return: NotNull]
-        public virtual ATNState NewState([Nullable] GrammarAST node) {
+        public virtual ATNState NewState(GrammarAST? node) {
             ATNState n = new BasicState();
             n.SetRuleIndex(currentRule.index);
             atn.AddState(n);

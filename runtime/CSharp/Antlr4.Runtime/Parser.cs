@@ -147,8 +147,7 @@ namespace Antlr4.Runtime
         /// events during the parse.
         /// </summary>
         /// <seealso cref="AddParseListener(Antlr4.Runtime.Tree.IParseTreeListener)"/>
-        [Nullable]
-        protected internal IList<IParseTreeListener> _parseListeners;
+        protected internal IList<IParseTreeListener>? _parseListeners;
 
         /// <summary>The number of syntax errors reported during parsing.</summary>
         /// <remarks>
@@ -659,7 +658,7 @@ namespace Antlr4.Runtime
             NotifyErrorListeners(CurrentToken, msg, null);
         }
 
-        public virtual void NotifyErrorListeners([NotNull] IToken offendingToken, [NotNull] string msg, [Nullable] RecognitionException e)
+        public virtual void NotifyErrorListeners([NotNull] IToken offendingToken, [NotNull] string msg, RecognitionException? e)
         {
             _syntaxErrors++;
             int line = -1;
@@ -950,7 +949,7 @@ namespace Antlr4.Runtime
             }
         }
 
-        public override bool Precpred([Nullable] RuleContext localctx, int precedence)
+        public override bool Precpred(RuleContext? localctx, int precedence)
         {
             return precedence >= _precedenceStack[_precedenceStack.Count - 1];
         }
@@ -1101,7 +1100,7 @@ namespace Antlr4.Runtime
         public virtual IList<string> GetRuleInvocationStack(RuleContext p)
         {
             string[] ruleNames = RuleNames;
-            IList<string> stack = new List<string>();
+            var stack = new List<string>();
             while (p != null)
             {
                 // compute what follows who invoked us
@@ -1122,7 +1121,7 @@ namespace Antlr4.Runtime
         /// <summary>For debugging and other purposes.</summary>
         public virtual IList<string> GetDFAStrings()
         {
-            IList<string> s = new List<string>();
+            var s = new List<string>();
             for (int d = 0; d < _interp.atn.decisionToDFA.Length; d++)
             {
                 DFA dfa = _interp.atn.decisionToDFA[d];

@@ -44,7 +44,7 @@ namespace Antlr4.Runtime.Atn
         /// if the current lookahead is part of
         /// an SLL prediction
         /// </param>
-        public LookaheadEventInfo(int decision, [Nullable] SimulatorState state, int predictedAlt, [NotNull] ITokenStream input, int startIndex, int stopIndex, bool fullCtx)
+        public LookaheadEventInfo(int decision, SimulatorState? state, int predictedAlt, [NotNull] ITokenStream input, int startIndex, int stopIndex, bool fullCtx)
             : base(decision, state, input, startIndex, stopIndex, fullCtx)
         {
             this.predictedAlt = predictedAlt;

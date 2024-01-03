@@ -548,7 +548,7 @@
         /** Return true if all is well */
         protected virtual bool rawGenerateAndBuildRecognizer(string grammarFileName,
                                                         string grammarStr,
-                                                        [Nullable] string parserName,
+                                                        string? parserName,
                                                         string lexerName,
                                                         params string[] extraOptions)
         {
@@ -558,7 +558,7 @@
         /** Return true if all is well */
         protected virtual bool rawGenerateAndBuildRecognizer(string grammarFileName,
                                                         string grammarStr,
-                                                        [Nullable] string parserName,
+                                                        string? parserName,
                                                         string lexerName,
                                                         bool defaultListener,
                                                         params string[] extraOptions)

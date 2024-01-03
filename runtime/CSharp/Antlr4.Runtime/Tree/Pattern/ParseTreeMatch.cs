@@ -82,7 +82,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// is
         /// <see langword="null"/>
         /// </exception>
-        public ParseTreeMatch([NotNull] IParseTree tree, [NotNull] ParseTreePattern pattern, [NotNull] MultiMap<string, IParseTree> labels, [Nullable] IParseTree mismatchedNode)
+        public ParseTreeMatch([NotNull] IParseTree tree, [NotNull] ParseTreePattern pattern, [NotNull] MultiMap<string, IParseTree> labels, IParseTree? mismatchedNode)
         {
             if (tree == null)
             {
@@ -138,8 +138,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// <see langword="null"/>
         /// if no parse tree matched a tag with the label.
         /// </returns>
-        [return: Nullable]
-        public virtual IParseTree Get(string label)
+        public virtual IParseTree? Get(string label)
         {
             IList<IParseTree> parseTrees = labels.Get(label);
             if (parseTrees == null || parseTrees.Count == 0)
@@ -228,8 +227,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// <see langword="null"/>
         /// if the match was successful.
         /// </returns>
-        [Nullable]
-        public virtual IParseTree MismatchedNode
+        public virtual IParseTree? MismatchedNode
         {
             get
             {

@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Terence Parr, Sam Harwell. All Rights Reserved.
 // Licensed under the BSD License. See LICENSE.txt in the project root for license information.
-
+#if false
 namespace Antlr4.Runtime.Misc
 {
     using System;
@@ -10,3 +10,4 @@ namespace Antlr4.Runtime.Misc
     {
     }
 }
+#endif

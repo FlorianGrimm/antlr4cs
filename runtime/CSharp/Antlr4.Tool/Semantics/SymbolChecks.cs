@@ -11,7 +11,7 @@ namespace Antlr4.Semantics
     using Antlr4.Tool.Ast;
     using CommonTree = Antlr.Runtime.Tree.CommonTree;
     using NotNullAttribute = Antlr4.Runtime.Misc.NotNullAttribute;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
     using TokenConstants = Antlr4.Runtime.TokenConstants;
 
     /** Check for symbol problems; no side-effects.  Inefficient to walk rules
@@ -244,7 +244,7 @@ namespace Antlr4.Semantics
             CheckLocalConflictingDeclarations(r, r.locals, r.retvals, ErrorType.LOCAL_CONFLICTS_WITH_RETVAL);
         }
 
-        protected virtual void CheckDeclarationRuleConflicts([NotNull] Rule r, [Nullable] AttributeDict attributes, [NotNull] ICollection<string> ruleNames, [NotNull] ErrorType errorType)
+        protected virtual void CheckDeclarationRuleConflicts([NotNull] Rule r, AttributeDict? attributes, [NotNull] ICollection<string> ruleNames, [NotNull] ErrorType errorType)
         {
             if (attributes == null)
             {
@@ -265,7 +265,7 @@ namespace Antlr4.Semantics
             }
         }
 
-        protected virtual void CheckLocalConflictingDeclarations([NotNull] Rule r, [Nullable] AttributeDict attributes, [Nullable] AttributeDict referenceAttributes, [NotNull] ErrorType errorType)
+        protected virtual void CheckLocalConflictingDeclarations([NotNull] Rule r, AttributeDict? attributes, AttributeDict? referenceAttributes, [NotNull] ErrorType errorType)
         {
             if (attributes == null || referenceAttributes == null)
             {

@@ -278,7 +278,7 @@ namespace Antlr4.Runtime.Dfa
         }
 
         [System.ObsoleteAttribute(@"Use ToString(Antlr4.Runtime.IVocabulary) instead.")]
-        public virtual string ToString([Nullable] string[] tokenNames)
+        public virtual string ToString(string[]? tokenNames)
         {
             if (s0.Get() == null)
             {
@@ -299,7 +299,7 @@ namespace Antlr4.Runtime.Dfa
         }
 
         [System.ObsoleteAttribute(@"Use ToString(Antlr4.Runtime.IVocabulary, string[]) instead.")]
-        public virtual string ToString([Nullable] string[] tokenNames, [Nullable] string[] ruleNames)
+        public virtual string ToString(string[]? tokenNames, string[]? ruleNames)
         {
             if (s0.Get() == null)
             {
@@ -309,7 +309,7 @@ namespace Antlr4.Runtime.Dfa
             return serializer.ToString();
         }
 
-        public virtual string ToString([NotNull] IVocabulary vocabulary, [Nullable] string[] ruleNames)
+        public virtual string ToString([NotNull] IVocabulary vocabulary, string[]? ruleNames)
         {
             if (s0.Get() == null)
             {

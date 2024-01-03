@@ -39,8 +39,7 @@ namespace Antlr4.Runtime.Atn
         /// if no
         /// additional information is relevant or available.
         /// </summary>
-        [Nullable]
-        public readonly SimulatorState state;
+        public readonly SimulatorState? state;
 
         /// <summary>The input token stream which is being parsed.</summary>
         [NotNull]
@@ -64,7 +63,7 @@ namespace Antlr4.Runtime.Atn
         /// </summary>
         public readonly bool fullCtx;
 
-        public DecisionEventInfo(int decision, [Nullable] SimulatorState state, [NotNull] ITokenStream input, int startIndex, int stopIndex, bool fullCtx)
+        public DecisionEventInfo(int decision, SimulatorState? state, [NotNull] ITokenStream input, int startIndex, int stopIndex, bool fullCtx)
         {
             this.decision = decision;
             this.fullCtx = fullCtx;

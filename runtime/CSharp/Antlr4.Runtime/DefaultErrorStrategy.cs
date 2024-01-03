@@ -623,8 +623,7 @@ namespace Antlr4.Runtime
         /// deletion successfully recovers from the mismatched input, otherwise
         /// <see langword="null"/>
         /// </returns>
-        [return: Nullable]
-        protected internal virtual IToken SingleTokenDeletion([NotNull] Parser recognizer)
+        protected internal virtual IToken? SingleTokenDeletion([NotNull] Parser recognizer)
         {
             int nextTokenType = ((ITokenStream)recognizer.InputStream).La(2);
             IntervalSet expecting = GetExpectedTokens(recognizer);

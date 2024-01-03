@@ -277,7 +277,7 @@ namespace Antlr4.Runtime.Misc
         /// , it is treated as though it was an empty set.
         /// </remarks>
         [return: NotNull]
-        public static Antlr4.Runtime.Misc.IntervalSet Subtract([Nullable] Antlr4.Runtime.Misc.IntervalSet left, [Nullable] Antlr4.Runtime.Misc.IntervalSet right)
+        public static Antlr4.Runtime.Misc.IntervalSet Subtract(Antlr4.Runtime.Misc.IntervalSet? left, Antlr4.Runtime.Misc.IntervalSet? right)
         {
             if (left == null || left.IsNil)
             {

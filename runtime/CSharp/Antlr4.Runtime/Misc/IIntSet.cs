@@ -42,7 +42,7 @@ namespace Antlr4.Runtime.Misc
         /// if the current set is read-only
         /// </exception>
         [return: NotNull]
-        IIntSet AddAll([Nullable] IIntSet set);
+        IIntSet AddAll(IIntSet? set);
 
         /// <summary>
         /// Return a new
@@ -68,8 +68,7 @@ namespace Antlr4.Runtime.Misc
         /// may be returned in
         /// place of an empty result set.
         /// </returns>
-        [return: Nullable]
-        IIntSet And([Nullable] IIntSet a);
+        IIntSet? And(IIntSet? a);
 
         /// <summary>
         /// Return a new
@@ -108,8 +107,7 @@ namespace Antlr4.Runtime.Misc
         /// <see langword="null"/>
         /// may be returned in place of an empty result set.
         /// </returns>
-        [return: Nullable]
-        IIntSet Complement([Nullable] IIntSet elements);
+        IIntSet? Complement(IIntSet? elements);
 
         /// <summary>
         /// Return a new
@@ -142,8 +140,7 @@ namespace Antlr4.Runtime.Misc
         /// may be returned in place of an
         /// empty result set.
         /// </returns>
-        [return: Nullable]
-        IIntSet Or([Nullable] IIntSet a);
+        IIntSet? Or(IIntSet? a);
 
         /// <summary>
         /// Return a new
@@ -182,8 +179,7 @@ namespace Antlr4.Runtime.Misc
         /// <see langword="null"/>
         /// may be returned in place of an empty result set.
         /// </returns>
-        [return: Nullable]
-        IIntSet Subtract([Nullable] IIntSet a);
+        IIntSet? Subtract(IIntSet? a);
 
         /// <summary>Return the total number of elements represented by the current set.</summary>
         /// <returns>

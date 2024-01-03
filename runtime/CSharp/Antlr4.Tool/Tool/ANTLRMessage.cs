@@ -8,7 +8,7 @@ namespace Antlr4.Tool
     using Exception = System.Exception;
     using IToken = Antlr.Runtime.IToken;
     using NotNullAttribute = Antlr4.Runtime.Misc.NotNullAttribute;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
     using TokenTypes = Antlr.Runtime.TokenTypes;
 
     public class ANTLRMessage
@@ -17,10 +17,8 @@ namespace Antlr4.Tool
 
         [NotNull]
         private readonly ErrorType errorType;
-        [Nullable]
-        private readonly object[] args;
-        [Nullable]
-        private readonly Exception e;
+        private readonly object[]? args;
+        private readonly Exception? e;
 
         // used for location template
         public string fileName;
@@ -43,7 +41,7 @@ namespace Antlr4.Tool
         {
         }
 
-        public ANTLRMessage([NotNull] ErrorType errorType, [Nullable] Exception e, IToken offendingToken, params object[] args)
+        public ANTLRMessage([NotNull] ErrorType errorType, Exception? e, IToken offendingToken, params object[] args)
         {
             this.errorType = errorType;
             this.e = e;
@@ -100,8 +98,7 @@ namespace Antlr4.Tool
             return messageST;
         }
 
-        [return: Nullable]
-        public virtual Exception GetCause()
+        public virtual Exception? GetCause()
         {
             return e;
         }

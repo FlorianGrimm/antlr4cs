@@ -2,9 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1;netstandard2.0;net20;net30;net35-cf;net35-client;portable40-net40+sl5+win8+wp8+wpa81;net40-client;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <EnableDefaultNoneItems>False</EnableDefaultNoneItems>
-
+    <LangVersion>Latest</LangVersion>
     <AssemblyVersion>4.6.0.0</AssemblyVersion>
     <FileVersion>4.6.7.0</FileVersion>
     <InformationalVersion>4.6.7-dev</InformationalVersion>
@@ -13,7 +13,7 @@
     <Company>Tunnel Vision Laboratories, LLC</Company>
     <AssemblyTitle>Antlr4.Runtime</AssemblyTitle>
 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <NuspecFile>..\..\..\build\Antlr4.Runtime.nuspec</NuspecFile>
     <NuspecProperties>Configuration=$(Configuration);version=$(InformationalVersion)</NuspecProperties>
@@ -145,6 +145,7 @@
 
   <PropertyGroup>
     <Antlr4UseCSharpGenerator>True</Antlr4UseCSharpGenerator>
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

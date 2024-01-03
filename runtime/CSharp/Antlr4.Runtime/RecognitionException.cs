@@ -25,14 +25,11 @@ namespace Antlr4.Runtime
         /// <see cref="IRecognizer"/>
         /// where this exception originated.
         /// </summary>
-        [Nullable]
-        private readonly IRecognizer recognizer;
+        private readonly IRecognizer? recognizer;
 
-        [Nullable]
-        private readonly RuleContext ctx;
+        private readonly RuleContext? ctx;
 
-        [Nullable]
-        private readonly IIntStream input;
+        private readonly IIntStream? input;
 
         /// <summary>
         /// The current
@@ -46,14 +43,14 @@ namespace Antlr4.Runtime
 
         private int offendingState = -1;
 
-        public RecognitionException([Nullable] Lexer lexer, ICharStream input)
+        public RecognitionException(Lexer? lexer, ICharStream input)
         {
             this.recognizer = lexer;
             this.input = input;
             this.ctx = null;
         }
 
-        public RecognitionException([Nullable] IRecognizer recognizer, [Nullable] IIntStream input, [Nullable] ParserRuleContext ctx)
+        public RecognitionException(IRecognizer? recognizer, IIntStream? input, ParserRuleContext? ctx)
         {
             this.recognizer = recognizer;
             this.input = input;
@@ -64,7 +61,7 @@ namespace Antlr4.Runtime
             }
         }
 
-        public RecognitionException(string message, [Nullable] IRecognizer recognizer, [Nullable] IIntStream input, [Nullable] ParserRuleContext ctx)
+        public RecognitionException(string message, IRecognizer? recognizer, IIntStream? input, ParserRuleContext? ctx)
             : base(message)
         {
             this.recognizer = recognizer;
@@ -123,8 +120,7 @@ namespace Antlr4.Runtime
         /// <see langword="null"/>
         /// if the information is not available.
         /// </returns>
-        [return: Nullable]
-        public virtual IntervalSet GetExpectedTokens()
+        public virtual IntervalSet? GetExpectedTokens()
         {
             if (recognizer != null)
             {

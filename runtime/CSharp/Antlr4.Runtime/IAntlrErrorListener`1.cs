@@ -50,6 +50,6 @@ namespace Antlr4.Runtime
         /// the parser was able to recover in line without exiting the
         /// surrounding rule.
         /// </param>
-        void SyntaxError([NotNull] IRecognizer recognizer, [Nullable] TSymbol offendingSymbol, int line, int charPositionInLine, [NotNull] string msg, [Nullable] RecognitionException e);
+        void SyntaxError([NotNull] IRecognizer recognizer, TSymbol? offendingSymbol, int line, int charPositionInLine, [NotNull] string msg, RecognitionException? e);
     }
 }

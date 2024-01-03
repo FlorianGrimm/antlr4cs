@@ -11,7 +11,7 @@ namespace Antlr4.Codegen
     using Antlr4.Tool;
     using NotNullAttribute = Antlr4.Runtime.Misc.NotNullAttribute;
     using NotSupportedException = System.NotSupportedException;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
 
     /** Create output objects for elements *within* rule functions except
      *  buildOutputModel() which builds outer/root model object and any
@@ -136,8 +136,7 @@ namespace Antlr4.Codegen
             return new List<SrcOp>(values);
         }
 
-        [return: Nullable]
-        public virtual Decl GetCurrentDeclForName(string name)
+        public virtual Decl? GetCurrentDeclForName(string name)
         {
             if (GetCurrentBlock().locals == null)
                 return null;

@@ -7,7 +7,7 @@ namespace Antlr4.Tool
     using Antlr4.Misc;
     using Antlr4.Tool.Ast;
     using NotNullAttribute = Antlr4.Runtime.Misc.NotNullAttribute;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
 
     /** Track the attributes within retval, arg lists etc...
      *  <p>
@@ -87,7 +87,7 @@ namespace Antlr4.Tool
          *  {@code this} and {@code other}.
          */
         [return: NotNull]
-        public ISet<string> Intersection([Nullable] AttributeDict other)
+        public ISet<string> Intersection(AttributeDict? other)
         {
             if (other == null || other.Size() == 0 || Size() == 0)
             {

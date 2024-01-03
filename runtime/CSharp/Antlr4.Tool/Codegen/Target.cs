@@ -398,7 +398,7 @@ namespace Antlr4.Codegen
         [return: NotNull]
         protected virtual TemplateGroup LoadTemplates()
         {
-            string codeBaseLocation = new Uri(typeof(AntlrTool).GetTypeInfo().Assembly.CodeBase).LocalPath;
+            string codeBaseLocation = typeof(AntlrTool).GetTypeInfo().Assembly.Location;
             string baseDirectory = Path.GetDirectoryName(codeBaseLocation);
             TemplateGroup result = new TemplateGroupFile(
                 Path.Combine(

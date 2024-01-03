@@ -667,7 +667,7 @@
             Assert.IsTrue(success);
         }
 
-        protected string load(string fileName, [Nullable] Encoding encoding)
+        protected string load(string fileName, Encoding? encoding)
         {
             if (fileName == null)
             {

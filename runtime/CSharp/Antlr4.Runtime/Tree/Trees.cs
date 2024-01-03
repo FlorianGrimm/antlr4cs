@@ -35,7 +35,7 @@ namespace Antlr4.Runtime.Tree
         /// node payloads to get the text for the nodes.  Detect
         /// parse trees and extract data appropriately.
         /// </remarks>
-        public static string ToStringTree([NotNull] ITree t, [Nullable] Parser recog)
+        public static string ToStringTree([NotNull] ITree t, Parser? recog)
         {
             string[] ruleNames = recog != null ? recog.RuleNames : null;
             IList<string> ruleNamesList = ruleNames != null ? Arrays.AsList(ruleNames) : null;
@@ -49,7 +49,7 @@ namespace Antlr4.Runtime.Tree
         /// is used on the
         /// node payloads to get the text for the nodes.
         /// </remarks>
-        public static string ToStringTree([NotNull] ITree t, [Nullable] IList<string> ruleNames)
+        public static string ToStringTree([NotNull] ITree t, IList<string>? ruleNames)
         {
             string s = Utils.EscapeWhitespace(GetNodeText(t, ruleNames), false);
             if (t.ChildCount == 0)
@@ -73,14 +73,14 @@ namespace Antlr4.Runtime.Tree
             return buf.ToString();
         }
 
-        public static string GetNodeText([NotNull] ITree t, [Nullable] Parser recog)
+        public static string GetNodeText([NotNull] ITree t, Parser? recog)
         {
             string[] ruleNames = recog != null ? recog.RuleNames : null;
             IList<string> ruleNamesList = ruleNames != null ? Arrays.AsList(ruleNames) : null;
             return GetNodeText(t, ruleNamesList);
         }
 
-        public static string GetNodeText([NotNull] ITree t, [Nullable] IList<string> ruleNames)
+        public static string GetNodeText([NotNull] ITree t, IList<string>? ruleNames)
         {
             if (ruleNames != null)
             {
@@ -259,8 +259,7 @@ namespace Antlr4.Runtime.Tree
         /// inclusively using postorder traversal.  Recursive depth-first-search.
         /// </remarks>
         /// <since>4.5</since>
-        [return: Nullable]
-        public static ParserRuleContext GetRootOfSubtreeEnclosingRegion([NotNull] IParseTree t, int startTokenIndex, int stopTokenIndex)
+        public static ParserRuleContext? GetRootOfSubtreeEnclosingRegion([NotNull] IParseTree t, int startTokenIndex, int stopTokenIndex)
         {
             // inclusive
             // inclusive

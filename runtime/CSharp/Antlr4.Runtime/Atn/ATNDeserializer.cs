@@ -58,7 +58,7 @@ namespace Antlr4.Runtime.Atn
         {
         }
 
-        public ATNDeserializer([Nullable] ATNDeserializationOptions deserializationOptions)
+        public ATNDeserializer(ATNDeserializationOptions? deserializationOptions)
         {
             if (deserializationOptions == null)
             {

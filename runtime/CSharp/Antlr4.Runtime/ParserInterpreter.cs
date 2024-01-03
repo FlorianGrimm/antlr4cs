@@ -37,7 +37,7 @@ namespace Antlr4.Runtime
         /// </summary>
         protected internal readonly BitSet pushRecursionContextStates;
 
-        [Obsolete]
+        [Obsolete("why idk")]
         protected internal readonly string[] tokenNames;
 
         protected internal readonly string[] ruleNames;
@@ -107,7 +107,9 @@ namespace Antlr4.Runtime
             this.atn = old.atn;
             this.pushRecursionContextStates = old.pushRecursionContextStates;
 #pragma warning disable 612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
             this.tokenNames = old.tokenNames;
+#pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore 612 // Type or member is obsolete
             this.ruleNames = old.ruleNames;
             this.vocabulary = old.vocabulary;
@@ -126,11 +128,13 @@ namespace Antlr4.Runtime
             this.grammarFileName = grammarFileName;
             this.atn = atn;
 #pragma warning disable 612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
             this.tokenNames = new string[atn.maxTokenType];
             for (int i = 0; i < tokenNames.Length; i++)
             {
                 tokenNames[i] = vocabulary.GetDisplayName(i);
             }
+#pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore 612 // Type or member is obsolete
             this.ruleNames = ruleNames.ToArray();
             this.vocabulary = vocabulary;
@@ -379,7 +383,7 @@ namespace Antlr4.Runtime
         /// </remarks>
         protected internal virtual int VisitDecisionState(DecisionState p)
         {
-            int edge = 1;
+            // int edge = 1;
             int predictedAlt;
             ErrorHandler.Sync(this);
             int decision = p.decision;

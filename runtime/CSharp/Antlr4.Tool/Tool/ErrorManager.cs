@@ -43,7 +43,7 @@ namespace Antlr4.Tool
         {
             get
             {
-                string codeBaseLocation = new Uri(typeof(AntlrTool).GetTypeInfo().Assembly.CodeBase).LocalPath;
+                string codeBaseLocation = typeof(AntlrTool).GetTypeInfo().Assembly.Location;
                 string baseDirectory = Path.GetDirectoryName(codeBaseLocation);
                 return Path.Combine(baseDirectory, "Tool", "Templates", "Messages", "Formats");
             }

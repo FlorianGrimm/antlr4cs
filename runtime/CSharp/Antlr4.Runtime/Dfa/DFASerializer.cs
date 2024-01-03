@@ -20,14 +20,12 @@ namespace Antlr4.Runtime.Dfa
         [NotNull]
         private readonly IVocabulary vocabulary;
 
-        [Nullable]
-        internal readonly string[] ruleNames;
+        internal readonly string[]? ruleNames;
 
-        [Nullable]
-        internal readonly ATN atn;
+        internal readonly ATN? atn;
 
         [System.ObsoleteAttribute(@"Use DFASerializer(DFA, Antlr4.Runtime.IVocabulary) instead.")]
-        public DFASerializer([NotNull] DFA dfa, [Nullable] string[] tokenNames)
+        public DFASerializer([NotNull] DFA dfa, string[]? tokenNames)
             : this(dfa, Vocabulary.FromTokenNames(tokenNames), null, null)
         {
         }
@@ -37,18 +35,18 @@ namespace Antlr4.Runtime.Dfa
         {
         }
 
-        public DFASerializer([NotNull] DFA dfa, [Nullable] IRecognizer parser)
+        public DFASerializer([NotNull] DFA dfa, IRecognizer? parser)
             : this(dfa, parser != null ? parser.Vocabulary : Vocabulary.EmptyVocabulary, parser != null ? parser.RuleNames : null, parser != null ? parser.Atn : null)
         {
         }
 
         [System.ObsoleteAttribute(@"Use DFASerializer(DFA, Antlr4.Runtime.IVocabulary, string[], Antlr4.Runtime.Atn.ATN) instead.")]
-        public DFASerializer([NotNull] DFA dfa, [Nullable] string[] tokenNames, [Nullable] string[] ruleNames, [Nullable] ATN atn)
+        public DFASerializer([NotNull] DFA dfa, string[]? tokenNames, string[]? ruleNames, ATN? atn)
             : this(dfa, Vocabulary.FromTokenNames(tokenNames), ruleNames, atn)
         {
         }
 
-        public DFASerializer([NotNull] DFA dfa, [NotNull] IVocabulary vocabulary, [Nullable] string[] ruleNames, [Nullable] ATN atn)
+        public DFASerializer([NotNull] DFA dfa, [NotNull] IVocabulary vocabulary, string[]? ruleNames, ATN? atn)
         {
             this.dfa = dfa;
             this.vocabulary = vocabulary;

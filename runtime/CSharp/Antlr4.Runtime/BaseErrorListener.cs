@@ -18,15 +18,15 @@ namespace Antlr4.Runtime
     /// <author>Sam Harwell</author>
     public class BaseErrorListener : IParserErrorListener
     {
-        public virtual void SyntaxError([NotNull] IRecognizer recognizer, [Nullable] IToken offendingSymbol, int line, int charPositionInLine, [NotNull] string msg, [Nullable] RecognitionException e)
+        public virtual void SyntaxError([NotNull] IRecognizer recognizer, IToken? offendingSymbol, int line, int charPositionInLine, [NotNull] string msg, RecognitionException? e)
         {
         }
 
-        public virtual void ReportAmbiguity([NotNull] Parser recognizer, [NotNull] DFA dfa, int startIndex, int stopIndex, bool exact, [Nullable] BitSet ambigAlts, [NotNull] ATNConfigSet configs)
+        public virtual void ReportAmbiguity([NotNull] Parser recognizer, [NotNull] DFA dfa, int startIndex, int stopIndex, bool exact, BitSet? ambigAlts, [NotNull] ATNConfigSet configs)
         {
         }
 
-        public virtual void ReportAttemptingFullContext([NotNull] Parser recognizer, [NotNull] DFA dfa, int startIndex, int stopIndex, [Nullable] BitSet conflictingAlts, [NotNull] SimulatorState conflictState)
+        public virtual void ReportAttemptingFullContext([NotNull] Parser recognizer, [NotNull] DFA dfa, int startIndex, int stopIndex, BitSet? conflictingAlts, [NotNull] SimulatorState conflictState)
         {
         }
 

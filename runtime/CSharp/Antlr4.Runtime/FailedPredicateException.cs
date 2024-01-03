@@ -31,12 +31,12 @@ namespace Antlr4.Runtime
         {
         }
 
-        public FailedPredicateException([NotNull] Parser recognizer, [Nullable] string predicate)
+        public FailedPredicateException([NotNull] Parser recognizer, string? predicate)
             : this(recognizer, predicate, null)
         {
         }
 
-        public FailedPredicateException([NotNull] Parser recognizer, [Nullable] string predicate, [Nullable] string message)
+        public FailedPredicateException([NotNull] Parser recognizer, string? predicate, string? message)
             : base(FormatMessage(predicate, message), recognizer, ((ITokenStream)recognizer.InputStream), recognizer._ctx)
         {
             ATNState s = recognizer.Interpreter.atn.states[recognizer.State];
@@ -71,8 +71,7 @@ namespace Antlr4.Runtime
             }
         }
 
-        [Nullable]
-        public virtual string Predicate
+        public virtual string? Predicate
         {
             get
             {
@@ -81,7 +80,7 @@ namespace Antlr4.Runtime
         }
 
         [return: NotNull]
-        private static string FormatMessage([Nullable] string predicate, [Nullable] string message)
+        private static string FormatMessage(string? predicate, string? message)
         {
             if (message != null)
             {

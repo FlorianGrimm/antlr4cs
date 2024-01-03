@@ -61,7 +61,7 @@ namespace Antlr4.Runtime
         /// </param>
         /// <seealso cref="GetLiteralName(int)"/>
         /// <seealso cref="GetSymbolicName(int)"/>
-        public Vocabulary([Nullable] string[] literalNames, [Nullable] string[] symbolicNames)
+        public Vocabulary(string[]? literalNames, string[]? symbolicNames)
             : this(literalNames, symbolicNames, null)
         {
         }
@@ -97,7 +97,7 @@ namespace Antlr4.Runtime
         /// <seealso cref="GetLiteralName(int)"/>
         /// <seealso cref="GetSymbolicName(int)"/>
         /// <seealso cref="GetDisplayName(int)"/>
-        public Vocabulary([Nullable] string[] literalNames, [Nullable] string[] symbolicNames, [Nullable] string[] displayNames)
+        public Vocabulary(string[]? literalNames, string[]? symbolicNames, string[]? displayNames)
         {
             this.literalNames = literalNames != null ? literalNames : EmptyNames;
             this.symbolicNames = symbolicNames != null ? symbolicNames : EmptyNames;
@@ -138,7 +138,7 @@ namespace Antlr4.Runtime
         /// for
         /// the display names of tokens.
         /// </returns>
-        public static IVocabulary FromTokenNames([Nullable] string[] tokenNames)
+        public static IVocabulary FromTokenNames(string[]? tokenNames)
         {
             if (tokenNames == null || tokenNames.Length == 0)
             {
@@ -185,8 +185,7 @@ namespace Antlr4.Runtime
             }
         }
 
-        [return: Nullable]
-        public virtual string GetLiteralName(int tokenType)
+        public virtual string? GetLiteralName(int tokenType)
         {
             if (tokenType >= 0 && tokenType < literalNames.Length)
             {
@@ -195,8 +194,7 @@ namespace Antlr4.Runtime
             return null;
         }
 
-        [return: Nullable]
-        public virtual string GetSymbolicName(int tokenType)
+        public virtual string? GetSymbolicName(int tokenType)
         {
             if (tokenType >= 0 && tokenType < symbolicNames.Length)
             {

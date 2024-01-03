@@ -84,7 +84,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// <see langword="null"/>
         /// or empty.
         /// </exception>
-        public RuleTagToken([NotNull] string ruleName, int bypassTokenType, [Nullable] string label)
+        public RuleTagToken([NotNull] string ruleName, int bypassTokenType, string? label)
         {
             if (string.IsNullOrEmpty(ruleName))
             {
@@ -112,8 +112,7 @@ namespace Antlr4.Runtime.Tree.Pattern
         /// <see langword="null"/>
         /// if this is an unlabeled rule tag.
         /// </returns>
-        [Nullable]
-        public string Label
+        public string? Label
         {
             get
             {

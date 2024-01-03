@@ -16,7 +16,7 @@ namespace Antlr4.Codegen
     using IOException = System.IO.IOException;
     using NotNullAttribute = Antlr4.Runtime.Misc.NotNullAttribute;
     using NotSupportedException = System.NotSupportedException;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
     using Path = System.IO.Path;
     using TextWriter = System.IO.TextWriter;
     using TokenConstants = Antlr4.Runtime.TokenConstants;
@@ -57,8 +57,7 @@ namespace Antlr4.Codegen
             this.language = language != null ? language : DEFAULT_LANGUAGE;
         }
 
-        [return: Nullable]
-        public virtual AbstractTarget GetTarget()
+        public virtual AbstractTarget? GetTarget()
         {
             if (target == null)
             {
@@ -68,8 +67,7 @@ namespace Antlr4.Codegen
             return target;
         }
 
-        [return: Nullable]
-        public virtual TemplateGroup GetTemplates()
+        public virtual TemplateGroup? GetTemplates()
         {
             AbstractTarget target = GetTarget();
             if (target == null)

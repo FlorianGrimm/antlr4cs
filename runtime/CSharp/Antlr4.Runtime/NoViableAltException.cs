@@ -23,8 +23,7 @@ namespace Antlr4.Runtime
         private const long serialVersionUID = 5096000008992867052L;
 
         /// <summary>Which configurations did we try at input.index() that couldn't match input.LT(1)?</summary>
-        [Nullable]
-        private readonly ATNConfigSet deadEndConfigs;
+        private readonly ATNConfigSet? deadEndConfigs;
 
         /// <summary>
         /// The token object at the start index; the input stream might
@@ -44,7 +43,7 @@ namespace Antlr4.Runtime
         {
         }
 
-        public NoViableAltException([NotNull] IRecognizer recognizer, [NotNull] ITokenStream input, [NotNull] IToken startToken, [NotNull] IToken offendingToken, [Nullable] ATNConfigSet deadEndConfigs, [NotNull] ParserRuleContext ctx)
+        public NoViableAltException([NotNull] IRecognizer recognizer, [NotNull] ITokenStream input, [NotNull] IToken startToken, [NotNull] IToken offendingToken, ATNConfigSet? deadEndConfigs, [NotNull] ParserRuleContext ctx)
             : base(recognizer, input, ctx)
         {
             // LL(1) error
@@ -61,8 +60,7 @@ namespace Antlr4.Runtime
             }
         }
 
-        [Nullable]
-        public virtual ATNConfigSet DeadEndConfigs
+        public virtual ATNConfigSet? DeadEndConfigs
         {
             get
             {

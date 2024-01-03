@@ -26,7 +26,7 @@ namespace Antlr4
     using FileMode = System.IO.FileMode;
     using ICharStream = Antlr.Runtime.ICharStream;
     using IOException = System.IO.IOException;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
     using Path = System.IO.Path;
     using RecognitionException = Antlr.Runtime.RecognitionException;
     using StringWriter = System.IO.StringWriter;
@@ -1006,7 +1006,7 @@ namespace Antlr4
             }
         }
 
-        public virtual void Log([Nullable] string component, string msg)
+        public virtual void Log(string? component, string msg)
         {
             logMgr.Log(component, msg);
         }

@@ -77,7 +77,7 @@ namespace Antlr4.Analysis
 
         public virtual void LoadPrecRuleTemplates()
         {
-            string codeBaseLocation = new Uri(typeof(AntlrTool).GetTypeInfo().Assembly.CodeBase).LocalPath;
+            string codeBaseLocation = typeof(AntlrTool).GetTypeInfo().Assembly.Location;
             string baseDirectory = Path.GetDirectoryName(codeBaseLocation);
             string templateGroupFile = Path.Combine("Tool", "Templates", "LeftRecursiveRules.stg");
             recRuleTemplates = new TemplateGroupFile(

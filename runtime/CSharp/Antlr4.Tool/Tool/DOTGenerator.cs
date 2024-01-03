@@ -24,7 +24,7 @@ namespace Antlr4.Tool
         /** Library of output templates; use {@code &lt;attrname&gt;} format. */
         public static TemplateGroup stlib = new TemplateGroupFile(
             Path.Combine(
-                Path.GetDirectoryName(new Uri(typeof(AntlrTool).GetTypeInfo().Assembly.CodeBase).LocalPath),
+                Path.GetDirectoryName(typeof(AntlrTool).GetTypeInfo().Assembly.Location),
                 Path.Combine("Tool", "Templates", "Dot", "graphs.stg")),
             Encoding.UTF8);
 

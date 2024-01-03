@@ -79,8 +79,7 @@ namespace Antlr4.Runtime
         /// <see langword="null"/>
         /// if no string literal is associated with the type.
         /// </returns>
-        [return: Nullable]
-        string GetLiteralName(int tokenType);
+        string? GetLiteralName(int tokenType);
 
         /// <summary>Gets the symbolic name associated with a token type.</summary>
         /// <remarks>
@@ -140,8 +139,7 @@ namespace Antlr4.Runtime
         /// <see langword="null"/>
         /// if no symbolic name is associated with the type.
         /// </returns>
-        [return: Nullable]
-        string GetSymbolicName(int tokenType);
+        string? GetSymbolicName(int tokenType);
 
         /// <summary>Gets the display name of a token type.</summary>
         /// <remarks>

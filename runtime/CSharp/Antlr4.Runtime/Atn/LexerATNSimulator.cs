@@ -61,8 +61,7 @@ namespace Antlr4.Runtime.Atn
             }
         }
 
-        [Nullable]
-        protected internal readonly Lexer recog;
+        protected internal readonly Lexer? recog;
 
         /// <summary>The current token's starting index into the character stream.</summary>
         /// <remarks>
@@ -92,7 +91,7 @@ namespace Antlr4.Runtime.Atn
         {
         }
 
-        public LexerATNSimulator([Nullable] Lexer recog, [NotNull] ATN atn)
+        public LexerATNSimulator(Lexer? recog, [NotNull] ATN atn)
             : base(atn)
         {
             this.recog = recog;
@@ -243,8 +242,7 @@ namespace Antlr4.Runtime.Atn
         /// if the target state for this edge is not
         /// already cached
         /// </returns>
-        [return: Nullable]
-        protected internal virtual DFAState GetExistingTargetState([NotNull] DFAState s, int t)
+        protected internal virtual DFAState? GetExistingTargetState([NotNull] DFAState s, int t)
         {
             DFAState target = s.GetTarget(t);
 #if !PORTABLE || NETSTANDARD2_0
@@ -374,8 +372,7 @@ namespace Antlr4.Runtime.Atn
             }
         }
 
-        [return: Nullable]
-        protected internal virtual ATNState GetReachableTarget(Transition trans, int t)
+        protected internal virtual ATNState? GetReachableTarget(Transition trans, int t)
         {
             if (trans.Matches(t, char.MinValue, char.MaxValue))
             {
@@ -474,8 +471,7 @@ namespace Antlr4.Runtime.Atn
         }
 
         // side-effect: can alter configs.hasSemanticContext
-        [return: Nullable]
-        protected internal virtual ATNConfig GetEpsilonTarget([NotNull] ICharStream input, [NotNull] ATNConfig config, [NotNull] Transition t, [NotNull] ATNConfigSet configs, bool speculative, bool treatEofAsEpsilon)
+        protected internal virtual ATNConfig? GetEpsilonTarget([NotNull] ICharStream input, [NotNull] ATNConfig config, [NotNull] Transition t, [NotNull] ATNConfigSet configs, bool speculative, bool treatEofAsEpsilon)
         {
             ATNConfig c;
             switch (t.TransitionType)

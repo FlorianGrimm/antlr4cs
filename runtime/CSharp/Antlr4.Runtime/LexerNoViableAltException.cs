@@ -17,10 +17,9 @@ namespace Antlr4.Runtime
         private readonly int startIndex;
 
         /// <summary>Which configurations did we try at input.index() that couldn't match input.LA(1)?</summary>
-        [Nullable]
-        private readonly ATNConfigSet deadEndConfigs;
+        private readonly ATNConfigSet? deadEndConfigs;
 
-        public LexerNoViableAltException([Nullable] Lexer lexer, [NotNull] ICharStream input, int startIndex, [Nullable] ATNConfigSet deadEndConfigs)
+        public LexerNoViableAltException(Lexer? lexer, [NotNull] ICharStream input, int startIndex, ATNConfigSet? deadEndConfigs)
             : base(lexer, input)
         {
             this.startIndex = startIndex;
@@ -35,8 +34,7 @@ namespace Antlr4.Runtime
             }
         }
 
-        [Nullable]
-        public virtual ATNConfigSet DeadEndConfigs
+        public virtual ATNConfigSet? DeadEndConfigs
         {
             get
             {

@@ -69,7 +69,7 @@ namespace Antlr4.Runtime
             this.exactOnly = exactOnly;
         }
 
-        public override void ReportAmbiguity([NotNull] Parser recognizer, [NotNull] DFA dfa, int startIndex, int stopIndex, bool exact, [Nullable] BitSet ambigAlts, [NotNull] ATNConfigSet configs)
+        public override void ReportAmbiguity([NotNull] Parser recognizer, [NotNull] DFA dfa, int startIndex, int stopIndex, bool exact, BitSet? ambigAlts, [NotNull] ATNConfigSet configs)
         {
             if (exactOnly && !exact)
             {
@@ -83,7 +83,7 @@ namespace Antlr4.Runtime
             recognizer.NotifyErrorListeners(message);
         }
 
-        public override void ReportAttemptingFullContext([NotNull] Parser recognizer, [NotNull] DFA dfa, int startIndex, int stopIndex, [Nullable] BitSet conflictingAlts, [NotNull] SimulatorState conflictState)
+        public override void ReportAttemptingFullContext([NotNull] Parser recognizer, [NotNull] DFA dfa, int startIndex, int stopIndex, BitSet? conflictingAlts, [NotNull] SimulatorState conflictState)
         {
             string format = "reportAttemptingFullContext d={0}, input='{1}'";
             string decision = GetDecisionDescription(recognizer, dfa);
@@ -139,7 +139,7 @@ namespace Antlr4.Runtime
         /// .
         /// </returns>
         [return: NotNull]
-        protected internal virtual BitSet GetConflictingAlts([Nullable] BitSet reportedAlts, [NotNull] ATNConfigSet configs)
+        protected internal virtual BitSet GetConflictingAlts(BitSet? reportedAlts, [NotNull] ATNConfigSet configs)
         {
             if (reportedAlts != null)
             {

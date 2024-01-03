@@ -28,7 +28,7 @@ namespace Antlr4.Tool
     using Math = System.Math;
     using NotNullAttribute = Antlr4.Runtime.Misc.NotNullAttribute;
     using NotSupportedException = System.NotSupportedException;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
     using ParserInterpreter = Antlr4.Runtime.ParserInterpreter;
     using TokenConstants = Antlr4.Runtime.TokenConstants;
     using Tuple = System.Tuple;
@@ -321,13 +321,13 @@ namespace Antlr4.Tool
         }
 
         /** For testing; builds trees, does sem anal */
-        public Grammar(string fileName, string grammarText, [Nullable] ANTLRToolListener listener)
+        public Grammar(string fileName, string grammarText, ANTLRToolListener? listener)
             : this(fileName, grammarText, null, listener)
         {
         }
 
         /** For testing; builds trees, does sem anal */
-        public Grammar(string fileName, string grammarText, Grammar tokenVocabSource, [Nullable] ANTLRToolListener listener)
+        public Grammar(string fileName, string grammarText, Grammar tokenVocabSource, ANTLRToolListener? listener)
         {
             this.text = grammarText;
             this.fileName = fileName;

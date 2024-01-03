@@ -20,13 +20,12 @@ namespace Antlr4.Automata
     using IToken = Antlr.Runtime.IToken;
     using Lexer = Antlr4.Runtime.Lexer;
     using NotNullAttribute = Antlr4.Runtime.Misc.NotNullAttribute;
-    using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
+    // using NullableAttribute = Antlr4.Runtime.Misc.NullableAttribute;
     using TokenTypes = Antlr4.Runtime.TokenTypes;
 
     public class LexerATNFactory : ParserATNFactory
     {
-        [Nullable]
-        public TemplateGroup codegenTemplates;
+        public TemplateGroup? codegenTemplates;
 
         /**
          * Provides a map of names of predefined constants which are likely to
@@ -516,8 +515,7 @@ namespace Antlr4.Automata
             return _RuleRef(node);
         }
 
-        [return: Nullable]
-        private ILexerAction CreateLexerAction([NotNull] GrammarAST ID, [Nullable] GrammarAST arg)
+        private ILexerAction? CreateLexerAction([NotNull] GrammarAST ID, GrammarAST? arg)
         {
             string command = ID.Text;
             CheckCommands(command, ID.Token);
@@ -650,8 +648,7 @@ namespace Antlr4.Automata
             ruleCommands.Add(command);
         }
 
-        [return: Nullable]
-        private int? GetModeConstantValue([Nullable] string modeName, [Nullable] IToken token)
+        private int? GetModeConstantValue(string? modeName, IToken? token)
         {
             if (modeName == null)
             {
@@ -683,8 +680,7 @@ namespace Antlr4.Automata
             return null;
         }
 
-        [return: Nullable]
-        private int? GetTokenConstantValue([Nullable] string tokenName, [Nullable] IToken token)
+        private int? GetTokenConstantValue(string? tokenName, IToken? token)
         {
             if (tokenName == null)
             {
@@ -715,8 +711,7 @@ namespace Antlr4.Automata
             return null;
         }
 
-        [return: Nullable]
-        private int? GetChannelConstantValue([Nullable] string channelName, [Nullable] IToken token)
+        private int? GetChannelConstantValue(string? channelName, IToken? token)
         {
             if (channelName == null)
             {

@@ -151,7 +151,7 @@ namespace Antlr4.Codegen.Target
         protected override TemplateGroup LoadTemplates()
         {
             // override the superclass behavior to put all C# templates in the same folder
-            string codeBaseLocation = new Uri(typeof(AntlrTool).GetTypeInfo().Assembly.CodeBase).LocalPath;
+            string codeBaseLocation = typeof(AntlrTool).GetTypeInfo().Assembly.Location;
             string baseDirectory = Path.GetDirectoryName(codeBaseLocation);
             TemplateGroup result = new TemplateGroupFile(
                 Path.Combine(
