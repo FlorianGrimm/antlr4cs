@@ -293,8 +293,9 @@ public abstract class Recognizer<Symbol, ATNInterpreter> : IRecognizer
     {
         IAntlrErrorListener<Symbol>[] listeners = _listeners;
         int removeIndex = Array.IndexOf(listeners, listener);
-        if (removeIndex < 0)
+        if (removeIndex < 0) {
             return;
+        }
 
         Array.Copy(listeners, removeIndex + 1, listeners, removeIndex, listeners.Length - removeIndex - 1);
         Array.Resize(ref listeners, listeners.Length - 1);

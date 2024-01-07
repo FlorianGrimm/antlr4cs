@@ -52,8 +52,9 @@ public class SemPred : Action
         }
         predicate = factory.GetTarget().GetTargetStringLiteralFromString(predicate);
 
-        if (failNode == null)
+        if (failNode == null) {
             return;
+        }
 
         if (failNode is ActionAST)
         {

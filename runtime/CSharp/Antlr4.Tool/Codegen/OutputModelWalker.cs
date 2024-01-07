@@ -57,8 +57,9 @@ public class OutputModelWalker
             return new Template("[" + templateName + " invalid]");
         }
 
-        if (header)
+        if (header) {
             templateName += "Header";
+        }
 
         Template st = templates.GetInstanceOf(templateName);
         if (st == null)
@@ -73,8 +74,9 @@ public class OutputModelWalker
         }
 
         IDictionary<string, FormalArgument> formalArgs = new LinkedHashMap<string, FormalArgument>();
-        foreach (var argument in st.impl.FormalArguments)
+        foreach (var argument in st.impl.FormalArguments) {
             formalArgs[argument.Name] = argument;
+        }
 
         // PASS IN OUTPUT MODEL OBJECT TO TEMPLATE AS FIRST ARG
         string modelArgName = st.impl.FormalArguments[0].Name;
@@ -100,8 +102,9 @@ public class OutputModelWalker
             }
 
             // Just don't set [ModelElement] fields w/o formal argument in target ST
-            if (!formalArgs.ContainsKey(fieldName))
+            if (!formalArgs.ContainsKey(fieldName)) {
                 continue;
+            }
 
             try
             {
@@ -134,8 +137,10 @@ public class OutputModelWalker
                     IEnumerable nestedOmos = (IEnumerable)o;
                     foreach (object nestedOmo in nestedOmos)
                     {
-                        if (nestedOmo == null)
+                        if (nestedOmo == null) {
                             continue;
+                        }
+
                         Template nestedST = Walk((OutputModelObject)nestedOmo, header);
                         //System.Console.WriteLine("set ModelElement " + fieldName + "=" + nestedST + " in " + templateName);
                         st.Add(fieldName, nestedST);
@@ -159,8 +164,9 @@ public class OutputModelWalker
     private static IEnumerable<FieldInfo> GetFields(Type type)
     {
         var declaredFields = type.GetTypeInfo().DeclaredFields;
-        if (type.GetTypeInfo().BaseType != null)
+        if (type.GetTypeInfo().BaseType != null) {
             declaredFields = declaredFields.Concat(GetFields(type.GetTypeInfo().BaseType));
+        }
 
         return declaredFields;
     }

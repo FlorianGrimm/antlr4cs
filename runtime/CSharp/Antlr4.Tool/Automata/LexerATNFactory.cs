@@ -342,8 +342,9 @@ public class LexerATNFactory : ParserATNFactory
             g.tool.errMgr.GrammarError(ErrorType.INVALID_LITERAL_IN_LEXER_SET,
                     g.fileName, rightNode.Token, rightNode.Text);
         }
-        if (!result)
+        if (!result) {
             return result;
+        }
 
         if (rightValue < leftValue)
         {
@@ -673,8 +674,9 @@ public class LexerATNFactory : ParserATNFactory
         }
 
         int result;
-        if (int.TryParse(modeName, out result))
+        if (int.TryParse(modeName, out result)) {
             return result;
+        }
 
         g.tool.errMgr.GrammarError(ErrorType.CONSTANT_VALUE_IS_NOT_A_RECOGNIZED_MODE_NAME, g.fileName, token, token.Text);
         return null;
@@ -704,8 +706,9 @@ public class LexerATNFactory : ParserATNFactory
         }
 
         int result;
-        if (int.TryParse(tokenName, out result))
+        if (int.TryParse(tokenName, out result)) {
             return result;
+        }
 
         g.tool.errMgr.GrammarError(ErrorType.CONSTANT_VALUE_IS_NOT_A_RECOGNIZED_TOKEN_NAME, g.fileName, token, token.Text);
         return null;
@@ -739,8 +742,9 @@ public class LexerATNFactory : ParserATNFactory
         }
 
         int result;
-        if (int.TryParse(channelName, out result))
+        if (int.TryParse(channelName, out result)) {
             return result;
+        }
 
         g.tool.errMgr.GrammarError(ErrorType.CONSTANT_VALUE_IS_NOT_A_RECOGNIZED_CHANNEL_NAME, g.fileName, token, token.Text);
         return null;

@@ -39,8 +39,9 @@ public class LeftRecursiveRuleFunction : RuleFunction
                 if (altLabelCtxs != null)
                 {
                     AltLabelStructDecl s;
-                    if (altLabel != null && altLabelCtxs.TryGetValue(altLabel, out s) && s != null)
+                    if (altLabel != null && altLabelCtxs.TryGetValue(altLabel, out s) && s != null) {
                         @struct = s; // if alt label, use subctx
+                    }
                 }
 
                 @struct.AddDecl(d); // stick in overall rule's ctx

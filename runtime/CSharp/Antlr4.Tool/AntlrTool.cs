@@ -236,8 +236,10 @@ public class AntlrTool
             if (arg[0] != '-')
             {
                 // file name
-                if (!grammarFiles.Contains(arg))
+                if (!grammarFiles.Contains(arg)) {
                     grammarFiles.Add(arg);
+                }
+
                 continue;
             }
 
@@ -260,13 +262,15 @@ public class AntlrTool
                         FieldInfo f = GetField(GetType(), o.fieldName);
                         if (argValue == null)
                         {
-                            if (arg.StartsWith("-no-"))
+                            if (arg.StartsWith("-no-")) {
                                 f.SetValue(this, false);
-                            else
+                            } else {
                                 f.SetValue(this, true);
+                            }
                         }
-                        else
+                        else {
                             f.SetValue(this, argValue);
+                        }
                     }
                     catch (Exception)
                     {
@@ -330,12 +334,14 @@ public class AntlrTool
     private static FieldInfo GetField(Type type, string name)
     {
         var field = type.GetTypeInfo().GetDeclaredField(name);
-        if (field != null)
+        if (field != null) {
             return field;
+        }
 
         var baseType = type.GetTypeInfo().BaseType;
-        if (baseType != null)
+        if (baseType != null) {
             return GetField(baseType, name);
+        }
 
         return null;
     }
@@ -355,8 +361,10 @@ public class AntlrTool
             if (Grammar.parserOptions.Contains(option) ||
                  Grammar.lexerOptions.Contains(option))
             {
-                if (grammarOptions == null)
+                if (grammarOptions == null) {
                     grammarOptions = new Dictionary<string, string>();
+                }
+
                 grammarOptions[option] = value;
             }
             else
@@ -441,8 +449,9 @@ public class AntlrTool
                 //				System.out.println("lexer strings="+lexerg.stringLiteralToTypeMap);
             }
         }
-        if (g.implicitLexer != null)
+        if (g.implicitLexer != null) {
             g.ImportVocab(g.implicitLexer);
+        }
         //		System.out.println("tokens="+g.tokenNameToTypeMap);
         //		System.out.println("strings="+g.stringLiteralToTypeMap);
         ProcessNonCombinedGrammar(g, gencode);
@@ -450,33 +459,41 @@ public class AntlrTool
 
     public virtual void ProcessNonCombinedGrammar(Grammar g, bool gencode)
     {
-        if (g.ast == null || g.ast.hasErrors)
+        if (g.ast == null || g.ast.hasErrors) {
             return;
-        if (internalOption_PrintGrammarTree)
+        }
+
+        if (internalOption_PrintGrammarTree) {
             ConsoleOut.WriteLine(g.ast.ToStringTree());
+        }
 
         bool ruleFail = CheckForRuleIssues(g);
-        if (ruleFail)
+        if (ruleFail) {
             return;
+        }
 
         int prevErrors = errMgr.GetNumErrors();
         // MAKE SURE GRAMMAR IS SEMANTICALLY CORRECT (FILL IN GRAMMAR OBJECT)
         SemanticPipeline sem = new SemanticPipeline(g);
         sem.Process();
 
-        if (errMgr.GetNumErrors() > prevErrors)
+        if (errMgr.GetNumErrors() > prevErrors) {
             return;
+        }
 
         // BUILD ATN FROM AST
         ATNFactory factory;
-        if (g.IsLexer())
+        if (g.IsLexer()) {
             factory = new LexerATNFactory((LexerGrammar)g);
-        else
+        } else {
             factory = new ParserATNFactory(g);
+        }
+
         g.atn = factory.CreateATN();
 
-        if (generate_ATN_dot)
+        if (generate_ATN_dot) {
             GenerateATNs(g);
+        }
 
         // PERFORM GRAMMAR ANALYSIS ON ATN: BUILD DECISION DFAs
         AnalysisPipeline anal = new AnalysisPipeline(g);
@@ -484,8 +501,9 @@ public class AntlrTool
 
         //if ( generate_DFA_dot ) generateDFAs(g);
 
-        if (g.tool.GetNumErrors() > prevErrors)
+        if (g.tool.GetNumErrors() > prevErrors) {
             return;
+        }
 
         // GENERATE CODE
         if (gencode)
@@ -509,8 +527,9 @@ public class AntlrTool
         IList<GrammarAST> rules = new List<GrammarAST>(RULES.GetAllChildrenWithType(ANTLRParser.RULE));
         foreach (GrammarAST mode in g.ast.GetAllChildrenWithType(ANTLRParser.MODE))
         {
-            foreach (GrammarAST child in mode.GetAllChildrenWithType(ANTLRParser.RULE))
+            foreach (GrammarAST child in mode.GetAllChildrenWithType(ANTLRParser.RULE)) {
                 rules.Add(child);
+            }
         }
 
         bool redefinition = false;
@@ -564,8 +583,9 @@ public class AntlrTool
                 return;
             }
 
-            if (g.IsLexer())
+            if (g.IsLexer()) {
                 RuleRef(@ref, null);
+            }
         }
 
         public override void RuleRef(GrammarAST @ref, ActionAST arg)
@@ -602,10 +622,14 @@ public class AntlrTool
         foreach (string fileName in fileNames)
         {
             GrammarAST t = ParseGrammar(fileName);
-            if (t == null || t is GrammarASTErrorNode)
+            if (t == null || t is GrammarASTErrorNode) {
                 continue; // came back as error node
-            if (((GrammarRootAST)t).hasErrors)
+            }
+
+            if (((GrammarRootAST)t).hasErrors) {
                 continue;
+            }
+
             GrammarRootAST root = (GrammarRootAST)t;
             roots.Add(root);
             root.fileName = fileName;
@@ -686,10 +710,11 @@ public class AntlrTool
     public virtual Grammar CreateGrammar(GrammarRootAST ast)
     {
         Grammar g;
-        if (ast.grammarType == ANTLRParser.LEXER)
+        if (ast.grammarType == ANTLRParser.LEXER) {
             g = new LexerGrammar(this, ast);
-        else
+        } else {
             g = new Grammar(this, ast);
+        }
 
         // ensure each node has pointer to surrounding grammar
         GrammarTransformPipeline.SetGrammarPtr(g, ast);
@@ -833,8 +858,9 @@ public class AntlrTool
         IList<Grammar> imported = g.GetAllImportedGrammars();
         if (imported != null)
         {
-            foreach (Grammar importedGrammar in imported)
+            foreach (Grammar importedGrammar in imported) {
                 grammars.Add(importedGrammar);
+            }
         }
 
         foreach (Grammar ig in grammars)
@@ -1022,8 +1048,9 @@ public class AntlrTool
 
     public virtual void AddListener(ANTLRToolListener tl)
     {
-        if (tl != null)
+        if (tl != null) {
             listeners.Add(tl);
+        }
     }
     public virtual void RemoveListener(ANTLRToolListener tl)
     {
@@ -1046,8 +1073,9 @@ public class AntlrTool
             return;
         }
 
-        foreach (ANTLRToolListener l in listeners)
+        foreach (ANTLRToolListener l in listeners) {
             l.Info(msg);
+        }
     }
 
     public virtual void Error(ANTLRMessage msg)
@@ -1058,8 +1086,9 @@ public class AntlrTool
             return;
         }
 
-        foreach (ANTLRToolListener l in listeners)
+        foreach (ANTLRToolListener l in listeners) {
             l.Error(msg);
+        }
     }
     public virtual void Warning(ANTLRMessage msg)
     {
@@ -1069,8 +1098,9 @@ public class AntlrTool
         }
         else
         {
-            foreach (ANTLRToolListener l in listeners)
+            foreach (ANTLRToolListener l in listeners) {
                 l.Warning(msg);
+            }
         }
 
         if (warnings_are_errors)

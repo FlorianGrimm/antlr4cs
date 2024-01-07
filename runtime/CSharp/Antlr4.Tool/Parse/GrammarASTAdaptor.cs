@@ -65,8 +65,10 @@ public class GrammarASTAdaptor : CommonTreeAdaptor
 
     public override object DupNode(object t)
     {
-        if (t == null)
+        if (t == null) {
             return null;
+        }
+
         return ((GrammarAST)t).DupNode(); //Create(((GrammarAST)t).Token);
     }
 

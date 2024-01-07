@@ -38,10 +38,13 @@ public class AltLabelStructDecl : StructDecl
 
     public override bool Equals(object obj)
     {
-        if (obj == this)
+        if (obj == this) {
             return true;
-        if (!(obj is AltLabelStructDecl))
+        }
+
+        if (!(obj is AltLabelStructDecl)) {
             return false;
+        }
 
         return name.Equals(((AltLabelStructDecl)obj).name);
     }

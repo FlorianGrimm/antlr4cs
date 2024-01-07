@@ -51,25 +51,33 @@ public class Alternative : AttributeResolver
 
     public virtual bool ResolvesToToken(string x, ActionAST node)
     {
-        if (tokenRefs.ContainsKey(x) && tokenRefs[x] != null)
+        if (tokenRefs.ContainsKey(x) && tokenRefs[x] != null) {
             return true;
+        }
 
         LabelElementPair anyLabelDef = GetAnyLabelDef(x);
-        if (anyLabelDef != null && anyLabelDef.type == LabelType.TOKEN_LABEL)
+        if (anyLabelDef != null && anyLabelDef.type == LabelType.TOKEN_LABEL) {
             return true;
+        }
 
         return false;
     }
 
     public virtual bool ResolvesToAttributeDict(string x, ActionAST node)
     {
-        if (ResolvesToToken(x, node))
+        if (ResolvesToToken(x, node)) {
             return true;
-        if (ruleRefs.ContainsKey(x) && ruleRefs[x] != null)
+        }
+
+        if (ruleRefs.ContainsKey(x) && ruleRefs[x] != null) {
             return true; // rule ref in this alt?
+        }
+
         LabelElementPair anyLabelDef = GetAnyLabelDef(x);
-        if (anyLabelDef != null && anyLabelDef.type == LabelType.RULE_LABEL)
+        if (anyLabelDef != null && anyLabelDef.type == LabelType.RULE_LABEL) {
             return true;
+        }
+
         return false;
     }
 
@@ -135,8 +143,9 @@ public class Alternative : AttributeResolver
     public virtual LabelElementPair GetAnyLabelDef(string x)
     {
         IList<LabelElementPair> labels;
-        if (labelDefs.TryGetValue(x, out labels) && labels != null)
+        if (labelDefs.TryGetValue(x, out labels) && labels != null) {
             return labels[0];
+        }
 
         return null;
     }
@@ -144,8 +153,9 @@ public class Alternative : AttributeResolver
     /** x can be ruleref or rule label. */
     public virtual Rule ResolveToRule(string x)
     {
-        if (ruleRefs.ContainsKey(x) && ruleRefs[x] != null)
+        if (ruleRefs.ContainsKey(x) && ruleRefs[x] != null) {
             return rule.g.GetRule(x);
+        }
 
         LabelElementPair anyLabelDef = GetAnyLabelDef(x);
         if (anyLabelDef != null && anyLabelDef.type == LabelType.RULE_LABEL)

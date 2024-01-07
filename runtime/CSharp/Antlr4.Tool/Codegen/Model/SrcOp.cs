@@ -31,8 +31,10 @@ public abstract class SrcOp : OutputModelObject
     protected SrcOp(OutputModelFactory factory, GrammarAST ast)
         : base(factory, ast)
     {
-        if (ast != null)
+        if (ast != null) {
             uniqueID = ast.Token.TokenIndex;
+        }
+
         enclosingBlock = factory.GetCurrentBlock();
         enclosingRuleRunction = factory.GetCurrentRuleFunction();
     }
@@ -60,8 +62,10 @@ public abstract class SrcOp : OutputModelObject
     public virtual string GetContextName()
     {
         CodeBlockForOuterMostAlt alt = GetOuterMostAltCodeBlock();
-        if (alt != null && alt.altLabel != null)
+        if (alt != null && alt.altLabel != null) {
             return alt.altLabel;
+        }
+
         return enclosingRuleRunction.name;
     }
 }

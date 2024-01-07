@@ -31,13 +31,18 @@ public class Decl : SrcOp
     /** If same name, can't redefine, unless it's a getter */
     public override bool Equals(object obj)
     {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!(obj is Decl))
+        }
+
+        if (!(obj is Decl)) {
             return false;
+        }
         // A() and label A are different
-        if (obj is ContextGetterDecl)
+        if (obj is ContextGetterDecl) {
             return false;
+        }
+
         return name.Equals(((Decl)obj).name);
     }
 }

@@ -38,8 +38,9 @@ public class DOTGenerator
 
     public virtual string GetDOT(DFA dfa, bool isLexer)
     {
-        if (dfa.s0.Get() == null)
+        if (dfa.s0.Get() == null) {
             return null;
+        }
 
         Template dot = stlib.GetInstanceOf("dfa");
         dot.Add("name", "DFA" + dfa.decision);
@@ -50,8 +51,10 @@ public class DOTGenerator
         // define stop states first; seems to be a bug in DOT where doublecircle
         foreach (DFAState d in dfa.states.Keys)
         {
-            if (!d.IsAcceptState)
+            if (!d.IsAcceptState) {
                 continue;
+            }
+
             Template st = stlib.GetInstanceOf("stopstate");
             st.Add("name", "s" + d.stateNumber);
             st.Add("label", GetStateLabel(d));
@@ -60,10 +63,14 @@ public class DOTGenerator
 
         foreach (DFAState d in dfa.states.Keys)
         {
-            if (d.IsAcceptState)
+            if (d.IsAcceptState) {
                 continue;
-            if (d.stateNumber == int.MaxValue)
+            }
+
+            if (d.stateNumber == int.MaxValue) {
                 continue;
+            }
+
             Template st = stlib.GetInstanceOf("state");
             st.Add("name", "s" + d.stateNumber);
             st.Add("label", GetStateLabel(d));
@@ -76,16 +83,22 @@ public class DOTGenerator
             foreach (KeyValuePair<int, DFAState> entry in edges)
             {
                 DFAState target = entry.Value;
-                if (target == null)
+                if (target == null) {
                     continue;
-                if (target.stateNumber == int.MaxValue)
+                }
+
+                if (target.stateNumber == int.MaxValue) {
                     continue;
+                }
+
                 int ttype = entry.Key;
                 string label = ttype.ToString();
-                if (isLexer)
+                if (isLexer) {
                     label = "'" + GetEdgeLabel(((char)ttype).ToString()) + "'";
-                else if (grammar != null)
+                } else if (grammar != null) {
                     label = grammar.GetTokenDisplayName(ttype);
+                }
+
                 Template st = stlib.GetInstanceOf("edge");
                 st.Add("label", label);
                 st.Add("src", "s" + d.stateNumber);
@@ -101,8 +114,10 @@ public class DOTGenerator
 
     protected virtual string GetStateLabel(DFAState s)
     {
-        if (s == null)
+        if (s == null) {
             return "null";
+        }
+
         StringBuilder buf = new StringBuilder(250);
         buf.Append('s');
         buf.Append(s.stateNumber);
@@ -129,8 +144,10 @@ public class DOTGenerator
                 IList<ATNConfig> configsInAlt = new List<ATNConfig>();
                 foreach (ATNConfig c in configurations)
                 {
-                    if (c.Alt != alt)
+                    if (c.Alt != alt) {
                         continue;
+                    }
+
                     configsInAlt.Add(c);
                 }
                 int n = 0;
@@ -164,8 +181,10 @@ public class DOTGenerator
         ICollection<string> ruleNames = grammar.rules.Keys;
         string[] names = new string[ruleNames.Count + 1];
         int i = 0;
-        foreach (string s in ruleNames)
+        foreach (string s in ruleNames) {
             names[i++] = s;
+        }
+
         return GetDOT(startState, names, isLexer);
     }
 
@@ -175,8 +194,9 @@ public class DOTGenerator
      */
     public virtual string GetDOT(ATNState startState, string[] ruleNames, bool isLexer)
     {
-        if (startState == null)
+        if (startState == null) {
             return null;
+        }
 
         // The output DOT graph for visualization
         ISet<ATNState> markedStates = new HashSet<ATNState>();
@@ -198,8 +218,9 @@ public class DOTGenerator
             markedStates.Add(s);
 
             // don't go past end of rule node to the follow states
-            if (s is RuleStopState)
+            if (s is RuleStopState) {
                 continue;
+            }
 
             // special case: if decision point, then line up the alt start states
             // unless it's an end of block
@@ -271,10 +292,12 @@ public class DOTGenerator
                     edgeST = stlib.GetInstanceOf("edge");
                     AtomTransition atom = (AtomTransition)edge;
                     string label = atom.label.ToString();
-                    if (isLexer)
+                    if (isLexer) {
                         label = "'" + GetEdgeLabel(((char)atom.label).ToString()) + "'";
-                    else if (grammar != null)
+                    } else if (grammar != null) {
                         label = grammar.GetTokenDisplayName(atom.label);
+                    }
+
                     edgeST.Add("label", GetEdgeLabel(label));
                 }
                 else if (edge is SetTransition)
@@ -282,12 +305,16 @@ public class DOTGenerator
                     edgeST = stlib.GetInstanceOf("edge");
                     SetTransition set = (SetTransition)edge;
                     string label = set.Label.ToString();
-                    if (isLexer)
+                    if (isLexer) {
                         label = set.Label.ToString(true);
-                    else if (grammar != null)
+                    } else if (grammar != null) {
                         label = set.Label.ToString(grammar.GetVocabulary());
-                    if (edge is NotSetTransition)
+                    }
+
+                    if (edge is NotSetTransition) {
                         label = "~" + label;
+                    }
+
                     edgeST.Add("label", GetEdgeLabel(label));
                 }
                 else if (edge is RangeTransition)
@@ -295,10 +322,12 @@ public class DOTGenerator
                     edgeST = stlib.GetInstanceOf("edge");
                     RangeTransition range = (RangeTransition)edge;
                     string label = range.Label.ToString();
-                    if (isLexer)
+                    if (isLexer) {
                         label = range.ToString();
-                    else if (grammar != null)
+                    } else if (grammar != null) {
                         label = range.Label.ToString(grammar.GetVocabulary());
+                    }
+
                     edgeST.Add("label", GetEdgeLabel(label));
                 }
                 else
@@ -335,8 +364,10 @@ public class DOTGenerator
         //		}
         foreach (ATNState s in markedStates)
         {
-            if (!(s is RuleStopState))
+            if (!(s is RuleStopState)) {
                 continue;
+            }
+
             Template st = stlib.GetInstanceOf("stopstate");
             st.Add("name", "s" + s.stateNumber);
             st.Add("label", GetStateLabel(s));
@@ -345,8 +376,10 @@ public class DOTGenerator
 
         foreach (ATNState s in markedStates)
         {
-            if (s is RuleStopState)
+            if (s is RuleStopState) {
                 continue;
+            }
+
             Template st = stlib.GetInstanceOf("state");
             st.Add("name", "s" + s.stateNumber);
             st.Add("label", GetStateLabel(s));
@@ -464,8 +497,10 @@ public class DOTGenerator
 
     protected virtual string GetStateLabel(ATNState s)
     {
-        if (s == null)
+        if (s == null) {
             return "null";
+        }
+
         string stateLabel = "";
 
         if (s is BlockStartState)

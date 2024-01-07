@@ -27,8 +27,9 @@ public class AnalysisPipeline
         // LEFT-RECURSION CHECK
         LeftRecursionDetector lr = new LeftRecursionDetector(g, g.atn);
         lr.Check();
-        if (lr.listOfRecursiveCycles.Count > 0)
+        if (lr.listOfRecursiveCycles.Count > 0) {
             return; // bail out
+        }
 
         if (g.IsLexer())
         {
@@ -90,12 +91,15 @@ public class AnalysisPipeline
     {
         bool collision = false;
         IntervalSet combined = new IntervalSet();
-        if (altLook == null)
+        if (altLook == null) {
             return false;
+        }
+
         foreach (IntervalSet look in altLook)
         {
-            if (look == null)
+            if (look == null) {
                 return false; // lookahead must've computation failed
+            }
 
             if (!look.And(combined).IsNil)
             {

@@ -56,8 +56,9 @@ public class RuleFunction : OutputModelObject
         if (r.modifiers != null && r.modifiers.Count > 0)
         {
             this.modifiers = new List<string>();
-            foreach (GrammarAST t in r.modifiers)
+            foreach (GrammarAST t in r.modifiers) {
                 modifiers.Add(t.Text);
+            }
         }
         modifiers = Utils.NodesToStrings(r.modifiers);
 
@@ -129,8 +130,9 @@ public class RuleFunction : OutputModelObject
         {
             try
             {
-                foreach (var altAst in rule.g.GetUnlabeledAlternatives(ast))
+                foreach (var altAst in rule.g.GetUnlabeledAlternatives(ast)) {
                     unlabeledAlternatives.Add(altAst);
+                }
 
                 foreach (KeyValuePair<string, IList<System.Tuple<int, AltAST>>> entry in rule.g.GetLabeledAlternatives(ast))
                 {
@@ -211,8 +213,9 @@ public class RuleFunction : OutputModelObject
         {
             IntervalSet reftypes = new IntervalSet(ANTLRParser.RULE_REF, ANTLRParser.TOKEN_REF);
             IList<GrammarAST> refs = ast.GetNodesWithType(reftypes);
-            foreach (var @ref in refs)
+            foreach (var @ref in refs) {
                 allRefs.Add(@ref);
+            }
 
             System.Tuple<FrequencySet<string>, FrequencySet<string>> minAndAltFreq = GetElementFrequenciesForAlt(ast);
             FrequencySet<string> minFreq = minAndAltFreq.Item1;
@@ -304,8 +307,10 @@ public class RuleFunction : OutputModelObject
                              .GetRuleFunctionContextStructName(rref);
             if (needList)
             {
-                if (factory.GetTarget().SupportsOverloadedMethods())
+                if (factory.GetTarget().SupportsOverloadedMethods()) {
                     decls.Add(new ContextRuleListGetterDecl(factory, refLabelName, ctxName));
+                }
+
                 decls.Add(new ContextRuleListIndexedGetterDecl(factory, refLabelName, ctxName));
             }
             else
@@ -317,8 +322,10 @@ public class RuleFunction : OutputModelObject
         {
             if (needList)
             {
-                if (factory.GetTarget().SupportsOverloadedMethods())
+                if (factory.GetTarget().SupportsOverloadedMethods()) {
                     decls.Add(new ContextTokenListGetterDecl(factory, refLabelName));
+                }
+
                 decls.Add(new ContextTokenListIndexedGetterDecl(factory, refLabelName));
             }
             else
@@ -332,8 +339,10 @@ public class RuleFunction : OutputModelObject
     /** Add local var decl */
     public virtual void AddLocalDecl(Decl.Decl d)
     {
-        if (locals == null)
+        if (locals == null) {
             locals = new OrderedHashSet<Decl.Decl>();
+        }
+
         locals.Add(d);
         d.isLocal = true;
     }

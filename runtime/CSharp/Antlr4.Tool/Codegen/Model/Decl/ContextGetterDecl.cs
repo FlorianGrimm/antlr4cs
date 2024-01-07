@@ -36,11 +36,14 @@ public abstract class ContextGetterDecl : Decl
      */
     public override bool Equals(object obj)
     {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
         // A() and label A are different
-        if (!(obj is ContextGetterDecl))
+        if (!(obj is ContextGetterDecl)) {
             return false;
+        }
+
         return
             name.Equals(((Decl)obj).name) &&
                 GetArgType().Equals(((ContextGetterDecl)obj).GetArgType());

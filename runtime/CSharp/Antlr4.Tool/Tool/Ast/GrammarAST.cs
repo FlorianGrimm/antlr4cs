@@ -75,8 +75,9 @@ public class GrammarAST : CommonTree
 
     public override ITree GetFirstChildWithType(int type)
     {
-        if (ChildCount == 0)
+        if (ChildCount == 0) {
             return null;
+        }
 
         return base.GetFirstChildWithType(type);
     }
@@ -105,12 +106,15 @@ public class GrammarAST : CommonTree
         {
             t = work.First.Value;
             work.RemoveFirst();
-            if (types == null || types.Contains(t.Type))
+            if (types == null || types.Contains(t.Type)) {
                 nodes.Add(t);
+            }
+
             if (t.Children != null)
             {
-                foreach (var child in t.GetChildrenAsArray())
+                foreach (var child in t.GetChildrenAsArray()) {
                     work.AddLast(child);
+                }
             }
         }
         return nodes;
@@ -125,8 +129,9 @@ public class GrammarAST : CommonTree
 
     public virtual void GetNodesWithTypePreorderDFS_(IList<GrammarAST> nodes, IntervalSet types)
     {
-        if (types.Contains(this.Type))
+        if (types.Contains(this.Type)) {
             nodes.Add(this);
+        }
         // walk all children of root.
         for (int i = 0; i < ChildCount; i++)
         {
@@ -160,8 +165,10 @@ public class GrammarAST : CommonTree
         {
             return (AltAST)this;
         }
-        if (Parent != null)
+        if (Parent != null) {
             return ((GrammarAST)Parent).GetOutermostAltNode();
+        }
+
         return null;
     }
 
@@ -172,16 +179,20 @@ public class GrammarAST : CommonTree
     public virtual string GetAltLabel()
     {
         IList<ITree> ancestors = this.GetAncestors();
-        if (ancestors == null)
+        if (ancestors == null) {
             return null;
+        }
+
         for (int i = ancestors.Count - 1; i >= 0; i--)
         {
             GrammarAST p = (GrammarAST)ancestors[i];
             if (p.Type == ANTLRParser.ALT)
             {
                 AltAST a = (AltAST)p;
-                if (a.altLabel != null)
+                if (a.altLabel != null) {
                     return a.altLabel.Text;
+                }
+
                 if (a.leftRecursiveAltInfo != null)
                 {
                     return a.leftRecursiveAltInfo.altLabel;
@@ -210,18 +221,25 @@ public class GrammarAST : CommonTree
     // TODO: reuse other method
     public virtual CommonTree GetFirstDescendantWithType(int type)
     {
-        if (Type == type)
+        if (Type == type) {
             return this;
-        if (Children == null)
+        }
+
+        if (Children == null) {
             return null;
+        }
+
         foreach (object c in Children)
         {
             GrammarAST t = (GrammarAST)c;
-            if (t.Type == type)
+            if (t.Type == type) {
                 return t;
+            }
+
             CommonTree d = t.GetFirstDescendantWithType(type);
-            if (d != null)
+            if (d != null) {
                 return d;
+            }
         }
         return null;
     }
@@ -229,18 +247,25 @@ public class GrammarAST : CommonTree
     // TODO: don't include this node!!
     public virtual CommonTree GetFirstDescendantWithType(Antlr.Runtime.BitSet types)
     {
-        if (types.Member(Type))
+        if (types.Member(Type)) {
             return this;
-        if (Children == null)
+        }
+
+        if (Children == null) {
             return null;
+        }
+
         foreach (object c in Children)
         {
             GrammarAST t = (GrammarAST)c;
-            if (types.Member(t.Type))
+            if (types.Member(t.Type)) {
                 return t;
+            }
+
             CommonTree d = t.GetFirstDescendantWithType(types);
-            if (d != null)
+            if (d != null) {
                 return d;
+            }
         }
         return null;
     }

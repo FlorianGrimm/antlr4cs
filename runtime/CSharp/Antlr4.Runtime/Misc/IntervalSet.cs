@@ -636,8 +636,9 @@ public class IntervalSet : IIntSet
         bool first = true;
         foreach (Interval I in intervals)
         {
-            if (!first)
+            if (!first) {
                 buf.Append(", ");
+            }
 
             first = false;
             int a = I.a;
@@ -700,8 +701,9 @@ public class IntervalSet : IIntSet
         bool first = true;
         foreach (Interval I in intervals)
         {
-            if (!first)
+            if (!first) {
                 buf.Append(", ");
+            }
 
             first = false;
             int a = I.a;

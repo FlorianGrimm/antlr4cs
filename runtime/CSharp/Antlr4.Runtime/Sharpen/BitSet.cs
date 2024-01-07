@@ -19,8 +19,9 @@ public class BitSet
 
     public BitSet(int nbits)
     {
-        if (nbits < 0)
+        if (nbits < 0) {
             throw new ArgumentOutOfRangeException("nbits");
+        }
 
         if (nbits > 0)
         {
@@ -100,8 +101,9 @@ public class BitSet
 
     private static int BitScanForward(ulong value)
     {
-        if (value == 0)
+        if (value == 0) {
             return -1;
+        }
 
         const ulong debruijn64 = 0x03f79d71b4cb0a89;
         return index64[((value ^ (value - 1)) * debruijn64) >> 58];
@@ -116,36 +118,42 @@ public class BitSet
 
     public void Clear(int index)
     {
-        if (index < 0)
+        if (index < 0) {
             throw new ArgumentOutOfRangeException("index");
+        }
 
         int element = index / BitsPerElement;
-        if (element >= _data.Length)
+        if (element >= _data.Length) {
             return;
+        }
 
         _data[element] &= ~(1UL << (index % BitsPerElement));
     }
 
     public bool Get(int index)
     {
-        if (index < 0)
+        if (index < 0) {
             throw new ArgumentOutOfRangeException("index");
+        }
 
         int element = index / BitsPerElement;
-        if (element >= _data.Length)
+        if (element >= _data.Length) {
             return false;
+        }
 
         return (_data[element] & (1UL << (index % BitsPerElement))) != 0;
     }
 
     public void Set(int index)
     {
-        if (index < 0)
+        if (index < 0) {
             throw new ArgumentOutOfRangeException("index");
+        }
 
         int element = index / BitsPerElement;
-        if (element >= _data.Length)
+        if (element >= _data.Length) {
             Array.Resize(ref _data, Math.Max(_data.Length * 2, element + 1));
+        }
 
         _data[element] |= 1UL << (index % BitsPerElement);
     }
@@ -154,8 +162,9 @@ public class BitSet
     {
         for (int i = 0; i < _data.Length; i++)
         {
-            if (_data[i] != 0)
+            if (_data[i] != 0) {
                 return false;
+            }
         }
 
         return true;
@@ -168,27 +177,32 @@ public class BitSet
 
     public int NextSetBit(int fromIndex)
     {
-        if (fromIndex < 0)
+        if (fromIndex < 0) {
             throw new ArgumentOutOfRangeException("fromIndex");
+        }
 
-        if (IsEmpty())
+        if (IsEmpty()) {
             return -1;
+        }
 
         int i = fromIndex / BitsPerElement;
-        if (i >= _data.Length)
+        if (i >= _data.Length) {
             return -1;
+        }
 
         ulong current = _data[i] & ~((1UL << (fromIndex % BitsPerElement)) - 1);
 
         while (true)
         {
             int bit = BitScanForward(current);
-            if (bit >= 0)
+            if (bit >= 0) {
                 return bit + i * BitsPerElement;
+            }
 
             i++;
-            if (i >= _data.Length)
+            if (i >= _data.Length) {
                 break;
+            }
 
             current = _data[i];
         }
@@ -198,55 +212,66 @@ public class BitSet
 
     public void And(BitSet set)
     {
-        if (set == null)
+        if (set == null) {
             throw new ArgumentNullException("set");
+        }
 
         int length = Math.Min(_data.Length, set._data.Length);
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++) {
             _data[i] &= set._data[i];
+        }
 
-        for (int i = length; i < _data.Length; i++)
+        for (int i = length; i < _data.Length; i++) {
             _data[i] = 0;
+        }
     }
 
     public void Or(BitSet set)
     {
-        if (set == null)
+        if (set == null) {
             throw new ArgumentNullException("set");
+        }
 
-        if (set._data.Length > _data.Length)
+        if (set._data.Length > _data.Length) {
             Array.Resize(ref _data, set._data.Length);
+        }
 
-        for (int i = 0; i < set._data.Length; i++)
+        for (int i = 0; i < set._data.Length; i++) {
             _data[i] |= set._data[i];
+        }
     }
 
     public override bool Equals(object obj)
     {
         BitSet other = obj as BitSet;
-        if (other == null)
+        if (other == null) {
             return false;
+        }
 
-        if (IsEmpty())
+        if (IsEmpty()) {
             return other.IsEmpty();
+        }
 
         int minLength = Math.Min(_data.Length, other._data.Length);
         for (int i = 0; i < minLength; i++)
         {
-            if (_data[i] != other._data[i])
+            if (_data[i] != other._data[i]) {
                 return false;
+            }
         }
 
         for (int i = minLength; i < _data.Length; i++)
         {
-            if (_data[i] != 0)
+            if (_data[i] != 0) {
                 return false;
+            }
         }
 
         for (int i = minLength; i < other._data.Length; i++)
         {
-            if (other._data[i] != 0)
+            if (other._data[i] != 0) {
                 return false;
+            }
         }
 
         return true;
@@ -274,8 +299,9 @@ public class BitSet
 
         for (int i = NextSetBit(0); i >= 0; i = NextSetBit(i + 1))
         {
-            if (builder.Length > 1)
+            if (builder.Length > 1) {
                 builder.Append(", ");
+            }
 
             builder.Append(i);
         }

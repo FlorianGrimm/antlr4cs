@@ -12,8 +12,9 @@ public class FrequencySet<T> : Dictionary<T, StrongBox<int>>
     public virtual int GetCount(T key)
     {
         StrongBox<int> value;
-        if (!TryGetValue(key, out value))
+        if (!TryGetValue(key, out value)) {
             return 0;
+        }
 
         return value.Value;
     }

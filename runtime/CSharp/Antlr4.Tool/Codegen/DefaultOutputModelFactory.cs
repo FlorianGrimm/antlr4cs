@@ -138,13 +138,15 @@ public abstract class DefaultOutputModelFactory : BlankOutputModelFactory
 
     public virtual Decl? GetCurrentDeclForName(string name)
     {
-        if (GetCurrentBlock().locals == null)
+        if (GetCurrentBlock().locals == null) {
             return null;
+        }
 
         foreach (Decl d in GetCurrentBlock().locals.Elements)
         {
-            if (d.name.Equals(name))
+            if (d.name.Equals(name)) {
                 return d;
+            }
         }
 
         return null;

@@ -239,11 +239,14 @@ public class AttributeChecks : ActionSplitterListener
 
     public virtual Rule IsolatedRuleRef(string x)
     {
-        if (node.resolver is Grammar)
+        if (node.resolver is Grammar) {
             return null;
+        }
 
-        if (x.Equals(r.name))
+        if (x.Equals(r.name)) {
             return r;
+        }
+
         IList<LabelElementPair> labels = null;
         if (node.resolver is Rule)
         {

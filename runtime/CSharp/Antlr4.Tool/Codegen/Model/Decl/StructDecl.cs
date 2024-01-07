@@ -67,10 +67,11 @@ public class StructDecl : Decl
     {
         d.ctx = this;
 
-        if (d is ContextGetterDecl)
+        if (d is ContextGetterDecl) {
             getters.Add(d);
-        else
+        } else {
             attrs.Add(d);
+        }
 
         // add to specific "lists"
         if (d is TokenTypeDecl)
@@ -106,8 +107,9 @@ public class StructDecl : Decl
 
     public virtual void AddDecls(ICollection<Attribute> attrList)
     {
-        foreach (Attribute a in attrList)
+        foreach (Attribute a in attrList) {
             AddDecl(a);
+        }
     }
 
     public virtual void ImplementInterface(OutputModelObject value)

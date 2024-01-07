@@ -174,7 +174,8 @@ public static class ATNOptimizer
         }
 
         //System.Console.WriteLine("ATN optimizer removed " + (states.Count - current) + " null states.");
-        while (states.Count > current)
+        while (states.Count > current) {
             states.RemoveAt(states.Count - 1);
+        }
     }
 }

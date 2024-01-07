@@ -343,8 +343,10 @@ public class CodeGenerator {
         }
 
         Template extST = target.GetTemplates().GetInstanceOf("headerFileExtension");
-        if (extST == null)
+        if (extST == null) {
             return null;
+        }
+
         string recognizerName = g.GetRecognizerName();
         return recognizerName + extST.Render();
     }

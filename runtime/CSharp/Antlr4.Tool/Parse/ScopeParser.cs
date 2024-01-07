@@ -68,8 +68,9 @@ public class ScopeParser
      */
     public static Attribute ParseAttributeDef(ActionAST? action, [NotNull] System.Tuple<string, int> decl, Grammar g)
     {
-        if (decl.Item1 == null)
+        if (decl.Item1 == null) {
             return null;
+        }
 
         Attribute attr = new Attribute();
         int rightEdgeOfDeclarator = decl.Item1.Length - 1;

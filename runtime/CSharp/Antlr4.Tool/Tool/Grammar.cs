@@ -393,11 +393,15 @@ public class Grammar : AttributeResolver
 
     public virtual void LoadImportedGrammars()
     {
-        if (ast == null)
+        if (ast == null) {
             return;
+        }
+
         GrammarAST i = (GrammarAST)ast.GetFirstChildWithType(ANTLRParser.IMPORT);
-        if (i == null)
+        if (i == null) {
             return;
+        }
+
         ISet<string> visited = new HashSet<string>();
         visited.Add(this.name);
         importedGrammars = new List<Grammar>();
@@ -434,8 +438,10 @@ public class Grammar : AttributeResolver
                 continue;
             }
             // did it come back as error node or missing?
-            if (g == null)
+            if (g == null) {
                 continue;
+            }
+
             g.parent = this;
             importedGrammars.Add(g);
             g.LoadImportedGrammars(); // recursively pursue any imports in this import
@@ -534,8 +540,10 @@ public class Grammar : AttributeResolver
     public virtual Rule GetRule(string name)
     {
         Rule r;
-        if (rules.TryGetValue(name, out r))
+        if (rules.TryGetValue(name, out r)) {
             return r;
+        }
+
         return null;
         /*
         List<Grammar> imports = getAllImportedGrammars();
@@ -657,8 +665,10 @@ public class Grammar : AttributeResolver
     public virtual IList<Grammar> GetGrammarAncestors()
     {
         Grammar root = GetOutermostGrammar();
-        if (this == root)
+        if (this == root) {
             return null;
+        }
+
         IList<Grammar> grammars = new List<Grammar>();
         // walk backwards to root, collecting grammars
         Grammar p = this.parent;
@@ -675,8 +685,10 @@ public class Grammar : AttributeResolver
      */
     public virtual Grammar GetOutermostGrammar()
     {
-        if (parent == null)
+        if (parent == null) {
             return this;
+        }
+
         return parent.GetOutermostGrammar();
     }
 
@@ -732,8 +744,9 @@ public class Grammar : AttributeResolver
     {
         foreach (Grammar g in importedGrammars)
         {
-            if (g.name.Equals(name))
+            if (g.name.Equals(name)) {
                 return g;
+            }
         }
         return null;
     }
@@ -744,15 +757,17 @@ public class Grammar : AttributeResolver
         if (token[0] == '\'')
         {
             int value;
-            if (stringLiteralToTypeMap.TryGetValue(token, out value))
+            if (stringLiteralToTypeMap.TryGetValue(token, out value)) {
                 I = value;
+            }
         }
         else
         {
             // must be a label like ID
             int value;
-            if (tokenNameToTypeMap.TryGetValue(token, out value))
+            if (tokenNameToTypeMap.TryGetValue(token, out value)) {
                 I = value;
+            }
         }
 
         int i = I ?? TokenConstants.InvalidType;
@@ -849,8 +864,9 @@ public class Grammar : AttributeResolver
     public virtual int GetChannelValue(string channel)
     {
         int result;
-        if (!channelNameToValueMap.TryGetValue(channel, out result))
+        if (!channelNameToValueMap.TryGetValue(channel, out result)) {
             return -1;
+        }
 
         return result;
     }
@@ -868,8 +884,9 @@ public class Grammar : AttributeResolver
     public virtual string[] GetRuleNames()
     {
         string[] result = new string[rules.Count];
-        for (int i = 0; i < result.Length; i++)
+        for (int i = 0; i < result.Length; i++) {
             result[i] = INVALID_RULE_NAME;
+        }
 
         foreach (Rule rule in rules.Values)
         {
@@ -1101,10 +1118,11 @@ public class Grammar : AttributeResolver
             tool.Log("grammar", "tokens=" + tokens);
             foreach (string t in tokens.Keys)
             {
-                if (t[0] == '\'')
+                if (t[0] == '\'') {
                     DefineStringLiteral(t, tokens[t]);
-                else
+                } else {
                     DefineTokenName(t, tokens[t]);
+                }
             }
         }
     }
@@ -1145,8 +1163,9 @@ public class Grammar : AttributeResolver
     public virtual int DefineTokenName(string name)
     {
         int prev;
-        if (!tokenNameToTypeMap.TryGetValue(name, out prev))
+        if (!tokenNameToTypeMap.TryGetValue(name, out prev)) {
             return DefineTokenName(name, GetNewTokenType());
+        }
 
         return prev;
     }
@@ -1154,8 +1173,9 @@ public class Grammar : AttributeResolver
     public virtual int DefineTokenName(string name, int ttype)
     {
         int prev;
-        if (tokenNameToTypeMap.TryGetValue(name, out prev))
+        if (tokenNameToTypeMap.TryGetValue(name, out prev)) {
             return prev;
+        }
 
         tokenNameToTypeMap[name] = ttype;
         SetTokenForType(ttype, name);
@@ -1341,16 +1361,20 @@ public class Grammar : AttributeResolver
     {
         get
         {
-            if (ast != null)
+            if (ast != null) {
                 return ast.grammarType;
+            }
+
             return 0;
         }
     }
 
     public virtual Antlr.Runtime.ITokenStream GetTokenStream()
     {
-        if (ast != null)
+        if (ast != null) {
             return ast.tokenStream;
+        }
+
         return null;
     }
 
@@ -1375,8 +1399,10 @@ public class Grammar : AttributeResolver
 
     public virtual string GetTypeString()
     {
-        if (ast == null)
+        if (ast == null) {
             return null;
+        }
+
         return ANTLRParser.tokenNames[Type].ToLower();
     }
 
@@ -1407,11 +1433,15 @@ public class Grammar : AttributeResolver
      */
     public static void SetNodeOptions(GrammarAST node, GrammarAST options)
     {
-        if (options == null)
+        if (options == null) {
             return;
+        }
+
         GrammarASTWithOptions t = (GrammarASTWithOptions)node;
-        if (t.ChildCount == 0 || options.ChildCount == 0)
+        if (t.ChildCount == 0 || options.ChildCount == 0) {
             return;
+        }
+
         foreach (object o in options.Children)
         {
             GrammarAST c = (GrammarAST)o;
@@ -1446,8 +1476,9 @@ public class Grammar : AttributeResolver
             new List<System.Tuple<GrammarAST, GrammarAST>>();
 
         IList<GrammarAST> ruleNodes = ast.GetNodesWithType(ANTLRParser.RULE);
-        if (ruleNodes == null || ruleNodes.Count == 0)
+        if (ruleNodes == null || ruleNodes.Count == 0) {
             return null;
+        }
 
         foreach (GrammarAST r in ruleNodes)
         {
@@ -1462,8 +1493,9 @@ public class Grammar : AttributeResolver
                 {
                     isLitRule =
                         DefAlias(r, pattern, wiz, lexerRuleToStringLiteral);
-                    if (isLitRule)
+                    if (isLitRule) {
                         break;
+                    }
                 }
                 //				if ( !isLitRule ) System.out.println("no pattern matched");
             }
@@ -1523,8 +1555,9 @@ public class Grammar : AttributeResolver
     public static IDictionary<int, Interval> GetStateToGrammarRegionMap(GrammarRootAST ast, IntervalSet grammarTokenTypes)
     {
         IDictionary<int, Interval> stateToGrammarRegionMap = new Dictionary<int, Interval>();
-        if (ast == null)
+        if (ast == null) {
             return stateToGrammarRegionMap;
+        }
 
         IList<GrammarAST> nodes = ast.GetNodesWithType(grammarTokenTypes);
         foreach (GrammarAST n in nodes)
@@ -1567,12 +1600,14 @@ public class Grammar : AttributeResolver
         {
             stateToGrammarRegionMap = GetStateToGrammarRegionMap(ast, null); // map all nodes with non-null atn state ptr
         }
-        if (stateToGrammarRegionMap == null)
+        if (stateToGrammarRegionMap == null) {
             return Interval.Invalid;
+        }
 
         Interval result;
-        if (!stateToGrammarRegionMap.TryGetValue(atnStateNumber, out result))
+        if (!stateToGrammarRegionMap.TryGetValue(atnStateNumber, out result)) {
             result = Interval.Invalid;
+        }
 
         return result;
     }

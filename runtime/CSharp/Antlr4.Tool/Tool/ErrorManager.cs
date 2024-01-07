@@ -89,8 +89,10 @@ public class ErrorManager
         messageFormatST.Add("id", msg.GetErrorType().code);
         messageFormatST.Add("text", messageST);
 
-        if (locationValid)
+        if (locationValid) {
             reportST.Add("location", locationST);
+        }
+
         reportST.Add("message", messageFormatST);
         //((DebugST)reportST).inspect();
         //		reportST.impl.dump();
@@ -203,8 +205,9 @@ public class ErrorManager
         for (; i < stack.Length; i++)
         {
             string t = stack[i];
-            if (!t.Contains(nameof(ErrorManager)))
+            if (!t.Contains(nameof(ErrorManager))) {
                 return t;
+            }
         }
 
         return stack.LastOrDefault() ?? "<Uknown>";

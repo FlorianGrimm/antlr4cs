@@ -76,8 +76,9 @@ public class ListenerFile : OutputFile
         }
 
         ActionAST ast;
-        if (g.namedActions.TryGetValue("header", out ast) && ast != null)
+        if (g.namedActions.TryGetValue("header", out ast) && ast != null) {
             header = new Action(factory, ast);
+        }
 
         genPackage = factory.GetGrammar().tool.genPackage;
         exportMacro = factory.GetGrammar().GetOptionString("exportMacro");

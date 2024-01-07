@@ -64,8 +64,9 @@ public class LeftFactoringRuleTransformer
             string leftFactoredRuleAction = leftFactoredRules.ToString();
             leftFactoredRuleAction = leftFactoredRuleAction.Substring(1, leftFactoredRuleAction.Length - 2);
             string[] rules = leftFactoredRuleAction.Split(',');
-            for (int i = 0; i < rules.Length; i++)
+            for (int i = 0; i < rules.Length; i++) {
                 rules[i] = rules[i].Trim();
+            }
 
             if (rules.Length == 0)
             {

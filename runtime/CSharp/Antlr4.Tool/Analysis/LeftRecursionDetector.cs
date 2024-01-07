@@ -59,10 +59,14 @@ public class LeftRecursionDetector
      */
     public virtual bool Check(Rule enclosingRule, ATNState s, ISet<ATNState> visitedStates)
     {
-        if (s is RuleStopState)
+        if (s is RuleStopState) {
             return true;
-        if (visitedStates.Contains(s))
+        }
+
+        if (visitedStates.Contains(s)) {
             return false;
+        }
+
         visitedStates.Add(s);
 
         //System.out.println("visit "+s);

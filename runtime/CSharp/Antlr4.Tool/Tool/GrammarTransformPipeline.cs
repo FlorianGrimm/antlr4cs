@@ -31,8 +31,10 @@ public class GrammarTransformPipeline
     public virtual void Process()
     {
         GrammarRootAST root = g.ast;
-        if (root == null)
+        if (root == null) {
             return;
+        }
+
         tool.Log("grammar", "before: " + root.ToStringTree());
 
         IntegrateImportedGrammars(g);
@@ -84,8 +86,9 @@ public class GrammarTransformPipeline
     /** Utility visitor that sets grammar ptr in each node */
     public static void SetGrammarPtr(Grammar g, GrammarAST tree)
     {
-        if (tree == null)
+        if (tree == null) {
             return;
+        }
         // ensure each node has pointer to surrounding grammar
         Antlr.Runtime.Misc.Func<object, object> preAction =
             t =>
@@ -100,8 +103,9 @@ public class GrammarTransformPipeline
 
     public static void AugmentTokensWithOriginalPosition(Grammar g, GrammarAST tree)
     {
-        if (tree == null)
+        if (tree == null) {
             return;
+        }
 
         IList<GrammarAST> optionsSubTrees = tree.GetNodesWithType(ANTLRParser.ELEMENT_OPTIONS);
         for (int i = 0; i < optionsSubTrees.Count; i++)
@@ -155,8 +159,9 @@ public class GrammarTransformPipeline
     public virtual void IntegrateImportedGrammars(Grammar rootGrammar)
     {
         IList<Grammar> imports = rootGrammar.GetAllImportedGrammars();
-        if (imports == null)
+        if (imports == null) {
             return;
+        }
 
         GrammarAST root = rootGrammar.ast;
         GrammarAST id = (GrammarAST)root.GetChild(0);
@@ -171,8 +176,9 @@ public class GrammarTransformPipeline
         ISet<string> rootRuleNames = new HashSet<string>();
         // make list of rules we have in root grammar
         IList<GrammarAST> rootRules = RULES.GetNodesWithType(ANTLRParser.RULE);
-        foreach (GrammarAST r in rootRules)
+        foreach (GrammarAST r in rootRules) {
             rootRuleNames.Add(r.GetChild(0).Text);
+        }
 
         foreach (Grammar imp in imports)
         {
@@ -194,12 +200,14 @@ public class GrammarTransformPipeline
             IList<GrammarAST> imp_actionRoots = imp.ast.GetAllChildrenWithType(ANTLRParser.AT);
             if (actionRoots != null)
             {
-                foreach (var actionRoot in actionRoots)
+                foreach (var actionRoot in actionRoots) {
                     all_actionRoots.Add(actionRoot);
+                }
             }
 
-            foreach (var actionRoot in imp_actionRoots)
+            foreach (var actionRoot in imp_actionRoots) {
                 all_actionRoots.Add(actionRoot);
+            }
 
             // COPY ACTIONS
             if (imp_actionRoots != null)
@@ -389,8 +397,9 @@ public class GrammarTransformPipeline
 
         GrammarAST combinedRulesRoot =
             (GrammarAST)combinedAST.GetFirstChildWithType(ANTLRParser.RULES);
-        if (combinedRulesRoot == null)
+        if (combinedRulesRoot == null) {
             return lexerAST;
+        }
 
         // MOVE lexer rules
 
@@ -439,8 +448,9 @@ public class GrammarTransformPipeline
                 foreach (System.Tuple<GrammarAST, GrammarAST> pair in litAliases)
                 {
                     GrammarAST litAST = pair.Item2;
-                    if (lit.Equals(litAST.Text))
+                    if (lit.Equals(litAST.Text)) {
                         goto continueNextLit;
+                    }
                 }
             }
             // create for each literal: (RULE <uniquename> (BLOCK (ALT <lit>))
@@ -474,8 +484,10 @@ public class GrammarTransformPipeline
         combinedGrammar.tool.Log("grammar", "after extract implicit lexer =" + combinedAST.ToStringTree());
         combinedGrammar.tool.Log("grammar", "lexer =" + lexerAST.ToStringTree());
 
-        if (lexerRulesRoot.ChildCount == 0)
+        if (lexerRulesRoot.ChildCount == 0) {
             return null;
+        }
+
         return lexerAST;
     }
 }

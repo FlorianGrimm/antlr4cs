@@ -81,8 +81,9 @@ public static class CharSupport
      */
     public static int GetCharValueFromGrammarCharLiteral(string literal)
     {
-        if (literal == null || literal.Length < 3)
+        if (literal == null || literal.Length < 3) {
             return -1;
+        }
 
         return GetCharValueFromCharInGrammarLiteral(literal.Substring(1, literal.Length - 2));
     }
@@ -102,8 +103,10 @@ public static class CharSupport
                 {
                     for (end = i + 2; end < i + 6; end++)
                     {
-                        if (end > n)
+                        if (end > n) {
                             return null; // invalid escape sequence.
+                        }
+
                         char charAt = literal[end];
                         if (!char.IsDigit(charAt) && !(charAt >= 'a' && charAt <= 'f') && !(charAt >= 'A' && charAt <= 'F'))
                         {
@@ -112,8 +115,9 @@ public static class CharSupport
                     }
                 }
             }
-            if (end > n)
+            if (end > n) {
                 return null; // invalid escape sequence.
+            }
 
             string esc = literal.Substring(i, end - i);
             int c = GetCharValueFromCharInGrammarLiteral(esc);
@@ -121,8 +125,10 @@ public static class CharSupport
             {
                 return null; // invalid escape sequence.
             }
-            else
+            else {
                 buf.Append((char)c);
+            }
+
             i = end;
         }
 
@@ -140,26 +146,34 @@ public static class CharSupport
             // 'x'
             return cstr[0]; // no escape char
         case 2:
-            if (cstr[0] != '\\')
-                return -1;
-            // '\x'  (antlr lexer will catch invalid char)
-            if (char.IsDigit(cstr[1]))
-                return -1;
-            int escChar = cstr[1];
+            if (cstr[0] != '\\') {
+                    return -1;
+                }
+                // '\x'  (antlr lexer will catch invalid char)
+                if (char.IsDigit(cstr[1])) {
+                    return -1;
+                }
+
+                int escChar = cstr[1];
             int charVal = ANTLRLiteralEscapedCharValue[escChar];
-            if (charVal == 0)
-                return -1;
-            return charVal;
+            if (charVal == 0) {
+                    return -1;
+                }
+
+                return charVal;
         case 6:
             // '\u1234'
-            if (!cstr.StartsWith("\\u"))
-                return -1;
-            string unicodeChars = cstr.Substring(2, cstr.Length - 2);
-            int result;
-            if (!int.TryParse(unicodeChars, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out result))
-                return -1;
+            if (!cstr.StartsWith("\\u")) {
+                    return -1;
+                }
 
-            return result;
+                string unicodeChars = cstr.Substring(2, cstr.Length - 2);
+            int result;
+            if (!int.TryParse(unicodeChars, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out result)) {
+                    return -1;
+                }
+
+                return result;
         default:
             return -1;
         }

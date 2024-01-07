@@ -27,8 +27,9 @@ public class GrammarToken : IToken
     {
         get
         {
-            if (originalTokenIndex >= 0)
+            if (originalTokenIndex >= 0) {
                 return g.originalTokenStream.Get(originalTokenIndex).CharPositionInLine;
+            }
 
             return _token.CharPositionInLine;
         }
@@ -43,8 +44,9 @@ public class GrammarToken : IToken
     {
         get
         {
-            if (originalTokenIndex >= 0)
+            if (originalTokenIndex >= 0) {
                 return g.originalTokenStream.Get(originalTokenIndex).Line;
+            }
 
             return _token.Line;
         }
@@ -72,8 +74,9 @@ public class GrammarToken : IToken
     {
         get
         {
-            if (originalTokenIndex >= 0)
+            if (originalTokenIndex >= 0) {
                 return g.originalTokenStream.Get(originalTokenIndex).StartIndex;
+            }
 
             return _token.StartIndex;
         }

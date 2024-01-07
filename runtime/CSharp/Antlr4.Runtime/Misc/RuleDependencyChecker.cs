@@ -300,8 +300,9 @@ public class RuleDependencyChecker
         foreach (ConstructorInfo ctor in clazz.DeclaredConstructors)
         {
             GetElementDependencies(AsCustomAttributeProvider(ctor), result);
-            foreach (ParameterInfo parameter in ctor.GetParameters())
+            foreach (ParameterInfo parameter in ctor.GetParameters()) {
                 GetElementDependencies(AsCustomAttributeProvider(parameter), result);
+            }
         }
 
         foreach (FieldInfo field in clazz.DeclaredFields)
@@ -316,12 +317,14 @@ public class RuleDependencyChecker
             if (method.ReturnTypeCustomAttributes != null)
                 GetElementDependencies(AsCustomAttributeProvider(method.ReturnTypeCustomAttributes), result);
 #else
-            if (method.ReturnParameter != null)
+            if (method.ReturnParameter != null) {
                 GetElementDependencies(AsCustomAttributeProvider(method.ReturnParameter), result);
+            }
 #endif
 
-            foreach (ParameterInfo parameter in method.GetParameters())
+            foreach (ParameterInfo parameter in method.GetParameters()) {
                 GetElementDependencies(AsCustomAttributeProvider(parameter), result);
+            }
         }
 
         return result;
@@ -366,11 +369,13 @@ public class RuleDependencyChecker
     private static string GetSerializedATN(TypeInfo recognizerClass)
     {
         FieldInfo serializedAtnField = recognizerClass.DeclaredFields.First(i => i.Name == "_serializedATN");
-        if (serializedAtnField != null)
+        if (serializedAtnField != null) {
             return (string)serializedAtnField.GetValue(null);
+        }
 
-        if (recognizerClass.BaseType != null)
+        if (recognizerClass.BaseType != null) {
             return GetSerializedATN(recognizerClass.BaseType.GetTypeInfo());
+        }
 
         return null;
     }

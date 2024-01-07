@@ -76,12 +76,15 @@ public class ANTLRMessage
         for (int i = 0; i < args.Length; i++)
         {
             string attr = "arg";
-            if (i > 0)
+            if (i > 0) {
                 attr += i + 1;
+            }
+
             messageST.Add(attr, args[i]);
         }
-        if (args.Length < 2)
+        if (args.Length < 2) {
             messageST.Add("arg2", null); // some messages ref arg2
+        }
 
         Exception cause = GetCause();
         if (cause != null)

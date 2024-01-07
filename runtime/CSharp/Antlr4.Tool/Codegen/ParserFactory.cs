@@ -59,8 +59,10 @@ public class ParserFactory : DefaultOutputModelFactory
 
     public override CodeBlockForAlt Alternative(Alternative alt, bool outerMost)
     {
-        if (outerMost)
+        if (outerMost) {
             return new CodeBlockForOuterMostAlt(this, alt);
+        }
+
         return new CodeBlockForAlt(this);
     }
 
@@ -84,8 +86,13 @@ public class ParserFactory : DefaultOutputModelFactory
     {
         InvokeRule invokeOp = new InvokeRule(this, ID, label);
         // If no manual label and action refs as token/rule not label, we need to define implicit label
-        if (controller.NeedsImplicitLabel(ID, invokeOp))
+        if (controller.NeedsImplicitLabel(ID, invokeOp)) {
             DefineImplicitLabel(ID, invokeOp);
+        } else {
+#warning Remove DefineImplicitLabel(ID, invokeOp);
+            DefineImplicitLabel(ID, invokeOp);
+        }
+
         AddToLabelList listLabelOp = GetAddToListOpIfListLabelPresent(invokeOp, label);
         return List(invokeOp, listLabelOp);
     }
@@ -119,8 +126,10 @@ public class ParserFactory : DefaultOutputModelFactory
             //				getCurrentRuleFunction().addContextDecl(ID.getAltLabel(), l);
             //			}
         }
-        if (controller.NeedsImplicitLabel(ID, matchOp))
+        if (controller.NeedsImplicitLabel(ID, matchOp)) {
             DefineImplicitLabel(ID, matchOp);
+        }
+
         AddToLabelList listLabelOp = GetAddToListOpIfListLabelPresent(matchOp, labelAST);
         return List(matchOp, listLabelOp);
     }
@@ -138,10 +147,12 @@ public class ParserFactory : DefaultOutputModelFactory
     public override IList<SrcOp> Set(GrammarAST setAST, GrammarAST labelAST, bool invert)
     {
         MatchSet matchOp;
-        if (invert)
+        if (invert) {
             matchOp = new MatchNotSet(this, setAST);
-        else
+        } else {
             matchOp = new MatchSet(this, setAST);
+        }
+
         if (labelAST != null)
         {
             string label = labelAST.Text;
@@ -159,8 +170,10 @@ public class ParserFactory : DefaultOutputModelFactory
                 rf.AddContextDecl(setAST.GetAltLabel(), d);
             }
         }
-        if (controller.NeedsImplicitLabel(setAST, matchOp))
+        if (controller.NeedsImplicitLabel(setAST, matchOp)) {
             DefineImplicitLabel(setAST, matchOp);
+        }
+
         AddToLabelList listLabelOp = GetAddToListOpIfListLabelPresent(matchOp, labelAST);
         return List(matchOp, listLabelOp);
     }
@@ -181,8 +194,10 @@ public class ParserFactory : DefaultOutputModelFactory
                 GetCurrentRuleFunction().AddContextDecl(ast.GetAltLabel(), l);
             }
         }
-        if (controller.NeedsImplicitLabel(ast, wild))
+        if (controller.NeedsImplicitLabel(ast, wild)) {
             DefineImplicitLabel(ast, wild);
+        }
+
         AddToLabelList listLabelOp = GetAddToListOpIfListLabelPresent(wild, labelAST);
         return List(wild, listLabelOp);
     }
@@ -257,29 +272,37 @@ public class ParserFactory : DefaultOutputModelFactory
     public override Choice GetLL1EBNFBlock(GrammarAST ebnfRoot, IList<CodeBlockForAlt> alts)
     {
         int ebnf = 0;
-        if (ebnfRoot != null)
+        if (ebnfRoot != null) {
             ebnf = ebnfRoot.Type;
+        }
+
         Choice c = null;
         switch (ebnf)
         {
         case ANTLRParser.OPTIONAL:
-            if (alts.Count == 1)
-                c = new LL1OptionalBlockSingleAlt(this, ebnfRoot, alts);
-            else
-                c = new LL1OptionalBlock(this, ebnfRoot, alts);
-            break;
+            if (alts.Count == 1) {
+                    c = new LL1OptionalBlockSingleAlt(this, ebnfRoot, alts);
+                } else {
+                    c = new LL1OptionalBlock(this, ebnfRoot, alts);
+                }
+
+                break;
         case ANTLRParser.CLOSURE:
-            if (alts.Count == 1)
-                c = new LL1StarBlockSingleAlt(this, ebnfRoot, alts);
-            else
-                c = GetComplexEBNFBlock(ebnfRoot, alts);
-            break;
+            if (alts.Count == 1) {
+                    c = new LL1StarBlockSingleAlt(this, ebnfRoot, alts);
+                } else {
+                    c = GetComplexEBNFBlock(ebnfRoot, alts);
+                }
+
+                break;
         case ANTLRParser.POSITIVE_CLOSURE:
-            if (alts.Count == 1)
-                c = new LL1PlusBlockSingleAlt(this, ebnfRoot, alts);
-            else
-                c = GetComplexEBNFBlock(ebnfRoot, alts);
-            break;
+            if (alts.Count == 1) {
+                    c = new LL1PlusBlockSingleAlt(this, ebnfRoot, alts);
+                } else {
+                    c = GetComplexEBNFBlock(ebnfRoot, alts);
+                }
+
+                break;
         }
         return c;
     }
@@ -287,8 +310,10 @@ public class ParserFactory : DefaultOutputModelFactory
     public override Choice GetComplexEBNFBlock(GrammarAST ebnfRoot, IList<CodeBlockForAlt> alts)
     {
         int ebnf = 0;
-        if (ebnfRoot != null)
+        if (ebnfRoot != null) {
             ebnf = ebnfRoot.Type;
+        }
+
         Choice c = null;
         switch (ebnf)
         {

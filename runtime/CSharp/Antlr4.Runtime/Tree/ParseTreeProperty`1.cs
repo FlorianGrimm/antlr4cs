@@ -29,8 +29,9 @@ public class ParseTreeProperty<V>
     public virtual V Get(IParseTree node)
     {
         V value;
-        if (!annotations.TryGetValue(node, out value))
+        if (!annotations.TryGetValue(node, out value)) {
             return default(V);
+        }
 
         return value;
     }
@@ -43,8 +44,9 @@ public class ParseTreeProperty<V>
     public virtual V RemoveFrom(IParseTree node)
     {
         V value;
-        if (!annotations.TryRemove(node, out value))
+        if (!annotations.TryRemove(node, out value)) {
             return default(V);
+        }
 
         return value;
     }

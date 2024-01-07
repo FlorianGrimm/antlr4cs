@@ -36,8 +36,9 @@ public class LinkedHashSet<T> : ISet<T>
 
     public virtual bool Add(T item)
     {
-        if (_dictionary.ContainsKey(item))
+        if (_dictionary.ContainsKey(item)) {
             return false;
+        }
 
         var node = new LinkedListNode<T>(item);
         _dictionary.Add(item, node);
@@ -104,8 +105,9 @@ public class LinkedHashSet<T> : ISet<T>
     public virtual bool Remove(T item)
     {
         LinkedListNode<T> node;
-        if (!_dictionary.TryGetValue(item, out node))
+        if (!_dictionary.TryGetValue(item, out node)) {
             return false;
+        }
 
         _dictionary.Remove(item);
         _list.Remove(node);
@@ -124,8 +126,9 @@ public class LinkedHashSet<T> : ISet<T>
 
     public virtual void UnionWith(IEnumerable<T> other)
     {
-        foreach (T item in other)
+        foreach (T item in other) {
             Add(item);
+        }
     }
 
     void ICollection<T>.Add(T item)

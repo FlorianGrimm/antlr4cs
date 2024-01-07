@@ -108,8 +108,10 @@ public class BasicSemanticChecks : GrammarTreeVisitor
 
     public override void FinishPrequels(GrammarAST firstPrequel)
     {
-        if (firstPrequel == null)
+        if (firstPrequel == null) {
             return;
+        }
+
         GrammarAST parent = (GrammarAST)firstPrequel.Parent;
         IList<GrammarAST> options = parent.GetAllChildrenWithType(OPTIONS);
         IList<GrammarAST> imports = parent.GetAllChildrenWithType(IMPORT);
@@ -371,8 +373,10 @@ public class BasicSemanticChecks : GrammarTreeVisitor
 
     public override void FinishRule(RuleAST rule, GrammarAST ID, GrammarAST block)
     {
-        if (rule.IsLexerRule())
+        if (rule.IsLexerRule()) {
             return;
+        }
+
         BlockAST blk = (BlockAST)rule.GetFirstChildWithType(BLOCK);
         int nalts = blk.ChildCount;
         GrammarAST idAST = (GrammarAST)rule.GetChild(0);
@@ -407,8 +411,10 @@ public class BasicSemanticChecks : GrammarTreeVisitor
         }
         IList<GrammarAST> altLabels;
         int numAltLabels = 0;
-        if (ruleCollector.ruleToAltLabels.TryGetValue(rule.GetRuleName(), out altLabels) && altLabels != null)
+        if (ruleCollector.ruleToAltLabels.TryGetValue(rule.GetRuleName(), out altLabels) && altLabels != null) {
             numAltLabels = altLabels.Count;
+        }
+
         if (numAltLabels > 0 && nalts != numAltLabels)
         {
             g.tool.errMgr.GrammarError(ErrorType.RULE_WITH_TOO_FEW_ALT_LABELS,
@@ -430,8 +436,10 @@ public class BasicSemanticChecks : GrammarTreeVisitor
 
         string f = fullyQualifiedName;
         string fileName = Path.GetFileName(f);
-        if (g.originalGrammar != null)
+        if (g.originalGrammar != null) {
             return; // don't warn about diff if this is implicit lexer
+        }
+
         if (!Utils.StripFileExtension(fileName).Equals(nameToken.Text) &&
              !fileName.Equals(Grammar.GRAMMAR_FROM_STRING_NAME))
         {
@@ -759,8 +767,10 @@ public class BasicSemanticChecks : GrammarTreeVisitor
     internal virtual void CheckImport(IToken importID)
     {
         Grammar @delegate = g.GetImportedGrammar(importID.Text);
-        if (@delegate == null)
+        if (@delegate == null) {
             return;
+        }
+
         IList<int> validDelegators;
         if (validImportTypes.TryGetValue(@delegate.Type, out validDelegators) && validDelegators != null && !validDelegators.Contains(g.Type))
         {

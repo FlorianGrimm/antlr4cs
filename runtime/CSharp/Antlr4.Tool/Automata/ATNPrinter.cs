@@ -24,8 +24,10 @@ public class ATNPrinter
 
     public virtual string AsString()
     {
-        if (start == null)
+        if (start == null) {
             return null;
+        }
+
         marked = new HashSet<ATNState>();
 
         work = new List<ATNState>();
@@ -38,8 +40,10 @@ public class ATNPrinter
         {
             s = work[0];
             work.RemoveAt(0);
-            if (marked.Contains(s))
+            if (marked.Contains(s)) {
                 continue;
+            }
+
             int n = s.NumberOfTransitions;
             //System.Console.WriteLine("visit " + s + "; edges=" + n);
             marked.Add(s);
@@ -48,10 +52,11 @@ public class ATNPrinter
                 Transition t = s.Transition(i);
                 if (!(s is RuleStopState))
                 { // don't add follow states to work
-                    if (t is RuleTransition)
+                    if (t is RuleTransition) {
                         work.Add(((RuleTransition)t).followState);
-                    else
+                    } else {
                         work.Add(t.target);
+                    }
                 }
                 buf.Append(GetStateString(s));
                 if (t is EpsilonTransition)
@@ -99,24 +104,26 @@ public class ATNPrinter
     {
         int n = s.stateNumber;
         string stateStr = "s" + n;
-        if (s is StarBlockStartState)
+        if (s is StarBlockStartState) {
             stateStr = "StarBlockStart_" + n;
-        else if (s is PlusBlockStartState)
+        } else if (s is PlusBlockStartState) {
             stateStr = "PlusBlockStart_" + n;
-        else if (s is BlockStartState)
+        } else if (s is BlockStartState) {
             stateStr = "BlockStart_" + n;
-        else if (s is BlockEndState)
+        } else if (s is BlockEndState) {
             stateStr = "BlockEnd_" + n;
-        else if (s is RuleStartState)
+        } else if (s is RuleStartState) {
             stateStr = "RuleStart_" + g.GetRule(s.ruleIndex).name + "_" + n;
-        else if (s is RuleStopState)
+        } else if (s is RuleStopState) {
             stateStr = "RuleStop_" + g.GetRule(s.ruleIndex).name + "_" + n;
-        else if (s is PlusLoopbackState)
+        } else if (s is PlusLoopbackState) {
             stateStr = "PlusLoopBack_" + n;
-        else if (s is StarLoopbackState)
+        } else if (s is StarLoopbackState) {
             stateStr = "StarLoopBack_" + n;
-        else if (s is StarLoopEntryState)
+        } else if (s is StarLoopEntryState) {
             stateStr = "StarLoopEntry_" + n;
+        }
+
         return stateStr;
     }
 }

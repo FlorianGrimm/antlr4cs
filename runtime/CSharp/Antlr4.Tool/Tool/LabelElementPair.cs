@@ -28,17 +28,19 @@ public class LabelElementPair
         // compute general case for label type
         if (element.GetFirstDescendantWithType(tokenTypeForTokens) != null)
         {
-            if (labelOp == ANTLRParser.ASSIGN)
+            if (labelOp == ANTLRParser.ASSIGN) {
                 type = LabelType.TOKEN_LABEL;
-            else
+            } else {
                 type = LabelType.TOKEN_LIST_LABEL;
+            }
         }
         else if (element.GetFirstDescendantWithType(ANTLRParser.RULE_REF) != null)
         {
-            if (labelOp == ANTLRParser.ASSIGN)
+            if (labelOp == ANTLRParser.ASSIGN) {
                 type = LabelType.RULE_LABEL;
-            else
+            } else {
                 type = LabelType.RULE_LIST_LABEL;
+            }
         }
 
         // now reset if lexer and string
@@ -46,8 +48,9 @@ public class LabelElementPair
         {
             if (element.GetFirstDescendantWithType(ANTLRParser.STRING_LITERAL) != null)
             {
-                if (labelOp == ANTLRParser.ASSIGN)
+                if (labelOp == ANTLRParser.ASSIGN) {
                     type = LabelType.LEXER_STRING_LABEL;
+                }
             }
         }
     }

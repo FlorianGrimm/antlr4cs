@@ -46,8 +46,9 @@ public class SemanticPipeline
 
     public virtual void Process()
     {
-        if (g.ast == null)
+        if (g.ast == null) {
             return;
+        }
 
         // COLLECT RULE OBJECTS
         RuleCollector ruleCollector = new RuleCollector(g);
@@ -70,8 +71,9 @@ public class SemanticPipeline
         int prevErrors = g.tool.errMgr.GetNumErrors();
         BasicSemanticChecks basics = new BasicSemanticChecks(g, ruleCollector);
         basics.Process();
-        if (g.tool.errMgr.GetNumErrors() > prevErrors)
+        if (g.tool.errMgr.GetNumErrors() > prevErrors) {
             return;
+        }
 
         // TRANSFORM LEFT-RECURSIVE RULES
         prevErrors = g.tool.errMgr.GetNumErrors();
@@ -139,8 +141,9 @@ public class SemanticPipeline
         symcheck.CheckForQualifiedRuleIssues(g, collector.qualifiedRulerefs);
 
         // don't continue if we got symbol errors
-        if (g.tool.GetNumErrors() > 0)
+        if (g.tool.GetNumErrors() > 0) {
             return;
+        }
 
         // CHECK ATTRIBUTE EXPRESSIONS FOR SEMANTIC VALIDITY
         AttributeChecks.CheckAllAttributeExpressions(g);
@@ -154,8 +157,9 @@ public class SemanticPipeline
         {
             string ruleName = @ref.Text;
             Rule r = g.GetRule(ruleName);
-            if (r != null)
+            if (r != null) {
                 r.isStartRule = false;
+            }
         }
     }
 

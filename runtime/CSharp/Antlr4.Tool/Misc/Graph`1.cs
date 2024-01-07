@@ -26,10 +26,13 @@ public class Graph<T>
 
         public virtual void AddEdge(Node n)
         {
-            if (edges == EmptyEdges)
+            if (edges == EmptyEdges) {
                 edges = new List<Node>();
-            if (!edges.Contains(n))
+            }
+
+            if (!edges.Contains(n)) {
                 edges.Add(n);
+            }
         }
 
         public override string ToString()
@@ -52,8 +55,9 @@ public class Graph<T>
     protected internal virtual Node GetNode(T a)
     {
         Node existing;
-        if (nodes.TryGetValue(a, out existing) && existing != null)
+        if (nodes.TryGetValue(a, out existing) && existing != null) {
             return existing;
+        }
 
         Node n = new Node(a);
         nodes[a] = n;
@@ -82,8 +86,9 @@ public class Graph<T>
             foreach (Node tNode in nodes.Values)
             {
                 n = tNode;
-                if (!visited.Contains(n))
+                if (!visited.Contains(n)) {
                     break;
+                }
             }
             if (n != null)
             { // if at least one unvisited
@@ -95,8 +100,9 @@ public class Graph<T>
 
     public void DFS(Node n, ISet<Node> visited, List<T> sorted)
     {
-        if (visited.Contains(n))
+        if (visited.Contains(n)) {
             return;
+        }
 
         visited.Add(n);
         if (n.edges != null)

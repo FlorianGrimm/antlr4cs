@@ -22,8 +22,9 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue>, IDictionar
     public LinkedHashMap(IEnumerable<KeyValuePair<TKey, TValue>> items)
         : this()
     {
-        foreach (var item in items)
+        foreach (var item in items) {
             Add(item.Key, item.Value);
+        }
     }
 
     public virtual TValue this[TKey key]
@@ -133,8 +134,9 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue>, IDictionar
             }
 
             TValue result;
-            if (!TryGetValue((TKey)key, out result))
+            if (!TryGetValue((TKey)key, out result)) {
                 return null;
+            }
 
             return result;
         }
@@ -191,8 +193,9 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue>, IDictionar
     public virtual bool Remove(TKey key)
     {
         LinkedListNode<KeyValuePair<TKey, TValue>> node;
-        if (!_dictionary.TryGetValue(key, out node))
+        if (!_dictionary.TryGetValue(key, out node)) {
             return false;
+        }
 
         _dictionary.Remove(key);
         _list.Remove(node);
@@ -393,12 +396,14 @@ public class LinkedHashMap<TKey, TValue> : IDictionary<TKey, TValue>, IDictionar
 
         public void CopyTo(TValue[] array, int arrayIndex)
         {
-            if (arrayIndex < 0 || arrayIndex > array.Length - Count)
+            if (arrayIndex < 0 || arrayIndex > array.Length - Count) {
                 throw new ArgumentException();
+            }
 
             int currentIndex = arrayIndex;
-            foreach (TValue value in this)
+            foreach (TValue value in this) {
                 array[currentIndex++] = value;
+            }
         }
 
         public IEnumerator<TValue> GetEnumerator()

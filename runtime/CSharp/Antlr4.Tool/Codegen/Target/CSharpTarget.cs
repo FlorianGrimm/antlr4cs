@@ -80,8 +80,9 @@ public class CSharpTarget : AbstractTarget
         StringBuilder sb = new StringBuilder();
         string @is = literal;
 
-        if (addQuotes)
+        if (addQuotes) {
             sb.Append('"');
+        }
 
         for (int i = 1; i < @is.Length - 1; i++)
         {
@@ -137,8 +138,9 @@ public class CSharpTarget : AbstractTarget
             sb.Append(@is[i]);
         }
 
-        if (addQuotes)
+        if (addQuotes) {
             sb.Append('"');
+        }
 
         return sb.ToString();
     }

@@ -1,8 +1,8 @@
-﻿using Antlr4.Runtime.Tree;
+﻿#nullable enable
+
 using Antlr4.Runtime;
 
 using System.Runtime.CompilerServices;
-using System.Linq;
 
 namespace TestHtml;
 
@@ -81,7 +81,7 @@ internal class Program {
         747396,4055
 
          */
-        foreach (var exampleFile in listExampleFile.Take(10)) {
+        foreach (var exampleFile in listExampleFile.Take(100)) {
             var content = System.IO.File.ReadAllText(exampleFile);
             listContent.Add(content);
         }
@@ -94,7 +94,7 @@ internal class Program {
             ITokenStream tokens = new CommonTokenStream(lexer);
             var parser = new HTMLParser(tokens);
             parser.BuildParseTree = true;
-            IParseTree tree = parser.htmlDocument();
+            var (tree, error) = parser.htmlDocument();
             if (tree == null) { System.Console.WriteLine("Failed to parse"); }
             {
                 var stop = DateTimeOffset.UtcNow;

@@ -33,8 +33,10 @@ public class RuleAST : GrammarASTWithOptions
     public virtual string GetRuleName()
     {
         GrammarAST nameNode = (GrammarAST)GetChild(0);
-        if (nameNode != null)
+        if (nameNode != null) {
             return nameNode.Text;
+        }
+
         return null;
     }
 

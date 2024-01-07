@@ -20,8 +20,10 @@ public class ATNVisitor
 
     public virtual void Visit_([NotNull] ATNState s, [NotNull] ISet<int> visited)
     {
-        if (!visited.Add(s.stateNumber))
+        if (!visited.Add(s.stateNumber)) {
             return;
+        }
+
         visited.Add(s.stateNumber);
 
         VisitState(s);

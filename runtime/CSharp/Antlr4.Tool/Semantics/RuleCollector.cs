@@ -104,8 +104,10 @@ public class RuleCollector : GrammarTreeVisitor
         int numAlts = block.ChildCount;
         Rule r = new Rule(g, ID.Text, rule, numAlts);
         r.mode = currentModeName;
-        if (modifiers.Count > 0)
+        if (modifiers.Count > 0) {
             r.modifiers = modifiers;
+        }
+
         rules[r.name] = r;
     }
 }

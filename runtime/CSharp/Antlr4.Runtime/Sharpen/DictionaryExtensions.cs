@@ -11,8 +11,9 @@ internal static class DictionaryExtensions
         where TValue : class
     {
         TValue value;
-        if (!dictionary.TryGetValue(key, out value))
+        if (!dictionary.TryGetValue(key, out value)) {
             return null;
+        }
 
         return value;
     }
@@ -21,8 +22,9 @@ internal static class DictionaryExtensions
         where TValue : class
     {
         TValue previous;
-        if (!dictionary.TryGetValue(key, out previous))
+        if (!dictionary.TryGetValue(key, out previous)) {
             previous = null;
+        }
 
         dictionary[key] = value;
         return previous;

@@ -478,8 +478,9 @@ public class TokenStreamRewriter
     public virtual string GetText(string programName, Interval interval)
     {
         IList<TokenStreamRewriter.RewriteOperation> rewrites;
-        if (!programs.TryGetValue(programName, out rewrites))
+        if (!programs.TryGetValue(programName, out rewrites)) {
             rewrites = null;
+        }
 
         int start = interval.a;
         int stop = interval.b;
@@ -505,8 +506,9 @@ public class TokenStreamRewriter
         while (i <= stop && i < tokens.Size)
         {
             TokenStreamRewriter.RewriteOperation op;
-            if (indexToOp.TryGetValue(i, out op))
+            if (indexToOp.TryGetValue(i, out op)) {
                 indexToOp.Remove(i);
+            }
 
             // remove so any left have index size-1
             IToken t = tokens.Get(i);

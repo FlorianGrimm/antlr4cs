@@ -238,12 +238,18 @@ public class LeftRecursiveRuleAnalyzer : LeftRecursiveRuleWalker
         ruleST.Add("userRetvals", retvals);
 
         LinkedHashMap<int, LeftRecursiveRuleAltInfo> opPrecRuleAlts = new LinkedHashMap<int, LeftRecursiveRuleAltInfo>();
-        foreach (var pair in binaryAlts)
+        foreach (var pair in binaryAlts) {
             opPrecRuleAlts[pair.Key] = pair.Value;
-        foreach (var pair in ternaryAlts)
+        }
+
+        foreach (var pair in ternaryAlts) {
             opPrecRuleAlts[pair.Key] = pair.Value;
-        foreach (var pair in suffixAlts)
+        }
+
+        foreach (var pair in suffixAlts) {
             opPrecRuleAlts[pair.Key] = pair.Value;
+        }
+
         foreach (int alt in opPrecRuleAlts.Keys)
         {
             LeftRecursiveRuleAltInfo altInfo = opPrecRuleAlts[alt];
@@ -267,8 +273,9 @@ public class LeftRecursiveRuleAnalyzer : LeftRecursiveRuleWalker
 
     public virtual AltAST AddPrecedenceArgToRules(AltAST t, int prec)
     {
-        if (t == null)
+        if (t == null) {
             return null;
+        }
         // get all top-level rule refs from ALT
         IList<GrammarAST> outerAltRuleRefs = t.GetNodesWithTypePreorderDFS(IntervalSet.Of(RULE_REF));
         foreach (GrammarAST x in outerAltRuleRefs)
@@ -291,18 +298,24 @@ public class LeftRecursiveRuleAnalyzer : LeftRecursiveRuleWalker
      */
     public static bool HasImmediateRecursiveRuleRefs(GrammarAST t, string ruleName)
     {
-        if (t == null)
+        if (t == null) {
             return false;
+        }
+
         GrammarAST blk = (GrammarAST)t.GetFirstChildWithType(BLOCK);
-        if (blk == null)
+        if (blk == null) {
             return false;
+        }
+
         int n = blk.Children.Count;
         for (int i = 0; i < n; i++)
         {
             GrammarAST alt = (GrammarAST)blk.Children[i];
             ITree first = alt.GetChild(0);
-            if (first == null)
+            if (first == null) {
                 continue;
+            }
+
             if (first.Type == ELEMENT_OPTIONS)
             {
                 first = alt.GetChild(1);
@@ -311,11 +324,14 @@ public class LeftRecursiveRuleAnalyzer : LeftRecursiveRuleWalker
                     continue;
                 }
             }
-            if (first.Type == RULE_REF && first.Text.Equals(ruleName))
+            if (first.Type == RULE_REF && first.Text.Equals(ruleName)) {
                 return true;
+            }
+
             ITree rref = first.GetChild(1);
-            if (rref != null && rref.Type == RULE_REF && rref.Text.Equals(ruleName))
+            if (rref != null && rref.Type == RULE_REF && rref.Text.Equals(ruleName)) {
                 return true;
+            }
         }
         return false;
     }
@@ -338,8 +354,9 @@ public class LeftRecursiveRuleAnalyzer : LeftRecursiveRuleWalker
         if ((first.Type == RULE_REF && first.Text.Equals(ruleName)) ||
              (rref != null && rref.Type == RULE_REF && rref.Text.Equals(ruleName)))
         {
-            if (first.Type == ASSIGN || first.Type == PLUS_ASSIGN)
+            if (first.Type == ASSIGN || first.Type == PLUS_ASSIGN) {
                 lrlabel = (GrammarAST)first.GetChild(0);
+            }
             // remove rule ref (first child unless options present)
             altAST.DeleteChild(leftRecurRuleIndex);
             // reset index so it prints properly (sets token range of
@@ -369,8 +386,9 @@ public class LeftRecursiveRuleAnalyzer : LeftRecursiveRuleWalker
 
     public virtual string Text(GrammarAST t)
     {
-        if (t == null)
+        if (t == null) {
             return "";
+        }
 
         int tokenStartIndex = t.TokenStartIndex;
         int tokenStopIndex = t.TokenStopIndex;
@@ -468,8 +486,9 @@ public class LeftRecursiveRuleAnalyzer : LeftRecursiveRuleWalker
     {
         int p = Precedence(alt);
         ASSOC assoc;
-        if (altAssociativity.TryGetValue(alt, out assoc) && assoc == ASSOC.right)
+        if (altAssociativity.TryGetValue(alt, out assoc) && assoc == ASSOC.right) {
             return p;
+        }
 
         return p + 1;
     }

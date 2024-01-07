@@ -67,8 +67,9 @@ public class AttributeDict
     public virtual Attribute Get(string name)
     {
         Attribute result;
-        if (!attributes.TryGetValue(name, out result))
+        if (!attributes.TryGetValue(name, out result)) {
             return null;
+        }
 
         return result;
     }

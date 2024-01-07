@@ -29,22 +29,27 @@ internal class SequenceEqualityComparer<T> : EqualityComparer<IEnumerable<T>>
 
     public override bool Equals(IEnumerable<T> x, IEnumerable<T> y)
     {
-        if (x == y)
+        if (x == y) {
             return true;
-        if (x == null || y == null)
+        }
+
+        if (x == null || y == null) {
             return false;
+        }
 
         return x.SequenceEqual(y, _elementEqualityComparer);
     }
 
     public override int GetHashCode(IEnumerable<T> obj)
     {
-        if (obj == null)
+        if (obj == null) {
             return 0;
+        }
 
         int hashCode = 1;
-        foreach (T element in obj)
+        foreach (T element in obj) {
             hashCode = 31 * hashCode + _elementEqualityComparer.GetHashCode(element);
+        }
 
         return hashCode;
     }

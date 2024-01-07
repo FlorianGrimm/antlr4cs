@@ -113,16 +113,20 @@ public class OutputModelController
     public virtual ParserFile ParserFile(string fileName)
     {
         ParserFile f = @delegate.ParserFile(fileName);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             f = ext.ParserFile(f);
+        }
+
         return f;
     }
 
     public virtual Parser Parser(ParserFile file)
     {
         Parser p = @delegate.Parser(file);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             p = ext.Parser(p);
+        }
+
         return p;
     }
 
@@ -190,8 +194,9 @@ public class OutputModelController
         if (primaryStuff is Choice)
         {
             Choice primaryAltBlock = (Choice)primaryStuff;
-            foreach (var alt in primaryAltBlock.alts)
+            foreach (var alt in primaryAltBlock.alts) {
                 primaryAltsCode.Add(alt);
+            }
         }
         else
         { // just a single alt I guess; no block
@@ -206,8 +211,9 @@ public class OutputModelController
         if (opStuff is AltBlock)
         {
             AltBlock opAltBlock = (AltBlock)opStuff;
-            foreach (var alt in opAltBlock.alts)
+            foreach (var alt in opAltBlock.alts) {
                 opAltsCode.Add(alt);
+            }
         }
         else
         { // just a single alt I guess; no block
@@ -218,13 +224,17 @@ public class OutputModelController
         for (int i = 0; i < primaryAltsCode.Count; i++)
         {
             LeftRecursiveRuleAltInfo altInfo = r.recPrimaryAlts[i];
-            if (altInfo.altLabel == null)
+            if (altInfo.altLabel == null) {
                 continue;
+            }
+
             Template altActionST = codegenTemplates.GetInstanceOf("recRuleReplaceContext");
             altActionST.Add("ctxName", Utils.Capitalize(altInfo.altLabel));
             AltLabelStructDecl ctx = null;
-            if (altInfo.altLabel != null)
+            if (altInfo.altLabel != null) {
                 function.altLabelCtxs.TryGetValue(altInfo.altLabel, out ctx);
+            }
+
             Action altAction = new Action(@delegate, ctx, altActionST);
             CodeBlockForAlt alt = primaryAltsCode[i];
             alt.InsertOp(0, altAction);
@@ -270,8 +280,10 @@ public class OutputModelController
                 @delegate.GetGenerator().tool.errMgr.ToolError(ErrorType.CODE_TEMPLATE_ARG_ISSUE, templateName, "isListLabel");
             }
             AltLabelStructDecl ctx = null;
-            if (altInfo.altLabel != null)
+            if (altInfo.altLabel != null) {
                 function.altLabelCtxs.TryGetValue(altInfo.altLabel, out ctx);
+            }
+
             Action altAction = new Action(@delegate, ctx, altActionST);
             CodeBlockForAlt alt = opAltsCode[i];
             alt.InsertOp(0, altAction);
@@ -348,16 +360,19 @@ public class OutputModelController
     public virtual RuleFunction Rule(Rule r)
     {
         RuleFunction rf = @delegate.Rule(r);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             rf = ext.Rule(rf);
+        }
+
         return rf;
     }
 
     public virtual IList<SrcOp> RulePostamble(RuleFunction function, Rule r)
     {
         IList<SrcOp> ops = @delegate.RulePostamble(function, r);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             ops = ext.RulePostamble(ops);
+        }
 
         return ops;
     }
@@ -379,8 +394,10 @@ public class OutputModelController
         {
             currentOuterMostAlternativeBlock = (CodeBlockForOuterMostAlt)blk;
         }
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             blk = ext.Alternative(blk, outerMost);
+        }
+
         return blk;
     }
 
@@ -388,8 +405,10 @@ public class OutputModelController
                                              bool outerMost)
     {
         blk = @delegate.FinishAlternative(blk, ops);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             blk = ext.FinishAlternative(blk, outerMost);
+        }
+
         return blk;
     }
 
@@ -437,8 +456,10 @@ public class OutputModelController
     public virtual CodeBlockForAlt Epsilon(Alternative alt, bool outerMost)
     {
         CodeBlockForAlt blk = @delegate.Epsilon(alt, outerMost);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             blk = ext.Epsilon(blk);
+        }
+
         return blk;
     }
 
@@ -455,40 +476,50 @@ public class OutputModelController
     public virtual IList<SrcOp> Action(ActionAST ast)
     {
         IList<SrcOp> ops = @delegate.Action(ast);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             ops = ext.Action(ops);
+        }
+
         return ops;
     }
 
     public virtual IList<SrcOp> Sempred(ActionAST ast)
     {
         IList<SrcOp> ops = @delegate.Sempred(ast);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             ops = ext.Sempred(ops);
+        }
+
         return ops;
     }
 
     public virtual Choice GetChoiceBlock(BlockAST blkAST, IList<CodeBlockForAlt> alts, GrammarAST label)
     {
         Choice c = @delegate.GetChoiceBlock(blkAST, alts, label);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             c = ext.GetChoiceBlock(c);
+        }
+
         return c;
     }
 
     public virtual Choice GetEBNFBlock(GrammarAST ebnfRoot, IList<CodeBlockForAlt> alts)
     {
         Choice c = @delegate.GetEBNFBlock(ebnfRoot, alts);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             c = ext.GetEBNFBlock(c);
+        }
+
         return c;
     }
 
     public virtual bool NeedsImplicitLabel(GrammarAST ID, LabeledOp op)
     {
         bool needs = @delegate.NeedsImplicitLabel(ID, op);
-        foreach (CodeGeneratorExtension ext in extensions)
+        foreach (CodeGeneratorExtension ext in extensions) {
             needs |= ext.NeedsImplicitLabel(ID, op);
+        }
+
         return needs;
     }
 
@@ -504,8 +535,10 @@ public class OutputModelController
 
     public virtual RuleFunction GetCurrentRuleFunction()
     {
-        if (currentRule.Count > 0)
+        if (currentRule.Count > 0) {
             return currentRule.Peek();
+        }
+
         return null;
     }
 
@@ -516,8 +549,10 @@ public class OutputModelController
 
     public virtual RuleFunction PopCurrentRule()
     {
-        if (currentRule.Count > 0)
+        if (currentRule.Count > 0) {
             return currentRule.Pop();
+        }
+
         return null;
     }
 

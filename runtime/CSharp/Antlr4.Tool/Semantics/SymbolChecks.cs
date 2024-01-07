@@ -62,8 +62,9 @@ public class SymbolChecks
         // First collect all rules for later use in checkForLabelConflict()
         if (g.rules != null)
         {
-            foreach (Rule r in g.rules.Values)
+            foreach (Rule r in g.rules.Values) {
                 nameToRuleMap[r.name] = r;
+            }
         }
 
         CheckReservedNames(g.rules.Values);
@@ -74,8 +75,10 @@ public class SymbolChecks
 
     public virtual void CheckActionRedefinitions(IList<GrammarAST> actions)
     {
-        if (actions == null)
+        if (actions == null) {
             return;
+        }
+
         string scope = g.GetDefaultActionScope();
         string name;
         GrammarAST nameNode;
@@ -154,10 +157,11 @@ public class SymbolChecks
                         CheckForLabelConflict(r, p.label);
                         string name = p.label.Text;
                         LabelElementPair prev;
-                        if (!labelNameSpace.TryGetValue(name, out prev) || prev == null)
+                        if (!labelNameSpace.TryGetValue(name, out prev) || prev == null) {
                             labelNameSpace[name] = p;
-                        else
+                        } else {
                             CheckForTypeMismatch(prev, p);
+                        }
                     }
                 }
             }
@@ -321,8 +325,10 @@ public class SymbolChecks
 
     public virtual void CheckRuleArgs(Grammar g, IList<GrammarAST> rulerefs)
     {
-        if (rulerefs == null)
+        if (rulerefs == null) {
             return;
+        }
+
         foreach (GrammarAST @ref in rulerefs)
         {
             string ruleName = @ref.Text;

@@ -13,7 +13,8 @@ public class RuleElement : SrcOp
     public RuleElement(OutputModelFactory factory, GrammarAST ast)
         : base(factory, ast)
     {
-        if (ast != null && ast.atnState != null)
+        if (ast != null && ast.atnState != null) {
             stateNumber = ast.atnState.stateNumber;
+        }
     }
 }

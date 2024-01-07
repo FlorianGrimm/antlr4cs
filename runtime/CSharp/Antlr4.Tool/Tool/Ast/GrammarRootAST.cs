@@ -70,8 +70,10 @@ public class GrammarRootAST : GrammarASTWithOptions
     public virtual string GetGrammarName()
     {
         ITree t = GetChild(0);
-        if (t != null)
+        if (t != null) {
             return t.Text;
+        }
+
         return null;
     }
 

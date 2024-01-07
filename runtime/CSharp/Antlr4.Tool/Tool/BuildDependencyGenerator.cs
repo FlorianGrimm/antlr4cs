@@ -281,8 +281,9 @@ public class BuildDependencyGenerator
 
     public virtual void LoadDependencyTemplates()
     {
-        if (templates != null)
+        if (templates != null) {
             return;
+        }
 
         string codeBaseLocation = typeof(AntlrTool).GetTypeInfo().Assembly.Location;
         string baseDirectory = Path.GetDirectoryName(codeBaseLocation);

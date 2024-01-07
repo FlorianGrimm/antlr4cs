@@ -17,11 +17,15 @@ public static class Utils
 
     public static string StripFileExtension(string name)
     {
-        if (name == null)
+        if (name == null) {
             return null;
+        }
+
         int lastDot = name.LastIndexOf('.');
-        if (lastDot < 0)
+        if (lastDot < 0) {
             return name;
+        }
+
         return name.Substring(0, lastDot);
     }
 
@@ -59,11 +63,15 @@ public static class Utils
     public static IList<string> NodesToStrings<T>(IList<T> nodes)
             where T : GrammarAST
     {
-        if (nodes == null)
+        if (nodes == null) {
             return null;
+        }
+
         IList<string> a = new List<string>();
-        foreach (T t in nodes)
+        foreach (T t in nodes) {
             a.Add(t.Text);
+        }
+
         return a;
     }
 
@@ -90,8 +98,10 @@ public static class Utils
      */
     public static IList<To> Select<From, To>(IList<From> list, System.Func<From, To> selector)
     {
-        if (list == null)
+        if (list == null) {
             return null;
+        }
+
         IList<To> b = new List<To>();
         foreach (From f in list)
         {
@@ -105,8 +115,9 @@ public static class Utils
     {
         foreach (object o in ops)
         {
-            if (o is T)
+            if (o is T) {
                 return (T)o;
+            }
             //			if ( o.getClass() == cl ) return o;
         }
         return default(T);
@@ -116,8 +127,9 @@ public static class Utils
     {
         for (int i = 0; i < elems.Count; i++)
         {
-            if (match(elems[i]))
+            if (match(elems[i])) {
                 return i;
+            }
         }
         return -1;
     }
@@ -126,8 +138,9 @@ public static class Utils
     {
         for (int i = elems.Count - 1; i >= 0; i--)
         {
-            if (match(elems[i]))
+            if (match(elems[i])) {
                 return i;
+            }
         }
         return -1;
     }
@@ -136,8 +149,9 @@ public static class Utils
     {
         if (size < list.Count)
         {
-            while (size > list.Count)
+            while (size > list.Count) {
                 list.RemoveAt(list.Count - 1);
+            }
         }
         else
         {

@@ -269,8 +269,9 @@ loop_break: ;
                     ICollection<IParseTree> matching = elements[i].Evaluate(node);
                     foreach (IParseTree parseTree in matching)
                     {
-                        if (visited.Add(parseTree))
+                        if (visited.Add(parseTree)) {
                             next.Add(parseTree);
+                        }
                     }
                 }
             }

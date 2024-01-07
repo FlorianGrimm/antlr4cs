@@ -45,6 +45,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{52491C
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHtml", "..\..\test\runtime\TestHtml\TestHtml.csproj", "{8EA90663-C9BB-48CF-B8D5-BB0AC5E94699}"
+	ProjectSection(ProjectDependencies) = postProject
+		{01A6A165-9DB4-4F46-9B1B-C31B918922EF} = {01A6A165-9DB4-4F46-9B1B-C31B918922EF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAntlr4", "..\..\test\runtime\TestAntlr4\TestAntlr4.csproj", "{5FF476FF-4FC1-43C9-9CC4-5FAEE0F7693D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +77,10 @@ Global
 		{8EA90663-C9BB-48CF-B8D5-BB0AC5E94699}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EA90663-C9BB-48CF-B8D5-BB0AC5E94699}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EA90663-C9BB-48CF-B8D5-BB0AC5E94699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FF476FF-4FC1-43C9-9CC4-5FAEE0F7693D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FF476FF-4FC1-43C9-9CC4-5FAEE0F7693D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FF476FF-4FC1-43C9-9CC4-5FAEE0F7693D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FF476FF-4FC1-43C9-9CC4-5FAEE0F7693D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

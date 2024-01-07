@@ -69,8 +69,9 @@ internal static class TreeParserExtensions
 
                 string goal = nodes[ni - 1];
                 object ancestor = GetAncestor(adaptor, tokenNames, t, goal);
-                if (ancestor == null)
+                if (ancestor == null) {
                     return false;
+                }
 
                 t = ancestor;
                 ni--;
@@ -88,8 +89,10 @@ internal static class TreeParserExtensions
             t = adaptor.GetParent(t);
         }
 
-        if (t == null && ni >= 0)
+        if (t == null && ni >= 0) {
             return false; // at root but more nodes to match
+        }
+
         return true;
     }
 
@@ -101,8 +104,9 @@ internal static class TreeParserExtensions
         while (t != null)
         {
             string name = tokenNames[adaptor.GetType(t)];
-            if (name.Equals(goal))
+            if (name.Equals(goal)) {
                 return t;
+            }
 
             t = adaptor.GetParent(t);
         }

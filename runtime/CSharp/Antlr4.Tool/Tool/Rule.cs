@@ -101,8 +101,9 @@ public class Rule : AttributeResolver
         this.ast = ast;
         this.numberOfAlts = numberOfAlts;
         alt = new Alternative[numberOfAlts + 1]; // 1..n
-        for (int i = 1; i <= numberOfAlts; i++)
+        for (int i = 1; i <= numberOfAlts; i++) {
             alt[i] = new Alternative(this, i);
+        }
     }
 
     public virtual string GetBaseContext()
@@ -167,8 +168,9 @@ public class Rule : AttributeResolver
         if (retvals != null)
         {
             Attribute a = retvals.Get(y);
-            if (a != null)
+            if (a != null) {
                 return a;
+            }
         }
         AttributeDict d = GetPredefinedScope(LabelType.RULE_LABEL);
         return d.Get(y);
@@ -191,8 +193,10 @@ public class Rule : AttributeResolver
         {
             refs.UnionWith(alt[i].labelDefs.Keys);
         }
-        if (refs.Count == 0)
+        if (refs.Count == 0) {
             return null;
+        }
+
         return refs;
     }
 
@@ -248,8 +252,10 @@ public class Rule : AttributeResolver
                 list.Add(Tuple.Create(i, alt[i].ast));
             }
         }
-        if (labels.Count == 0)
+        if (labels.Count == 0) {
             return null;
+        }
+
         return labels;
     }
 
@@ -259,11 +265,14 @@ public class Rule : AttributeResolver
         for (int i = 1; i <= numberOfAlts; i++)
         {
             GrammarAST altLabel = alt[i].ast.altLabel;
-            if (altLabel == null)
+            if (altLabel == null) {
                 alts.Add(alt[i].ast);
+            }
         }
-        if (alts.Count == 0)
+        if (alts.Count == 0) {
             return null;
+        }
+
         return alts;
     }
 
@@ -274,20 +283,23 @@ public class Rule : AttributeResolver
         if (args != null)
         {
             Attribute a = args.Get(x);
-            if (a != null)
+            if (a != null) {
                 return a;
+            }
         }
         if (retvals != null)
         {
             Attribute a = retvals.Get(x);
-            if (a != null)
+            if (a != null) {
                 return a;
+            }
         }
         if (locals != null)
         {
             Attribute a = locals.Get(x);
-            if (a != null)
+            if (a != null) {
                 return a;
+            }
         }
         AttributeDict properties = GetPredefinedScope(LabelType.RULE_LABEL);
         return properties.Get(x);
@@ -337,22 +349,28 @@ public class Rule : AttributeResolver
     public virtual bool ResolvesToToken(string x, ActionAST node)
     {
         LabelElementPair anyLabelDef = GetAnyLabelDef(x);
-        if (anyLabelDef != null && anyLabelDef.type == LabelType.TOKEN_LABEL)
+        if (anyLabelDef != null && anyLabelDef.type == LabelType.TOKEN_LABEL) {
             return true;
+        }
+
         return false;
     }
 
     public virtual bool ResolvesToAttributeDict(string x, ActionAST node)
     {
-        if (ResolvesToToken(x, node))
+        if (ResolvesToToken(x, node)) {
             return true;
+        }
+
         return false;
     }
 
     public virtual Rule resolveToRule(string x)
     {
-        if (x.Equals(this.name))
+        if (x.Equals(this.name)) {
             return this;
+        }
+
         LabelElementPair anyLabelDef = GetAnyLabelDef(x);
         if (anyLabelDef != null && anyLabelDef.type == LabelType.RULE_LABEL)
         {
@@ -364,8 +382,9 @@ public class Rule : AttributeResolver
     public virtual LabelElementPair GetAnyLabelDef(string x)
     {
         IList<LabelElementPair> labels;
-        if (GetElementLabelDefs().TryGetValue(x, out labels) && labels != null)
+        if (GetElementLabelDefs().TryGetValue(x, out labels) && labels != null) {
             return labels[0];
+        }
 
         return null;
     }
@@ -381,12 +400,15 @@ public class Rule : AttributeResolver
 
     public virtual bool IsFragment()
     {
-        if (modifiers == null)
+        if (modifiers == null) {
             return false;
+        }
+
         foreach (GrammarAST a in modifiers)
         {
-            if (a.Text.Equals("fragment"))
+            if (a.Text.Equals("fragment")) {
                 return true;
+            }
         }
         return false;
     }
@@ -415,10 +437,14 @@ public class Rule : AttributeResolver
     {
         StringBuilder buf = new StringBuilder();
         buf.Append("Rule{name=").Append(name);
-        if (args != null)
+        if (args != null) {
             buf.Append(", args=").Append(args);
-        if (retvals != null)
+        }
+
+        if (retvals != null) {
             buf.Append(", retvals=").Append(retvals);
+        }
+
         buf.Append("}");
         return buf.ToString();
     }

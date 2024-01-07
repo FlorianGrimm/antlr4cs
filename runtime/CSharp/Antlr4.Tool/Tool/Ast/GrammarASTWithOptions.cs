@@ -41,16 +41,20 @@ public abstract class GrammarASTWithOptions : GrammarAST
 
     public virtual void SetOption(string key, GrammarAST node)
     {
-        if (options == null)
+        if (options == null) {
             options = new Dictionary<string, GrammarAST>();
+        }
+
         options[key] = node;
     }
 
     public virtual string GetOptionString(string key)
     {
         GrammarAST value = GetOptionAST(key);
-        if (value == null)
+        if (value == null) {
             return null;
+        }
+
         if (value is ActionAST)
         {
             return value.Text;
@@ -76,12 +80,14 @@ public abstract class GrammarASTWithOptions : GrammarAST
      */
     public virtual GrammarAST GetOptionAST(string key)
     {
-        if (options == null)
+        if (options == null) {
             return null;
+        }
 
         GrammarAST value;
-        if (!options.TryGetValue(key, out value))
+        if (!options.TryGetValue(key, out value)) {
             return null;
+        }
 
         return value;
     }

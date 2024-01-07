@@ -332,8 +332,9 @@ public class ATNDeserializer
                 }
 
                 var returnTransition = Tuple.Create(ruleTransition.target.ruleIndex, ruleTransition.followState.stateNumber, outermostPrecedenceReturn);
-                if (returnTransitionsSet.Add(returnTransition))
+                if (returnTransitionsSet.Add(returnTransition)) {
                     returnTransitions.Add(returnTransition);
+                }
             }
         }
         // Add all elements from returnTransitions to the ATN

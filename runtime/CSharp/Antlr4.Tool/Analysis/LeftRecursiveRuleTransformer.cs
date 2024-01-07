@@ -69,10 +69,14 @@ public class LeftRecursiveRuleTransformer
         // update all refs to recursive rules to have [0] argument
         foreach (GrammarAST r in ast.GetNodesWithType(ANTLRParser.RULE_REF))
         {
-            if (r.Parent.Type == ANTLRParser.RULE)
+            if (r.Parent.Type == ANTLRParser.RULE) {
                 continue; // must be rule def
-            if (((GrammarASTWithOptions)r).GetOptionString(PRECEDENCE_OPTION_NAME) != null)
+            }
+
+            if (((GrammarASTWithOptions)r).GetOptionString(PRECEDENCE_OPTION_NAME) != null) {
                 continue; // already has arg; must be in rewritten rule
+            }
+
             if (leftRecursiveRuleNames.Contains(r.Text))
             {
                 // found ref to recursive rule not already rewritten with arg
@@ -102,8 +106,9 @@ public class LeftRecursiveRuleTransformer
         {
             isLeftRec = false; // didn't match; oh well
         }
-        if (!isLeftRec)
+        if (!isLeftRec) {
             return false;
+        }
 
         // replace old rule's AST; first create text of altered rule
         GrammarAST RULES = (GrammarAST)ast.GetFirstChildWithType(ANTLRParser.RULES);
@@ -138,20 +143,27 @@ public class LeftRecursiveRuleTransformer
 
         // track recursive alt info for codegen
         r.recPrimaryAlts = new List<LeftRecursiveRuleAltInfo>();
-        foreach (var altInfo in leftRecursiveRuleWalker.prefixAndOtherAlts)
+        foreach (var altInfo in leftRecursiveRuleWalker.prefixAndOtherAlts) {
             r.recPrimaryAlts.Add(altInfo);
+        }
+
         if (r.recPrimaryAlts.Count == 0)
         {
             tool.errMgr.GrammarError(ErrorType.NO_NON_LR_ALTS, g.fileName, ((GrammarAST)r.ast.GetChild(0)).Token, r.name);
         }
 
         r.recOpAlts = new OrderedHashMap<int, LeftRecursiveRuleAltInfo>();
-        foreach (var pair in leftRecursiveRuleWalker.binaryAlts)
+        foreach (var pair in leftRecursiveRuleWalker.binaryAlts) {
             r.recOpAlts[pair.Key] = pair.Value;
-        foreach (var pair in leftRecursiveRuleWalker.ternaryAlts)
+        }
+
+        foreach (var pair in leftRecursiveRuleWalker.ternaryAlts) {
             r.recOpAlts[pair.Key] = pair.Value;
-        foreach (var pair in leftRecursiveRuleWalker.suffixAlts)
+        }
+
+        foreach (var pair in leftRecursiveRuleWalker.suffixAlts) {
             r.recOpAlts[pair.Key] = pair.Value;
+        }
 
         // walk alt info records and set their altAST to point to appropriate ALT subtree
         // from freshly created AST

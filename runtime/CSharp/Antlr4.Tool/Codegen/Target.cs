@@ -269,11 +269,15 @@ public abstract class AbstractTarget
             return "_wild";
         }
 
-        if (GetCodeGenerator().g.GetRule(name) != null)
+        if (GetCodeGenerator().g.GetRule(name) != null) {
             return name;
+        }
+
         int ttype = GetCodeGenerator().g.GetTokenType(name);
-        if (ttype == TokenConstants.InvalidType)
+        if (ttype == TokenConstants.InvalidType) {
             return name;
+        }
+
         return GetTokenTypeAsTargetLabel(GetCodeGenerator().g, ttype);
     }
 

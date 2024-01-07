@@ -30,8 +30,10 @@ public abstract class LL1Loop : Choice
 
     public virtual void AddIterationOp(SrcOp op)
     {
-        if (iteration == null)
+        if (iteration == null) {
             iteration = new List<SrcOp>();
+        }
+
         iteration.Add(op);
     }
 

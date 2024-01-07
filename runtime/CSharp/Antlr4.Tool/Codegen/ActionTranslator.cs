@@ -67,8 +67,9 @@ public class ActionTranslator : ActionSplitterListener
     public static string ToString(IList<ActionChunk> chunks)
     {
         StringBuilder buf = new StringBuilder();
-        foreach (ActionChunk c in chunks)
+        foreach (ActionChunk c in chunks) {
             buf.Append(c.ToString());
+        }
 
         return buf.ToString();
     }
@@ -283,15 +284,19 @@ public class ActionTranslator : ActionSplitterListener
 
     public virtual string GetTokenLabel(string x)
     {
-        if (node.resolver.ResolvesToLabel(x, node))
+        if (node.resolver.ResolvesToLabel(x, node)) {
             return x;
+        }
+
         return factory.GetTarget().GetImplicitTokenLabel(x);
     }
 
     public virtual string GetRuleLabel(string x)
     {
-        if (node.resolver.ResolvesToLabel(x, node))
+        if (node.resolver.ResolvesToLabel(x, node)) {
             return x;
+        }
+
         return factory.GetTarget().GetImplicitRuleLabel(x);
     }
 }

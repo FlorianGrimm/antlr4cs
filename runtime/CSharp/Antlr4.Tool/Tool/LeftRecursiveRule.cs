@@ -24,8 +24,9 @@ public class LeftRecursiveRule : Rule
     {
         originalAST = ast;
         alt = new Alternative[numberOfAlts + 1]; // always just one
-        for (int i = 1; i <= numberOfAlts; i++)
+        for (int i = 1; i <= numberOfAlts; i++) {
             alt[i] = new Alternative(this, i);
+        }
     }
 
     public override bool HasAltSpecificContexts()
@@ -36,10 +37,14 @@ public class LeftRecursiveRule : Rule
     public override int GetOriginalNumberOfAlts()
     {
         int n = 0;
-        if (recPrimaryAlts != null)
+        if (recPrimaryAlts != null) {
             n += recPrimaryAlts.Count;
-        if (recOpAlts != null)
+        }
+
+        if (recOpAlts != null) {
             n += recOpAlts.Count;
+        }
+
         return n;
     }
 
@@ -53,17 +58,21 @@ public class LeftRecursiveRule : Rule
         IList<AltAST> alts = new List<AltAST>();
         foreach (LeftRecursiveRuleAltInfo altInfo in recPrimaryAlts)
         {
-            if (altInfo.altLabel == null)
+            if (altInfo.altLabel == null) {
                 alts.Add(altInfo.originalAltAST);
+            }
         }
         for (int i = 0; i < recOpAlts.Count; i++)
         {
             LeftRecursiveRuleAltInfo altInfo = recOpAlts.GetElement(i);
-            if (altInfo.altLabel == null)
+            if (altInfo.altLabel == null) {
                 alts.Add(altInfo.originalAltAST);
+            }
         }
-        if (alts.Count == 0)
+        if (alts.Count == 0) {
             return null;
+        }
+
         return alts;
     }
 
@@ -82,8 +91,10 @@ public class LeftRecursiveRule : Rule
      */
     public virtual int[] GetPrimaryAlts()
     {
-        if (recPrimaryAlts.Count == 0)
+        if (recPrimaryAlts.Count == 0) {
             return null;
+        }
+
         int[] alts = new int[recPrimaryAlts.Count + 1];
         for (int i = 0; i < recPrimaryAlts.Count; i++)
         { // recPrimaryAlts is a List not Map like recOpAlts
@@ -108,8 +119,10 @@ public class LeftRecursiveRule : Rule
      */
     public virtual int[] GetRecursiveOpAlts()
     {
-        if (recOpAlts.Count == 0)
+        if (recOpAlts.Count == 0) {
             return null;
+        }
+
         int[] alts = new int[recOpAlts.Count + 1];
         int alt = 1;
         foreach (LeftRecursiveRuleAltInfo altInfo in recOpAlts.Values)
@@ -127,8 +140,9 @@ public class LeftRecursiveRule : Rule
         IDictionary<string, IList<System.Tuple<int, AltAST>>> normalAltLabels = base.GetAltLabels();
         if (normalAltLabels != null)
         {
-            foreach (var pair in normalAltLabels)
+            foreach (var pair in normalAltLabels) {
                 labels[pair.Key] = pair.Value;
+            }
         }
 
         if (recPrimaryAlts != null)
@@ -166,8 +180,10 @@ public class LeftRecursiveRule : Rule
                 }
             }
         }
-        if (labels.Count == 0)
+        if (labels.Count == 0) {
             return null;
+        }
+
         return labels;
     }
 }

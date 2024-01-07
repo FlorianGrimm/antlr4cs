@@ -44,8 +44,10 @@ public class LexerGrammar : Grammar
             return false;
         }
 
-        if (modes == null)
+        if (modes == null) {
             modes = new Runtime.Misc.MultiMap<string, Rule>();
+        }
+
         modes.Map(r.mode, r);
         return true;
     }

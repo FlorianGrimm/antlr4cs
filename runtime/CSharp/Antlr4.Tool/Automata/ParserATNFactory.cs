@@ -350,7 +350,10 @@ public class ParserATNFactory : ATNFactory {
                 return h;
             }
             BlockStartState start = NewState<BasicBlockStartState>(blkAST);
-            if (alts.Count > 1) atn.DefineDecisionState(start);
+            if (alts.Count > 1) {
+                atn.DefineDecisionState(start);
+            }
+
             return MakeBlock(start, blkAST, alts);
         }
         switch (ebnfRoot.Type) {
@@ -361,13 +364,19 @@ public class ParserATNFactory : ATNFactory {
             return Optional(ebnfRoot, h);
         case ANTLRParser.CLOSURE:
             BlockStartState star = NewState<StarBlockStartState>(ebnfRoot);
-            if (alts.Count > 1) atn.DefineDecisionState(star);
-            h = MakeBlock(star, blkAST, alts);
+            if (alts.Count > 1) {
+                    atn.DefineDecisionState(star);
+                }
+
+                h = MakeBlock(star, blkAST, alts);
             return Star(ebnfRoot, h);
         case ANTLRParser.POSITIVE_CLOSURE:
             PlusBlockStartState plus = NewState<PlusBlockStartState>(ebnfRoot);
-            if (alts.Count > 1) atn.DefineDecisionState(plus);
-            h = MakeBlock(plus, blkAST, alts);
+            if (alts.Count > 1) {
+                    atn.DefineDecisionState(plus);
+                }
+
+                h = MakeBlock(plus, blkAST, alts);
             return Plus(ebnfRoot, h);
         }
         return null;
@@ -409,15 +418,22 @@ public class ParserATNFactory : ATNFactory {
             // if el is of form o-x->o for x in {rule, action, pred, token, ...}
             // and not last in alt
             Transition tr = null;
-            if (el.left.NumberOfTransitions == 1) tr = el.left.Transition(0);
+            if (el.left.NumberOfTransitions == 1) {
+                tr = el.left.Transition(0);
+            }
+
             bool isRuleTrans = tr is RuleTransition;
             if (el.left.StateType == StateType.Basic &&
                 el.right.StateType == StateType.Basic &&
                 tr != null && (isRuleTrans && ((RuleTransition)tr).followState == el.right || tr.target == el.right))
             {
                 // we can avoid epsilon edge to next el
-                if (isRuleTrans) ((RuleTransition)tr).followState = els[i + 1].left;
-                else tr.target = els[i + 1].left;
+                if (isRuleTrans) {
+                    ((RuleTransition)tr).followState = els[i + 1].left;
+                } else {
+                    tr.target = els[i + 1].left;
+                }
+
                 atn.RemoveState(el.right); // we skipped over this state
             }
             else { // need epsilon if previous block's right end node is complicated
@@ -635,7 +651,10 @@ public class ParserATNFactory : ATNFactory {
         ATNState eofTarget = NewState(null); // one unique EOF target for all rules
         foreach (Rule r in g.rules.Values) {
             ATNState stop = atn.ruleToStopState[r.index];
-            if (stop.NumberOfTransitions > 0) continue;
+            if (stop.NumberOfTransitions > 0) {
+                continue;
+            }
+
             n++;
             Transition t = new AtomTransition(eofTarget, TokenConstants.Eof);
             stop.AddTransition(t);
@@ -658,8 +677,12 @@ public class ParserATNFactory : ATNFactory {
             where T : ATNState, new()
     {
         T s = new T();
-        if (currentRule == null) s.SetRuleIndex(-1);
-        else s.SetRuleIndex(currentRule.index);
+        if (currentRule == null) {
+            s.SetRuleIndex(-1);
+        } else {
+            s.SetRuleIndex(currentRule.index);
+        }
+
         atn.AddState(s);
         return s;
     }
@@ -692,7 +715,10 @@ public class ParserATNFactory : ATNFactory {
      */
     public static bool BlockHasWildcardAlt([NotNull] GrammarAST block) {
         foreach (object alt in block.Children) {
-            if (!(alt is AltAST)) continue;
+            if (!(alt is AltAST)) {
+                continue;
+            }
+
             AltAST altAST = (AltAST)alt;
             if (altAST.ChildCount == 1 || (altAST.ChildCount == 2 && altAST.GetChild(0).Type == ANTLRParser.ELEMENT_OPTIONS)) {
                 ITree e = altAST.GetChild(altAST.ChildCount - 1);
