@@ -4,46 +4,45 @@
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+public sealed class RangeTransition : Transition
 {
-    public sealed class RangeTransition : Transition
+    public readonly int from;
+
+    public readonly int to;
+
+    public RangeTransition([NotNull] ATNState target, int from, int to)
+        : base(target)
     {
-        public readonly int from;
+        this.from = from;
+        this.to = to;
+    }
 
-        public readonly int to;
-
-        public RangeTransition([NotNull] ATNState target, int from, int to)
-            : base(target)
+    public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    {
+        get
         {
-            this.from = from;
-            this.to = to;
+            return Antlr4.Runtime.Atn.TransitionType.Range;
         }
+    }
 
-        public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    public override IntervalSet Label
+    {
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.TransitionType.Range;
-            }
+            return IntervalSet.Of(from, to);
         }
+    }
 
-        public override IntervalSet Label
-        {
-            get
-            {
-                return IntervalSet.Of(from, to);
-            }
-        }
+    public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
+    {
+        return symbol >= from && symbol <= to;
+    }
 
-        public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
-        {
-            return symbol >= from && symbol <= to;
-        }
-
-        [return: NotNull]
-        public override string ToString()
-        {
-            return "'" + (char)from + "'..'" + (char)to + "'";
-        }
+    [return: NotNull]
+    public override string ToString()
+    {
+        return "'" + (char)from + "'..'" + (char)to + "'";
     }
 }

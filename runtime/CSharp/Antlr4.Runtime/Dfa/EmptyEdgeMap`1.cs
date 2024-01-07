@@ -5,75 +5,74 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Dfa
+namespace Antlr4.Runtime.Dfa;
+
+/// <summary>
+/// This implementation of
+/// <see cref="AbstractEdgeMap{T}"/>
+/// represents an empty edge map.
+/// </summary>
+/// <author>Sam Harwell</author>
+public sealed class EmptyEdgeMap<T> : AbstractEdgeMap<T>
+    where T : class
 {
-    /// <summary>
-    /// This implementation of
-    /// <see cref="AbstractEdgeMap{T}"/>
-    /// represents an empty edge map.
-    /// </summary>
-    /// <author>Sam Harwell</author>
-    public sealed class EmptyEdgeMap<T> : AbstractEdgeMap<T>
-        where T : class
+    public EmptyEdgeMap(int minIndex, int maxIndex)
+        : base(minIndex, maxIndex)
     {
-        public EmptyEdgeMap(int minIndex, int maxIndex)
-            : base(minIndex, maxIndex)
-        {
-        }
+    }
 
-        public override AbstractEdgeMap<T> Put(int key, T value)
+    public override AbstractEdgeMap<T> Put(int key, T value)
+    {
+        if (value == null || key < minIndex || key > maxIndex)
         {
-            if (value == null || key < minIndex || key > maxIndex)
-            {
-                // remains empty
-                return this;
-            }
-            return new SingletonEdgeMap<T>(minIndex, maxIndex, key, value);
-        }
-
-        public override AbstractEdgeMap<T> Clear()
-        {
+            // remains empty
             return this;
         }
+        return new SingletonEdgeMap<T>(minIndex, maxIndex, key, value);
+    }
 
-        public override AbstractEdgeMap<T> Remove(int key)
-        {
-            return this;
-        }
+    public override AbstractEdgeMap<T> Clear()
+    {
+        return this;
+    }
 
-        public override int Count
-        {
-            get
-            {
-                return 0;
-            }
-        }
+    public override AbstractEdgeMap<T> Remove(int key)
+    {
+        return this;
+    }
 
-        public override bool IsEmpty
+    public override int Count
+    {
+        get
         {
-            get
-            {
-                return true;
-            }
+            return 0;
         }
+    }
 
-        public override bool ContainsKey(int key)
+    public override bool IsEmpty
+    {
+        get
         {
-            return false;
+            return true;
         }
+    }
 
-        public override T this[int key]
-        {
-            get
-            {
-                return null;
-            }
-        }
+    public override bool ContainsKey(int key)
+    {
+        return false;
+    }
 
-        public override ReadOnlyDictionary<int, T> ToMap()
+    public override T this[int key]
+    {
+        get
         {
-            Dictionary<int, T> result = new Dictionary<int, T>();
-            return new ReadOnlyDictionary<int, T>(result);
+            return null;
         }
+    }
+
+    public override ReadOnlyDictionary<int, T> ToMap()
+    {
+        Dictionary<int, T> result = new Dictionary<int, T>();
+        return new ReadOnlyDictionary<int, T>(result);
     }
 }

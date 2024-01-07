@@ -4,24 +4,23 @@
 using System;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Misc
+namespace Antlr4.Runtime.Misc;
+
+/// <author>Sam Harwell</author>
+public static class Args
 {
-    /// <author>Sam Harwell</author>
-    public static class Args
+    /// <exception cref="System.ArgumentNullException">
+    /// if
+    /// <paramref name="value"/>
+    /// is
+    /// <see langword="null"/>
+    /// .
+    /// </exception>
+    public static void NotNull(string parameterName, object value)
     {
-        /// <exception cref="System.ArgumentNullException">
-        /// if
-        /// <paramref name="value"/>
-        /// is
-        /// <see langword="null"/>
-        /// .
-        /// </exception>
-        public static void NotNull(string parameterName, object value)
+        if (value == null)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException(parameterName);
-            }
+            throw new ArgumentNullException(parameterName);
         }
     }
 }

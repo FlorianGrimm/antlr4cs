@@ -3,24 +3,23 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
-{
-    public sealed class StarLoopbackState : ATNState
-    {
-        public StarLoopEntryState LoopEntryState
-        {
-            get
-            {
-                return (StarLoopEntryState)Transition(0).target;
-            }
-        }
+namespace Antlr4.Runtime.Atn;
 
-        public override Antlr4.Runtime.Atn.StateType StateType
+public sealed class StarLoopbackState : ATNState
+{
+    public StarLoopEntryState LoopEntryState
+    {
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.StateType.StarLoopBack;
-            }
+            return (StarLoopEntryState)Transition(0).target;
+        }
+    }
+
+    public override Antlr4.Runtime.Atn.StateType StateType
+    {
+        get
+        {
+            return Antlr4.Runtime.Atn.StateType.StarLoopBack;
         }
     }
 }

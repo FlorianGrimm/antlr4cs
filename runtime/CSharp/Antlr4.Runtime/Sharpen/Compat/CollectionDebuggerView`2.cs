@@ -32,8 +32,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Antlr4.Runtime.Sharpen
-{
+namespace Antlr4.Runtime.Sharpen;
+
 	//
 	// Custom debugger type proxy to display collections as arrays
 	//
@@ -78,6 +78,5 @@ namespace Antlr4.Runtime.Sharpen
 			}
 		}
 	}	
-}
 
 #endif

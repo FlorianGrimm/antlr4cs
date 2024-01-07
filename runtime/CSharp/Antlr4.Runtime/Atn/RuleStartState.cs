@@ -3,22 +3,21 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+public sealed class RuleStartState : ATNState
 {
-    public sealed class RuleStartState : ATNState
+    public RuleStopState stopState;
+
+    public bool isPrecedenceRule;
+
+    public bool leftFactored;
+
+    public override Antlr4.Runtime.Atn.StateType StateType
     {
-        public RuleStopState stopState;
-
-        public bool isPrecedenceRule;
-
-        public bool leftFactored;
-
-        public override Antlr4.Runtime.Atn.StateType StateType
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.StateType.RuleStart;
-            }
+            return Antlr4.Runtime.Atn.StateType.RuleStart;
         }
     }
 }

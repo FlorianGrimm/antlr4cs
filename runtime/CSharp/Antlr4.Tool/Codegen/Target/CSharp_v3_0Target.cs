@@ -28,17 +28,16 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Antlr4.Codegen.Target
+namespace Antlr4.Codegen.Target;
+
+/**
+ *
+ * @author Sam Harwell
+ */
+public class CSharp_v3_0Target : CSharpTarget
 {
-    /**
-     *
-     * @author Sam Harwell
-     */
-    public class CSharp_v3_0Target : CSharpTarget
+    public CSharp_v3_0Target(CodeGenerator gen)
+        : base(gen, "CSharp_v3_0")
     {
-        public CSharp_v3_0Target(CodeGenerator gen)
-            : base(gen, "CSharp_v3_0")
-        {
-        }
     }
 }

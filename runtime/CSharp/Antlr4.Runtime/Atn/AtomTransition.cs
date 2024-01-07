@@ -4,45 +4,44 @@
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <summary>TODO: make all transitions sets? no, should remove set edges</summary>
+public sealed class AtomTransition : Transition
 {
-    /// <summary>TODO: make all transitions sets? no, should remove set edges</summary>
-    public sealed class AtomTransition : Transition
+    /// <summary>The token type or character value; or, signifies special label.</summary>
+    public readonly int label;
+
+    public AtomTransition([NotNull] ATNState target, int label)
+        : base(target)
     {
-        /// <summary>The token type or character value; or, signifies special label.</summary>
-        public readonly int label;
+        this.label = label;
+    }
 
-        public AtomTransition([NotNull] ATNState target, int label)
-            : base(target)
+    public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    {
+        get
         {
-            this.label = label;
+            return Antlr4.Runtime.Atn.TransitionType.Atom;
         }
+    }
 
-        public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    public override IntervalSet Label
+    {
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.TransitionType.Atom;
-            }
+            return IntervalSet.Of(label);
         }
+    }
 
-        public override IntervalSet Label
-        {
-            get
-            {
-                return IntervalSet.Of(label);
-            }
-        }
+    public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
+    {
+        return label == symbol;
+    }
 
-        public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
-        {
-            return label == symbol;
-        }
-
-        [return: NotNull]
-        public override string ToString()
-        {
-            return label.ToString();
-        }
+    [return: NotNull]
+    public override string ToString()
+    {
+        return label.ToString();
     }
 }

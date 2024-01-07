@@ -5,23 +5,22 @@ using System.Collections.Generic;
 using Antlr4.Runtime.Sharpen;
 using Antlr4.Runtime.Tree;
 
-namespace Antlr4.Runtime.Tree.Xpath
-{
-    public class XPathWildcardAnywhereElement : XPathElement
-    {
-        public XPathWildcardAnywhereElement()
-            : base(XPath.Wildcard)
-        {
-        }
+namespace Antlr4.Runtime.Tree.Xpath;
 
-        public override ICollection<IParseTree> Evaluate(IParseTree t)
+public class XPathWildcardAnywhereElement : XPathElement
+{
+    public XPathWildcardAnywhereElement()
+        : base(XPath.Wildcard)
+    {
+    }
+
+    public override ICollection<IParseTree> Evaluate(IParseTree t)
+    {
+        if (invert)
         {
-            if (invert)
-            {
-                return new List<IParseTree>();
-            }
-            // !* is weird but valid (empty)
-            return Trees.GetDescendants(t);
+            return new List<IParseTree>();
         }
+        // !* is weird but valid (empty)
+        return Trees.GetDescendants(t);
     }
 }

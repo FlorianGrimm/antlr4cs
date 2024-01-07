@@ -172,7 +172,9 @@ namespace System.Threading.Tasks.Schedulers
                     IsBackground = !useForegroundThreads,
                 };
                 if (threadName != null) _threads[i].Name = threadName + " (" + i + ")";
-                _threads[i].SetApartmentState(threadApartmentState);
+                if (OperatingSystem.IsWindows()) { 
+                    _threads[i].SetApartmentState(threadApartmentState);
+                }
             }
 
             // Start all of the threads
@@ -228,7 +230,11 @@ namespace System.Threading.Tasks.Schedulers
                             // continue processing work items.
                             if (!Environment.HasShutdownStarted && !AppDomain.CurrentDomain.IsFinalizingForUnload())
                             {
-                                Thread.ResetAbort();
+                                if (OperatingSystem.IsWindows()) {
+#pragma warning disable SYSLIB0006 // Type or member is obsolete
+                                    Thread.ResetAbort();
+#pragma warning restore SYSLIB0006 // Type or member is obsolete
+                                }
                             }
                         }
                     }

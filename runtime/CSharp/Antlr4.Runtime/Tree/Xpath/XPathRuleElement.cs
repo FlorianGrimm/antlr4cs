@@ -6,34 +6,33 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Sharpen;
 using Antlr4.Runtime.Tree;
 
-namespace Antlr4.Runtime.Tree.Xpath
+namespace Antlr4.Runtime.Tree.Xpath;
+
+public class XPathRuleElement : XPathElement
 {
-    public class XPathRuleElement : XPathElement
+    protected internal int ruleIndex;
+
+    public XPathRuleElement(string ruleName, int ruleIndex)
+        : base(ruleName)
     {
-        protected internal int ruleIndex;
+        this.ruleIndex = ruleIndex;
+    }
 
-        public XPathRuleElement(string ruleName, int ruleIndex)
-            : base(ruleName)
+    public override ICollection<IParseTree> Evaluate(IParseTree t)
+    {
+        // return all children of t that match nodeName
+        IList<IParseTree> nodes = new List<IParseTree>();
+        foreach (ITree c in Trees.GetChildren(t))
         {
-            this.ruleIndex = ruleIndex;
-        }
-
-        public override ICollection<IParseTree> Evaluate(IParseTree t)
-        {
-            // return all children of t that match nodeName
-            IList<IParseTree> nodes = new List<IParseTree>();
-            foreach (ITree c in Trees.GetChildren(t))
+            if (c is ParserRuleContext)
             {
-                if (c is ParserRuleContext)
+                ParserRuleContext ctx = (ParserRuleContext)c;
+                if ((ctx.RuleIndex == ruleIndex && !invert) || (ctx.RuleIndex != ruleIndex && invert))
                 {
-                    ParserRuleContext ctx = (ParserRuleContext)c;
-                    if ((ctx.RuleIndex == ruleIndex && !invert) || (ctx.RuleIndex != ruleIndex && invert))
-                    {
-                        nodes.Add(ctx);
-                    }
+                    nodes.Add(ctx);
                 }
             }
-            return nodes;
         }
+        return nodes;
     }
 }

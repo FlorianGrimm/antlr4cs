@@ -1,61 +1,60 @@
 // Copyright (c) Terence Parr, Sam Harwell. All Rights Reserved.
 // Licensed under the BSD License. See LICENSE.txt in the project root for license information.
 
-namespace Antlr4.Tool
+namespace Antlr4.Tool;
+
+using IToken = Antlr.Runtime.IToken;
+
+/** Track the names of attributes defined in arg lists, return values,
+ *  scope blocks etc...
+ */
+public class Attribute
 {
-    using IToken = Antlr.Runtime.IToken;
+    /** The entire declaration such as "String foo" or "x:int" */
+    public string decl;
 
-    /** Track the names of attributes defined in arg lists, return values,
-     *  scope blocks etc...
-     */
-    public class Attribute
+    /** The type; might be empty such as for Python which has no static typing */
+    public string type;
+
+    /** The name of the attribute "foo" */
+    public string name;
+
+    /** A {@link Token} giving the position of the name of this attribute in the grammar. */
+    public IToken token;
+
+    /** The optional attribute initialization expression */
+    public string initValue;
+
+    /** Who contains us? */
+    public AttributeDict dict;
+
+    public Attribute()
     {
-        /** The entire declaration such as "String foo" or "x:int" */
-        public string decl;
+    }
 
-        /** The type; might be empty such as for Python which has no static typing */
-        public string type;
+    public Attribute(string name)
+        : this(name, null)
+    {
+    }
 
-        /** The name of the attribute "foo" */
-        public string name;
+    public Attribute(string name, string decl)
+    {
+        this.name = name;
+        this.decl = decl;
+    }
 
-        /** A {@link Token} giving the position of the name of this attribute in the grammar. */
-        public IToken token;
-
-        /** The optional attribute initialization expression */
-        public string initValue;
-
-        /** Who contains us? */
-        public AttributeDict dict;
-
-        public Attribute()
+    public override string ToString()
+    {
+        if (initValue != null)
         {
+            return name + ":" + type + "=" + initValue;
         }
 
-        public Attribute(string name)
-            : this(name, null)
+        if (type != null)
         {
+            return name + ":" + type;
         }
 
-        public Attribute(string name, string decl)
-        {
-            this.name = name;
-            this.decl = decl;
-        }
-
-        public override string ToString()
-        {
-            if (initValue != null)
-            {
-                return name + ":" + type + "=" + initValue;
-            }
-
-            if (type != null)
-            {
-                return name + ":" + type;
-            }
-
-            return name;
-        }
+        return name;
     }
 }

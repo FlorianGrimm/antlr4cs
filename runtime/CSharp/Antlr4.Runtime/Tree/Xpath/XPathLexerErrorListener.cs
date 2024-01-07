@@ -4,12 +4,11 @@
 using Antlr4.Runtime;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Tree.Xpath
+namespace Antlr4.Runtime.Tree.Xpath;
+
+public class XPathLexerErrorListener : IAntlrErrorListener<int>
 {
-    public class XPathLexerErrorListener : IAntlrErrorListener<int>
+    public virtual void SyntaxError(IRecognizer recognizer, int offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
     {
-        public virtual void SyntaxError(IRecognizer recognizer, int offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
-        {
-        }
     }
 }

@@ -6,87 +6,86 @@ using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime
+namespace Antlr4.Runtime;
+
+/// <summary>A semantic predicate failed during validation.</summary>
+/// <remarks>
+/// A semantic predicate failed during validation.  Validation of predicates
+/// occurs when normally parsing the alternative just like matching a token.
+/// Disambiguating predicate evaluation occurs when we test a predicate during
+/// prediction.
+/// </remarks>
+[System.Serializable]
+public class FailedPredicateException : RecognitionException
 {
-    /// <summary>A semantic predicate failed during validation.</summary>
-    /// <remarks>
-    /// A semantic predicate failed during validation.  Validation of predicates
-    /// occurs when normally parsing the alternative just like matching a token.
-    /// Disambiguating predicate evaluation occurs when we test a predicate during
-    /// prediction.
-    /// </remarks>
-    [System.Serializable]
-    public class FailedPredicateException : RecognitionException
+    private const long serialVersionUID = 5379330841495778709L;
+
+    private readonly int ruleIndex;
+
+    private readonly int predicateIndex;
+
+    private readonly string predicate;
+
+    public FailedPredicateException([NotNull] Parser recognizer)
+        : this(recognizer, null)
     {
-        private const long serialVersionUID = 5379330841495778709L;
+    }
 
-        private readonly int ruleIndex;
+    public FailedPredicateException([NotNull] Parser recognizer, string? predicate)
+        : this(recognizer, predicate, null)
+    {
+    }
 
-        private readonly int predicateIndex;
-
-        private readonly string predicate;
-
-        public FailedPredicateException([NotNull] Parser recognizer)
-            : this(recognizer, null)
+    public FailedPredicateException([NotNull] Parser recognizer, string? predicate, string? message)
+        : base(FormatMessage(predicate, message), recognizer, ((ITokenStream)recognizer.InputStream), recognizer._ctx)
+    {
+        ATNState s = recognizer.Interpreter.atn.states[recognizer.State];
+        AbstractPredicateTransition trans = (AbstractPredicateTransition)s.Transition(0);
+        if (trans is PredicateTransition)
         {
+            this.ruleIndex = ((PredicateTransition)trans).ruleIndex;
+            this.predicateIndex = ((PredicateTransition)trans).predIndex;
         }
-
-        public FailedPredicateException([NotNull] Parser recognizer, string? predicate)
-            : this(recognizer, predicate, null)
+        else
         {
+            this.ruleIndex = 0;
+            this.predicateIndex = 0;
         }
+        this.predicate = predicate;
+        this.OffendingToken = recognizer.CurrentToken;
+    }
 
-        public FailedPredicateException([NotNull] Parser recognizer, string? predicate, string? message)
-            : base(FormatMessage(predicate, message), recognizer, ((ITokenStream)recognizer.InputStream), recognizer._ctx)
+    public virtual int RuleIndex
+    {
+        get
         {
-            ATNState s = recognizer.Interpreter.atn.states[recognizer.State];
-            AbstractPredicateTransition trans = (AbstractPredicateTransition)s.Transition(0);
-            if (trans is PredicateTransition)
-            {
-                this.ruleIndex = ((PredicateTransition)trans).ruleIndex;
-                this.predicateIndex = ((PredicateTransition)trans).predIndex;
-            }
-            else
-            {
-                this.ruleIndex = 0;
-                this.predicateIndex = 0;
-            }
-            this.predicate = predicate;
-            this.OffendingToken = recognizer.CurrentToken;
+            return ruleIndex;
         }
+    }
 
-        public virtual int RuleIndex
+    public virtual int PredIndex
+    {
+        get
         {
-            get
-            {
-                return ruleIndex;
-            }
+            return predicateIndex;
         }
+    }
 
-        public virtual int PredIndex
+    public virtual string? Predicate
+    {
+        get
         {
-            get
-            {
-                return predicateIndex;
-            }
+            return predicate;
         }
+    }
 
-        public virtual string? Predicate
+    [return: NotNull]
+    private static string FormatMessage(string? predicate, string? message)
+    {
+        if (message != null)
         {
-            get
-            {
-                return predicate;
-            }
+            return message;
         }
-
-        [return: NotNull]
-        private static string FormatMessage(string? predicate, string? message)
-        {
-            if (message != null)
-            {
-                return message;
-            }
-            return string.Format(CultureInfo.CurrentCulture, "failed predicate: {{{0}}}?", predicate);
-        }
+        return string.Format(CultureInfo.CurrentCulture, "failed predicate: {{{0}}}?", predicate);
     }
 }

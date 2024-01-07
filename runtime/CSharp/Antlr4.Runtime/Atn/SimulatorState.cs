@@ -6,25 +6,24 @@ using Antlr4.Runtime.Dfa;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <author>Sam Harwell</author>
+public class SimulatorState
 {
-    /// <author>Sam Harwell</author>
-    public class SimulatorState
+    public readonly ParserRuleContext outerContext;
+
+    public readonly DFAState s0;
+
+    public readonly bool useContext;
+
+    public readonly ParserRuleContext remainingOuterContext;
+
+    public SimulatorState(ParserRuleContext outerContext, [NotNull] DFAState s0, bool useContext, ParserRuleContext remainingOuterContext)
     {
-        public readonly ParserRuleContext outerContext;
-
-        public readonly DFAState s0;
-
-        public readonly bool useContext;
-
-        public readonly ParserRuleContext remainingOuterContext;
-
-        public SimulatorState(ParserRuleContext outerContext, [NotNull] DFAState s0, bool useContext, ParserRuleContext remainingOuterContext)
-        {
-            this.outerContext = outerContext != null ? outerContext : ParserRuleContext.EmptyContext;
-            this.s0 = s0;
-            this.useContext = useContext;
-            this.remainingOuterContext = remainingOuterContext;
-        }
+        this.outerContext = outerContext != null ? outerContext : ParserRuleContext.EmptyContext;
+        this.s0 = s0;
+        this.useContext = useContext;
+        this.remainingOuterContext = remainingOuterContext;
     }
 }

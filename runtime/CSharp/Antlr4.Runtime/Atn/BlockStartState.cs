@@ -3,15 +3,14 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <summary>
+/// The start of a regular
+/// <c>(...)</c>
+/// block.
+/// </summary>
+public abstract class BlockStartState : DecisionState
 {
-    /// <summary>
-    /// The start of a regular
-    /// <c>(...)</c>
-    /// block.
-    /// </summary>
-    public abstract class BlockStartState : DecisionState
-    {
-        public BlockEndState endState;
-    }
+    public BlockEndState endState;
 }

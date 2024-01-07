@@ -5,111 +5,110 @@ using System;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <author>Sam Harwell</author>
+public class ATNDeserializationOptions
 {
-    /// <author>Sam Harwell</author>
-    public class ATNDeserializationOptions
+    private static readonly Antlr4.Runtime.Atn.ATNDeserializationOptions defaultOptions;
+
+    static ATNDeserializationOptions()
     {
-        private static readonly Antlr4.Runtime.Atn.ATNDeserializationOptions defaultOptions;
+        defaultOptions = new Antlr4.Runtime.Atn.ATNDeserializationOptions();
+        defaultOptions.MakeReadOnly();
+    }
 
-        static ATNDeserializationOptions()
+    private bool readOnly;
+
+    private bool verifyATN;
+
+    private bool generateRuleBypassTransitions;
+
+    private bool optimize;
+
+    public ATNDeserializationOptions()
+    {
+        this.verifyATN = true;
+        this.generateRuleBypassTransitions = false;
+        this.optimize = true;
+    }
+
+    public ATNDeserializationOptions(Antlr4.Runtime.Atn.ATNDeserializationOptions options)
+    {
+        this.verifyATN = options.verifyATN;
+        this.generateRuleBypassTransitions = options.generateRuleBypassTransitions;
+        this.optimize = options.optimize;
+    }
+
+    [NotNull]
+    public static Antlr4.Runtime.Atn.ATNDeserializationOptions Default
+    {
+        get
         {
-            defaultOptions = new Antlr4.Runtime.Atn.ATNDeserializationOptions();
-            defaultOptions.MakeReadOnly();
+            return defaultOptions;
         }
+    }
 
-        private bool readOnly;
-
-        private bool verifyATN;
-
-        private bool generateRuleBypassTransitions;
-
-        private bool optimize;
-
-        public ATNDeserializationOptions()
+    public bool IsReadOnly
+    {
+        get
         {
-            this.verifyATN = true;
-            this.generateRuleBypassTransitions = false;
-            this.optimize = true;
+            return readOnly;
         }
+    }
 
-        public ATNDeserializationOptions(Antlr4.Runtime.Atn.ATNDeserializationOptions options)
+    public void MakeReadOnly()
+    {
+        readOnly = true;
+    }
+
+    public bool VerifyAtn
+    {
+        get
         {
-            this.verifyATN = options.verifyATN;
-            this.generateRuleBypassTransitions = options.generateRuleBypassTransitions;
-            this.optimize = options.optimize;
+            return verifyATN;
         }
-
-        [NotNull]
-        public static Antlr4.Runtime.Atn.ATNDeserializationOptions Default
+        set
         {
-            get
-            {
-                return defaultOptions;
-            }
+            bool verifyATN = value;
+            ThrowIfReadOnly();
+            this.verifyATN = verifyATN;
         }
+    }
 
-        public bool IsReadOnly
+    public bool GenerateRuleBypassTransitions
+    {
+        get
         {
-            get
-            {
-                return readOnly;
-            }
+            return generateRuleBypassTransitions;
         }
-
-        public void MakeReadOnly()
+        set
         {
-            readOnly = true;
+            bool generateRuleBypassTransitions = value;
+            ThrowIfReadOnly();
+            this.generateRuleBypassTransitions = generateRuleBypassTransitions;
         }
+    }
 
-        public bool VerifyAtn
+    public bool Optimize
+    {
+        get
         {
-            get
-            {
-                return verifyATN;
-            }
-            set
-            {
-                bool verifyATN = value;
-                ThrowIfReadOnly();
-                this.verifyATN = verifyATN;
-            }
+            return optimize;
         }
-
-        public bool GenerateRuleBypassTransitions
+        set
         {
-            get
-            {
-                return generateRuleBypassTransitions;
-            }
-            set
-            {
-                bool generateRuleBypassTransitions = value;
-                ThrowIfReadOnly();
-                this.generateRuleBypassTransitions = generateRuleBypassTransitions;
-            }
+            bool optimize = value;
+            ThrowIfReadOnly();
+            this.optimize = optimize;
         }
+    }
 
-        public bool Optimize
+    protected internal virtual void ThrowIfReadOnly()
+    {
+        if (IsReadOnly)
         {
-            get
-            {
-                return optimize;
-            }
-            set
-            {
-                bool optimize = value;
-                ThrowIfReadOnly();
-                this.optimize = optimize;
-            }
-        }
-
-        protected internal virtual void ThrowIfReadOnly()
-        {
-            if (IsReadOnly)
-            {
-                throw new InvalidOperationException("The object is read only.");
-            }
+            throw new InvalidOperationException("The object is read only.");
         }
     }
 }

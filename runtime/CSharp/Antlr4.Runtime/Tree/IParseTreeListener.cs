@@ -5,27 +5,26 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Tree
+namespace Antlr4.Runtime.Tree;
+
+/// <summary>
+/// This interface describes the minimal core of methods triggered
+/// by
+/// <see cref="ParseTreeWalker"/>
+/// . E.g.,
+/// ParseTreeWalker walker = new ParseTreeWalker();
+/// walker.walk(myParseTreeListener, myParseTree); &lt;-- triggers events in your listener
+/// If you want to trigger events in multiple listeners during a single
+/// tree walk, you can use the ParseTreeDispatcher object available at
+/// https://github.com/antlr/antlr4/issues/841
+/// </summary>
+public interface IParseTreeListener
 {
-    /// <summary>
-    /// This interface describes the minimal core of methods triggered
-    /// by
-    /// <see cref="ParseTreeWalker"/>
-    /// . E.g.,
-    /// ParseTreeWalker walker = new ParseTreeWalker();
-    /// walker.walk(myParseTreeListener, myParseTree); &lt;-- triggers events in your listener
-    /// If you want to trigger events in multiple listeners during a single
-    /// tree walk, you can use the ParseTreeDispatcher object available at
-    /// https://github.com/antlr/antlr4/issues/841
-    /// </summary>
-    public interface IParseTreeListener
-    {
-        void VisitTerminal([NotNull] ITerminalNode node);
+    void VisitTerminal([NotNull] ITerminalNode node);
 
-        void VisitErrorNode([NotNull] IErrorNode node);
+    void VisitErrorNode([NotNull] IErrorNode node);
 
-        void EnterEveryRule([NotNull] ParserRuleContext ctx);
+    void EnterEveryRule([NotNull] ParserRuleContext ctx);
 
-        void ExitEveryRule([NotNull] ParserRuleContext ctx);
-    }
+    void ExitEveryRule([NotNull] ParserRuleContext ctx);
 }

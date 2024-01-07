@@ -3,17 +3,16 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <author>Sam Harwell</author>
+public sealed class BasicBlockStartState : BlockStartState
 {
-    /// <author>Sam Harwell</author>
-    public sealed class BasicBlockStartState : BlockStartState
+    public override Antlr4.Runtime.Atn.StateType StateType
     {
-        public override Antlr4.Runtime.Atn.StateType StateType
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.StateType.BlockStart;
-            }
+            return Antlr4.Runtime.Atn.StateType.BlockStart;
         }
     }
 }

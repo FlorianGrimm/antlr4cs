@@ -3,19 +3,18 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <author>Sam Harwell</author>
+/// <since>4.2</since>
+public enum LexerActionType
 {
-    /// <author>Sam Harwell</author>
-    /// <since>4.2</since>
-    public enum LexerActionType
-    {
-        Channel,
-        Custom,
-        Mode,
-        More,
-        PopMode,
-        PushMode,
-        Skip,
-        Type
-    }
+    Channel,
+    Custom,
+    Mode,
+    More,
+    PopMode,
+    PushMode,
+    Skip,
+    Type
 }

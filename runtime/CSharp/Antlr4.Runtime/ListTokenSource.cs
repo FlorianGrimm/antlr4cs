@@ -6,313 +6,312 @@ using System.Collections.Generic;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime
+namespace Antlr4.Runtime;
+
+/// <summary>
+/// Provides an implementation of
+/// <see cref="ITokenSource"/>
+/// as a wrapper around a list
+/// of
+/// <see cref="IToken"/>
+/// objects.
+/// <p>If the final token in the list is an
+/// <see cref="TokenConstants.Eof"/>
+/// token, it will be used
+/// as the EOF token for every call to
+/// <see cref="NextToken()"/>
+/// after the end of the
+/// list is reached. Otherwise, an EOF token will be created.</p>
+/// </summary>
+public class ListTokenSource : ITokenSource
 {
     /// <summary>
-    /// Provides an implementation of
-    /// <see cref="ITokenSource"/>
-    /// as a wrapper around a list
-    /// of
+    /// The wrapped collection of
+    /// <see cref="IToken"/>
+    /// objects to return.
+    /// </summary>
+    protected internal readonly IList<IToken> tokens;
+
+    /// <summary>The name of the input source.</summary>
+    /// <remarks>
+    /// The name of the input source. If this value is
+    /// <see langword="null"/>
+    /// , a call to
+    /// <see cref="SourceName()"/>
+    /// should return the source name used to create the
+    /// the next token in
+    /// <see cref="tokens"/>
+    /// (or the previous token if the end of
+    /// the input has been reached).
+    /// </remarks>
+    private readonly string sourceName;
+
+    /// <summary>
+    /// The index into
+    /// <see cref="tokens"/>
+    /// of token to return by the next call to
+    /// <see cref="NextToken()"/>
+    /// . The end of the input is indicated by this value
+    /// being greater than or equal to the number of items in
+    /// <see cref="tokens"/>
+    /// .
+    /// </summary>
+    protected internal int i;
+
+    /// <summary>This field caches the EOF token for the token source.</summary>
+    protected internal IToken eofToken;
+
+    /// <summary>
+    /// This is the backing field for the <see cref="TokenFactory"/> property.
+    /// </summary>
+    private ITokenFactory _factory = CommonTokenFactory.Default;
+
+    /// <summary>
+    /// Constructs a new
+    /// <see cref="ListTokenSource"/>
+    /// instance from the specified
+    /// collection of
     /// <see cref="IToken"/>
     /// objects.
-    /// <p>If the final token in the list is an
-    /// <see cref="TokenConstants.Eof"/>
-    /// token, it will be used
-    /// as the EOF token for every call to
-    /// <see cref="NextToken()"/>
-    /// after the end of the
-    /// list is reached. Otherwise, an EOF token will be created.</p>
     /// </summary>
-    public class ListTokenSource : ITokenSource
+    /// <param name="tokens">
+    /// The collection of
+    /// <see cref="IToken"/>
+    /// objects to provide as a
+    /// <see cref="ITokenSource"/>
+    /// .
+    /// </param>
+    /// <exception>
+    /// NullPointerException
+    /// if
+    /// <paramref name="tokens"/>
+    /// is
+    /// <see langword="null"/>
+    /// </exception>
+    public ListTokenSource([NotNull] IList<IToken> tokens)
+        : this(tokens, null)
     {
-        /// <summary>
-        /// The wrapped collection of
-        /// <see cref="IToken"/>
-        /// objects to return.
-        /// </summary>
-        protected internal readonly IList<IToken> tokens;
+    }
 
-        /// <summary>The name of the input source.</summary>
-        /// <remarks>
-        /// The name of the input source. If this value is
-        /// <see langword="null"/>
-        /// , a call to
-        /// <see cref="SourceName()"/>
-        /// should return the source name used to create the
-        /// the next token in
-        /// <see cref="tokens"/>
-        /// (or the previous token if the end of
-        /// the input has been reached).
-        /// </remarks>
-        private readonly string sourceName;
-
-        /// <summary>
-        /// The index into
-        /// <see cref="tokens"/>
-        /// of token to return by the next call to
-        /// <see cref="NextToken()"/>
-        /// . The end of the input is indicated by this value
-        /// being greater than or equal to the number of items in
-        /// <see cref="tokens"/>
-        /// .
-        /// </summary>
-        protected internal int i;
-
-        /// <summary>This field caches the EOF token for the token source.</summary>
-        protected internal IToken eofToken;
-
-        /// <summary>
-        /// This is the backing field for the <see cref="TokenFactory"/> property.
-        /// </summary>
-        private ITokenFactory _factory = CommonTokenFactory.Default;
-
-        /// <summary>
-        /// Constructs a new
-        /// <see cref="ListTokenSource"/>
-        /// instance from the specified
-        /// collection of
-        /// <see cref="IToken"/>
-        /// objects.
-        /// </summary>
-        /// <param name="tokens">
-        /// The collection of
-        /// <see cref="IToken"/>
-        /// objects to provide as a
-        /// <see cref="ITokenSource"/>
-        /// .
-        /// </param>
-        /// <exception>
-        /// NullPointerException
-        /// if
-        /// <paramref name="tokens"/>
-        /// is
-        /// <see langword="null"/>
-        /// </exception>
-        public ListTokenSource([NotNull] IList<IToken> tokens)
-            : this(tokens, null)
+    /// <summary>
+    /// Constructs a new
+    /// <see cref="ListTokenSource"/>
+    /// instance from the specified
+    /// collection of
+    /// <see cref="IToken"/>
+    /// objects and source name.
+    /// </summary>
+    /// <param name="tokens">
+    /// The collection of
+    /// <see cref="IToken"/>
+    /// objects to provide as a
+    /// <see cref="ITokenSource"/>
+    /// .
+    /// </param>
+    /// <param name="sourceName">
+    /// The name of the
+    /// <see cref="ITokenSource"/>
+    /// . If this value is
+    /// <see langword="null"/>
+    /// ,
+    /// <see cref="SourceName()"/>
+    /// will attempt to infer the name from
+    /// the next
+    /// <see cref="IToken"/>
+    /// (or the previous token if the end of the input has
+    /// been reached).
+    /// </param>
+    /// <exception>
+    /// NullPointerException
+    /// if
+    /// <paramref name="tokens"/>
+    /// is
+    /// <see langword="null"/>
+    /// </exception>
+    public ListTokenSource([NotNull] IList<IToken> tokens, string sourceName)
+    {
+        if (tokens == null)
         {
+            throw new ArgumentNullException("tokens cannot be null");
         }
+        this.tokens = tokens;
+        this.sourceName = sourceName;
+    }
 
-        /// <summary>
-        /// Constructs a new
-        /// <see cref="ListTokenSource"/>
-        /// instance from the specified
-        /// collection of
-        /// <see cref="IToken"/>
-        /// objects and source name.
-        /// </summary>
-        /// <param name="tokens">
-        /// The collection of
-        /// <see cref="IToken"/>
-        /// objects to provide as a
-        /// <see cref="ITokenSource"/>
-        /// .
-        /// </param>
-        /// <param name="sourceName">
-        /// The name of the
-        /// <see cref="ITokenSource"/>
-        /// . If this value is
-        /// <see langword="null"/>
-        /// ,
-        /// <see cref="SourceName()"/>
-        /// will attempt to infer the name from
-        /// the next
-        /// <see cref="IToken"/>
-        /// (or the previous token if the end of the input has
-        /// been reached).
-        /// </param>
-        /// <exception>
-        /// NullPointerException
-        /// if
-        /// <paramref name="tokens"/>
-        /// is
-        /// <see langword="null"/>
-        /// </exception>
-        public ListTokenSource([NotNull] IList<IToken> tokens, string sourceName)
+    /// <summary><inheritDoc/></summary>
+    public virtual int Column
+    {
+        get
         {
-            if (tokens == null)
+            if (i < tokens.Count)
             {
-                throw new ArgumentNullException("tokens cannot be null");
+                return tokens[i].Column;
             }
-            this.tokens = tokens;
-            this.sourceName = sourceName;
-        }
-
-        /// <summary><inheritDoc/></summary>
-        public virtual int Column
-        {
-            get
+            else
             {
-                if (i < tokens.Count)
+                if (eofToken != null)
                 {
-                    return tokens[i].Column;
+                    return eofToken.Column;
                 }
                 else
                 {
-                    if (eofToken != null)
-                    {
-                        return eofToken.Column;
-                    }
-                    else
-                    {
-                        if (tokens.Count > 0)
-                        {
-                            // have to calculate the result from the line/column of the previous
-                            // token, along with the text of the token.
-                            IToken lastToken = tokens[tokens.Count - 1];
-                            string tokenText = lastToken.Text;
-                            if (tokenText != null)
-                            {
-                                int lastNewLine = tokenText.LastIndexOf('\n');
-                                if (lastNewLine >= 0)
-                                {
-                                    return tokenText.Length - lastNewLine - 1;
-                                }
-                            }
-                            return lastToken.Column + lastToken.StopIndex - lastToken.StartIndex + 1;
-                        }
-                    }
-                }
-                // only reach this if tokens is empty, meaning EOF occurs at the first
-                // position in the input
-                return 0;
-            }
-        }
-
-        /// <summary><inheritDoc/></summary>
-        public virtual IToken NextToken()
-        {
-            if (i >= tokens.Count)
-            {
-                if (eofToken == null)
-                {
-                    int start = -1;
                     if (tokens.Count > 0)
                     {
-                        int previousStop = tokens[tokens.Count - 1].StopIndex;
-                        if (previousStop != -1)
+                        // have to calculate the result from the line/column of the previous
+                        // token, along with the text of the token.
+                        IToken lastToken = tokens[tokens.Count - 1];
+                        string tokenText = lastToken.Text;
+                        if (tokenText != null)
                         {
-                            start = previousStop + 1;
+                            int lastNewLine = tokenText.LastIndexOf('\n');
+                            if (lastNewLine >= 0)
+                            {
+                                return tokenText.Length - lastNewLine - 1;
+                            }
                         }
+                        return lastToken.Column + lastToken.StopIndex - lastToken.StartIndex + 1;
                     }
-                    int stop = Math.Max(-1, start - 1);
-                    eofToken = _factory.Create(Tuple.Create((ITokenSource)this, InputStream), TokenConstants.Eof, "EOF", TokenConstants.DefaultChannel, start, stop, Line, Column);
                 }
-                return eofToken;
             }
-            IToken t = tokens[i];
-            if (i == tokens.Count - 1 && t.Type == TokenConstants.Eof)
-            {
-                eofToken = t;
-            }
-            i++;
-            return t;
+            // only reach this if tokens is empty, meaning EOF occurs at the first
+            // position in the input
+            return 0;
         }
+    }
 
-        /// <summary><inheritDoc/></summary>
-        public virtual int Line
+    /// <summary><inheritDoc/></summary>
+    public virtual IToken NextToken()
+    {
+        if (i >= tokens.Count)
         {
-            get
+            if (eofToken == null)
             {
-                if (i < tokens.Count)
+                int start = -1;
+                if (tokens.Count > 0)
                 {
-                    return tokens[i].Line;
+                    int previousStop = tokens[tokens.Count - 1].StopIndex;
+                    if (previousStop != -1)
+                    {
+                        start = previousStop + 1;
+                    }
+                }
+                int stop = Math.Max(-1, start - 1);
+                eofToken = _factory.Create(Tuple.Create((ITokenSource)this, InputStream), TokenConstants.Eof, "EOF", TokenConstants.DefaultChannel, start, stop, Line, Column);
+            }
+            return eofToken;
+        }
+        IToken t = tokens[i];
+        if (i == tokens.Count - 1 && t.Type == TokenConstants.Eof)
+        {
+            eofToken = t;
+        }
+        i++;
+        return t;
+    }
+
+    /// <summary><inheritDoc/></summary>
+    public virtual int Line
+    {
+        get
+        {
+            if (i < tokens.Count)
+            {
+                return tokens[i].Line;
+            }
+            else
+            {
+                if (eofToken != null)
+                {
+                    return eofToken.Line;
                 }
                 else
                 {
-                    if (eofToken != null)
+                    if (tokens.Count > 0)
                     {
-                        return eofToken.Line;
-                    }
-                    else
-                    {
-                        if (tokens.Count > 0)
+                        // have to calculate the result from the line/column of the previous
+                        // token, along with the text of the token.
+                        IToken lastToken = tokens[tokens.Count - 1];
+                        int line = lastToken.Line;
+                        string tokenText = lastToken.Text;
+                        if (tokenText != null)
                         {
-                            // have to calculate the result from the line/column of the previous
-                            // token, along with the text of the token.
-                            IToken lastToken = tokens[tokens.Count - 1];
-                            int line = lastToken.Line;
-                            string tokenText = lastToken.Text;
-                            if (tokenText != null)
+                            for (int j = 0; j < tokenText.Length; j++)
                             {
-                                for (int j = 0; j < tokenText.Length; j++)
+                                if (tokenText[j] == '\n')
                                 {
-                                    if (tokenText[j] == '\n')
-                                    {
-                                        line++;
-                                    }
+                                    line++;
                                 }
                             }
-                            // if no text is available, assume the token did not contain any newline characters.
-                            return line;
                         }
+                        // if no text is available, assume the token did not contain any newline characters.
+                        return line;
                     }
                 }
-                // only reach this if tokens is empty, meaning EOF occurs at the first
-                // position in the input
-                return 1;
             }
+            // only reach this if tokens is empty, meaning EOF occurs at the first
+            // position in the input
+            return 1;
         }
+    }
 
-        /// <summary><inheritDoc/></summary>
-        public virtual ICharStream InputStream
+    /// <summary><inheritDoc/></summary>
+    public virtual ICharStream InputStream
+    {
+        get
         {
-            get
+            if (i < tokens.Count)
             {
-                if (i < tokens.Count)
+                return tokens[i].InputStream;
+            }
+            else
+            {
+                if (eofToken != null)
                 {
-                    return tokens[i].InputStream;
+                    return eofToken.InputStream;
                 }
                 else
                 {
-                    if (eofToken != null)
+                    if (tokens.Count > 0)
                     {
-                        return eofToken.InputStream;
-                    }
-                    else
-                    {
-                        if (tokens.Count > 0)
-                        {
-                            return tokens[tokens.Count - 1].InputStream;
-                        }
+                        return tokens[tokens.Count - 1].InputStream;
                     }
                 }
-                // no input stream information is available
-                return null;
             }
+            // no input stream information is available
+            return null;
         }
+    }
 
-        /// <summary><inheritDoc/></summary>
-        public virtual string SourceName
+    /// <summary><inheritDoc/></summary>
+    public virtual string SourceName
+    {
+        get
         {
-            get
+            if (sourceName != null)
             {
-                if (sourceName != null)
-                {
-                    return sourceName;
-                }
-                ICharStream inputStream = InputStream;
-                if (inputStream != null)
-                {
-                    return inputStream.SourceName;
-                }
-                return "List";
+                return sourceName;
             }
+            ICharStream inputStream = InputStream;
+            if (inputStream != null)
+            {
+                return inputStream.SourceName;
+            }
+            return "List";
         }
+    }
 
-        /// <summary><inheritDoc/></summary>
-        /// <summary><inheritDoc/></summary>
-        public virtual ITokenFactory TokenFactory
+    /// <summary><inheritDoc/></summary>
+    /// <summary><inheritDoc/></summary>
+    public virtual ITokenFactory TokenFactory
+    {
+        get
         {
-            get
-            {
-                return _factory;
-            }
-            set
-            {
-                ITokenFactory factory = value;
-                this._factory = factory;
-            }
+            return _factory;
+        }
+        set
+        {
+            ITokenFactory factory = value;
+            this._factory = factory;
         }
     }
 }

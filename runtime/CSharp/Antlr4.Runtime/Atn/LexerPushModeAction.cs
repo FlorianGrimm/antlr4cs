@@ -5,119 +5,118 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <summary>
+/// Implements the
+/// <c>pushMode</c>
+/// lexer action by calling
+/// <see cref="Antlr4.Runtime.Lexer.PushMode(int)"/>
+/// with the assigned mode.
+/// </summary>
+/// <author>Sam Harwell</author>
+/// <since>4.2</since>
+public sealed class LexerPushModeAction : ILexerAction
 {
+    private readonly int mode;
+
     /// <summary>
-    /// Implements the
+    /// Constructs a new
     /// <c>pushMode</c>
-    /// lexer action by calling
-    /// <see cref="Antlr4.Runtime.Lexer.PushMode(int)"/>
-    /// with the assigned mode.
+    /// action with the specified mode value.
     /// </summary>
-    /// <author>Sam Harwell</author>
-    /// <since>4.2</since>
-    public sealed class LexerPushModeAction : ILexerAction
+    /// <param name="mode">
+    /// The mode value to pass to
+    /// <see cref="Antlr4.Runtime.Lexer.PushMode(int)"/>
+    /// .
+    /// </param>
+    public LexerPushModeAction(int mode)
     {
-        private readonly int mode;
+        this.mode = mode;
+    }
 
-        /// <summary>
-        /// Constructs a new
-        /// <c>pushMode</c>
-        /// action with the specified mode value.
-        /// </summary>
-        /// <param name="mode">
-        /// The mode value to pass to
-        /// <see cref="Antlr4.Runtime.Lexer.PushMode(int)"/>
-        /// .
-        /// </param>
-        public LexerPushModeAction(int mode)
+    /// <summary>Get the lexer mode this action should transition the lexer to.</summary>
+    /// <returns>
+    /// The lexer mode for this
+    /// <c>pushMode</c>
+    /// command.
+    /// </returns>
+    public int Mode
+    {
+        get
         {
-            this.mode = mode;
+            return mode;
         }
+    }
 
-        /// <summary>Get the lexer mode this action should transition the lexer to.</summary>
-        /// <returns>
-        /// The lexer mode for this
-        /// <c>pushMode</c>
-        /// command.
-        /// </returns>
-        public int Mode
+    /// <summary><inheritDoc/></summary>
+    /// <returns>
+    /// This method returns
+    /// <see cref="LexerActionType.PushMode"/>
+    /// .
+    /// </returns>
+    public LexerActionType ActionType
+    {
+        get
         {
-            get
-            {
-                return mode;
-            }
+            return LexerActionType.PushMode;
         }
+    }
 
-        /// <summary><inheritDoc/></summary>
-        /// <returns>
-        /// This method returns
-        /// <see cref="LexerActionType.PushMode"/>
-        /// .
-        /// </returns>
-        public LexerActionType ActionType
+    /// <summary><inheritDoc/></summary>
+    /// <returns>
+    /// This method returns
+    /// <see langword="false"/>
+    /// .
+    /// </returns>
+    public bool IsPositionDependent
+    {
+        get
         {
-            get
-            {
-                return LexerActionType.PushMode;
-            }
+            return false;
         }
+    }
 
-        /// <summary><inheritDoc/></summary>
-        /// <returns>
-        /// This method returns
-        /// <see langword="false"/>
-        /// .
-        /// </returns>
-        public bool IsPositionDependent
+    /// <summary>
+    /// <inheritDoc/>
+    /// <p>This action is implemented by calling
+    /// <see cref="Antlr4.Runtime.Lexer.PushMode(int)"/>
+    /// with the
+    /// value provided by
+    /// <see cref="Mode()"/>
+    /// .</p>
+    /// </summary>
+    public void Execute([NotNull] Lexer lexer)
+    {
+        lexer.PushMode(mode);
+    }
+
+    public override int GetHashCode()
+    {
+        int hash = MurmurHash.Initialize();
+        hash = MurmurHash.Update(hash, (int)(ActionType));
+        hash = MurmurHash.Update(hash, mode);
+        return MurmurHash.Finish(hash, 2);
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == this)
         {
-            get
+            return true;
+        }
+        else
+        {
+            if (!(obj is Antlr4.Runtime.Atn.LexerPushModeAction))
             {
                 return false;
             }
         }
+        return mode == ((Antlr4.Runtime.Atn.LexerPushModeAction)obj).mode;
+    }
 
-        /// <summary>
-        /// <inheritDoc/>
-        /// <p>This action is implemented by calling
-        /// <see cref="Antlr4.Runtime.Lexer.PushMode(int)"/>
-        /// with the
-        /// value provided by
-        /// <see cref="Mode()"/>
-        /// .</p>
-        /// </summary>
-        public void Execute([NotNull] Lexer lexer)
-        {
-            lexer.PushMode(mode);
-        }
-
-        public override int GetHashCode()
-        {
-            int hash = MurmurHash.Initialize();
-            hash = MurmurHash.Update(hash, (int)(ActionType));
-            hash = MurmurHash.Update(hash, mode);
-            return MurmurHash.Finish(hash, 2);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == this)
-            {
-                return true;
-            }
-            else
-            {
-                if (!(obj is Antlr4.Runtime.Atn.LexerPushModeAction))
-                {
-                    return false;
-                }
-            }
-            return mode == ((Antlr4.Runtime.Atn.LexerPushModeAction)obj).mode;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("pushMode({0})", mode);
-        }
+    public override string ToString()
+    {
+        return string.Format("pushMode({0})", mode);
     }
 }

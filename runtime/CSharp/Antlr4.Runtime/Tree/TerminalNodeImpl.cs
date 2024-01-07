@@ -5,136 +5,135 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Tree
+namespace Antlr4.Runtime.Tree;
+
+public class TerminalNodeImpl : ITerminalNode
 {
-    public class TerminalNodeImpl : ITerminalNode
+    public IToken symbol;
+
+    public IRuleNode parent;
+
+    public TerminalNodeImpl(IToken symbol)
     {
-        public IToken symbol;
+        this.symbol = symbol;
+    }
 
-        public IRuleNode parent;
+    public virtual IParseTree GetChild(int i)
+    {
+        return null;
+    }
 
-        public TerminalNodeImpl(IToken symbol)
+    ITree ITree.GetChild(int i)
+    {
+        return GetChild(i);
+    }
+
+    public virtual IToken Symbol
+    {
+        get
         {
-            this.symbol = symbol;
+            return symbol;
         }
+    }
 
-        public virtual IParseTree GetChild(int i)
+    public virtual IRuleNode Parent
+    {
+        get
         {
-            return null;
+            return parent;
         }
+    }
 
-        ITree ITree.GetChild(int i)
+    IParseTree IParseTree.Parent
+    {
+        get
         {
-            return GetChild(i);
+            return Parent;
         }
+    }
 
-        public virtual IToken Symbol
+    ITree ITree.Parent
+    {
+        get
         {
-            get
-            {
-                return symbol;
-            }
+            return Parent;
         }
+    }
 
-        public virtual IRuleNode Parent
+    public virtual IToken Payload
+    {
+        get
         {
-            get
-            {
-                return parent;
-            }
+            return symbol;
         }
+    }
 
-        IParseTree IParseTree.Parent
+    object ITree.Payload
+    {
+        get
         {
-            get
-            {
-                return Parent;
-            }
+            return Payload;
         }
+    }
 
-        ITree ITree.Parent
-        {
-            get
-            {
-                return Parent;
-            }
-        }
-
-        public virtual IToken Payload
-        {
-            get
-            {
-                return symbol;
-            }
-        }
-
-        object ITree.Payload
-        {
-            get
-            {
-                return Payload;
-            }
-        }
-
-        public virtual Interval SourceInterval
-        {
-            get
-            {
-                if (symbol != null)
-                {
-                    int tokenIndex = symbol.TokenIndex;
-                    return new Interval(tokenIndex, tokenIndex);
-                }
-                return Interval.Invalid;
-            }
-        }
-
-        public virtual int ChildCount
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public virtual T Accept<T>(IParseTreeVisitor<T> visitor)
-        {
-            return visitor.VisitTerminal(this);
-        }
-
-        public virtual string GetText()
+    public virtual Interval SourceInterval
+    {
+        get
         {
             if (symbol != null)
             {
-                return symbol.Text;
+                int tokenIndex = symbol.TokenIndex;
+                return new Interval(tokenIndex, tokenIndex);
             }
-            return null;
+            return Interval.Invalid;
         }
+    }
 
-        public virtual string ToStringTree(Parser parser)
+    public virtual int ChildCount
+    {
+        get
         {
-            return ToString();
+            return 0;
         }
+    }
 
-        public override string ToString()
+    public virtual T Accept<T>(IParseTreeVisitor<T> visitor)
+    {
+        return visitor.VisitTerminal(this);
+    }
+
+    public virtual string GetText()
+    {
+        if (symbol != null)
         {
-            if (symbol != null)
+            return symbol.Text;
+        }
+        return null;
+    }
+
+    public virtual string ToStringTree(Parser parser)
+    {
+        return ToString();
+    }
+
+    public override string ToString()
+    {
+        if (symbol != null)
+        {
+            if (symbol.Type == TokenConstants.Eof)
             {
-                if (symbol.Type == TokenConstants.Eof)
-                {
-                    return "<EOF>";
-                }
-                return symbol.Text;
+                return "<EOF>";
             }
-            else
-            {
-                return "<null>";
-            }
+            return symbol.Text;
         }
-
-        public virtual string ToStringTree()
+        else
         {
-            return ToString();
+            return "<null>";
         }
+    }
+
+    public virtual string ToStringTree()
+    {
+        return ToString();
     }
 }

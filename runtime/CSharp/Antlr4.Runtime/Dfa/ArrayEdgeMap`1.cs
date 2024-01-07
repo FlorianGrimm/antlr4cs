@@ -13,171 +13,170 @@ using Volatile = System.Threading.Volatile;
 using Thread = System.Threading.Thread;
 #endif
 
-namespace Antlr4.Runtime.Dfa
+namespace Antlr4.Runtime.Dfa;
+
+/// <author>Sam Harwell</author>
+public sealed class ArrayEdgeMap<T> : AbstractEdgeMap<T>
+    where T : class
 {
-    /// <author>Sam Harwell</author>
-    public sealed class ArrayEdgeMap<T> : AbstractEdgeMap<T>
-        where T : class
+    private readonly T[] arrayData;
+
+    private int size;
+
+    public ArrayEdgeMap(int minIndex, int maxIndex)
+        : base(minIndex, maxIndex)
     {
-        private readonly T[] arrayData;
+        arrayData = new T[maxIndex - minIndex + 1];
+    }
 
-        private int size;
-
-        public ArrayEdgeMap(int minIndex, int maxIndex)
-            : base(minIndex, maxIndex)
+    public override int Count
+    {
+        get
         {
-            arrayData = new T[maxIndex - minIndex + 1];
-        }
-
-        public override int Count
-        {
-            get
-            {
 #if NET45PLUS
-                return Volatile.Read(ref size);
+            return Volatile.Read(ref size);
 #elif !PORTABLE && !COMPACT
-                return Thread.VolatileRead(ref size);
+            return Thread.VolatileRead(ref size);
 #else
-                return Interlocked.CompareExchange(ref size, 0, 0);
+            return Interlocked.CompareExchange(ref size, 0, 0);
 #endif
-            }
         }
+    }
 
-        public override bool IsEmpty
+    public override bool IsEmpty
+    {
+        get
         {
-            get
+            return Count == 0;
+        }
+    }
+
+    public override bool ContainsKey(int key)
+    {
+        return this[key] != null;
+    }
+
+    public override T this[int key]
+    {
+        get
+        {
+            if (key < minIndex || key > maxIndex)
             {
-                return Count == 0;
+                return null;
             }
-        }
-
-        public override bool ContainsKey(int key)
-        {
-            return this[key] != null;
-        }
-
-        public override T this[int key]
-        {
-            get
-            {
-                if (key < minIndex || key > maxIndex)
-                {
-                    return null;
-                }
 
 #if NET45PLUS
-                return Volatile.Read(ref arrayData[key - minIndex]);
+            return Volatile.Read(ref arrayData[key - minIndex]);
 #else
-                return Interlocked.CompareExchange(ref arrayData[key - minIndex], null, null);
+            return Interlocked.CompareExchange(ref arrayData[key - minIndex], null, null);
 #endif
-            }
         }
+    }
 
-        public override AbstractEdgeMap<T> Put(int key, T value)
+    public override AbstractEdgeMap<T> Put(int key, T value)
+    {
+        if (key >= minIndex && key <= maxIndex)
         {
-            if (key >= minIndex && key <= maxIndex)
+            T existing = Interlocked.Exchange(ref arrayData[key - minIndex], value);
+            if (existing == null && value != null)
             {
-                T existing = Interlocked.Exchange(ref arrayData[key - minIndex], value);
-                if (existing == null && value != null)
-                {
-                    Interlocked.Increment(ref size);
-                }
-                else
-                {
-                    if (existing != null && value == null)
-                    {
-                        Interlocked.Decrement(ref size);
-                    }
-                }
-            }
-            return this;
-        }
-
-        public override AbstractEdgeMap<T> Remove(int key)
-        {
-            return Put(key, null);
-        }
-
-        public override AbstractEdgeMap<T> PutAll(IEdgeMap<T> m)
-        {
-            if (m.IsEmpty)
-            {
-                return this;
-            }
-            if (m is Antlr4.Runtime.Dfa.ArrayEdgeMap<T>)
-            {
-                Antlr4.Runtime.Dfa.ArrayEdgeMap<T> other = (Antlr4.Runtime.Dfa.ArrayEdgeMap<T>)m;
-                int minOverlap = Math.Max(minIndex, other.minIndex);
-                int maxOverlap = Math.Min(maxIndex, other.maxIndex);
-                Antlr4.Runtime.Dfa.ArrayEdgeMap<T> result = this;
-                for (int i = minOverlap; i <= maxOverlap; i++)
-                {
-                    result = ((Antlr4.Runtime.Dfa.ArrayEdgeMap<T>)result.Put(i, m[i]));
-                }
-                return result;
+                Interlocked.Increment(ref size);
             }
             else
             {
-                if (m is SingletonEdgeMap<T>)
+                if (existing != null && value == null)
                 {
-                    SingletonEdgeMap<T> other = (SingletonEdgeMap<T>)m;
-                    System.Diagnostics.Debug.Assert(!other.IsEmpty);
-                    return Put(other.Key, other.Value);
+                    Interlocked.Decrement(ref size);
+                }
+            }
+        }
+        return this;
+    }
+
+    public override AbstractEdgeMap<T> Remove(int key)
+    {
+        return Put(key, null);
+    }
+
+    public override AbstractEdgeMap<T> PutAll(IEdgeMap<T> m)
+    {
+        if (m.IsEmpty)
+        {
+            return this;
+        }
+        if (m is Antlr4.Runtime.Dfa.ArrayEdgeMap<T>)
+        {
+            Antlr4.Runtime.Dfa.ArrayEdgeMap<T> other = (Antlr4.Runtime.Dfa.ArrayEdgeMap<T>)m;
+            int minOverlap = Math.Max(minIndex, other.minIndex);
+            int maxOverlap = Math.Min(maxIndex, other.maxIndex);
+            Antlr4.Runtime.Dfa.ArrayEdgeMap<T> result = this;
+            for (int i = minOverlap; i <= maxOverlap; i++)
+            {
+                result = ((Antlr4.Runtime.Dfa.ArrayEdgeMap<T>)result.Put(i, m[i]));
+            }
+            return result;
+        }
+        else
+        {
+            if (m is SingletonEdgeMap<T>)
+            {
+                SingletonEdgeMap<T> other = (SingletonEdgeMap<T>)m;
+                System.Diagnostics.Debug.Assert(!other.IsEmpty);
+                return Put(other.Key, other.Value);
+            }
+            else
+            {
+                if (m is SparseEdgeMap<T>)
+                {
+                    SparseEdgeMap<T> other = (SparseEdgeMap<T>)m;
+                    lock (other)
+                    {
+                        int[] keys = other.Keys;
+                        IList<T> values = other.Values;
+                        Antlr4.Runtime.Dfa.ArrayEdgeMap<T> result = this;
+                        for (int i = 0; i < values.Count; i++)
+                        {
+                            result = ((Antlr4.Runtime.Dfa.ArrayEdgeMap<T>)result.Put(keys[i], values[i]));
+                        }
+                        return result;
+                    }
                 }
                 else
                 {
-                    if (m is SparseEdgeMap<T>)
-                    {
-                        SparseEdgeMap<T> other = (SparseEdgeMap<T>)m;
-                        lock (other)
-                        {
-                            int[] keys = other.Keys;
-                            IList<T> values = other.Values;
-                            Antlr4.Runtime.Dfa.ArrayEdgeMap<T> result = this;
-                            for (int i = 0; i < values.Count; i++)
-                            {
-                                result = ((Antlr4.Runtime.Dfa.ArrayEdgeMap<T>)result.Put(keys[i], values[i]));
-                            }
-                            return result;
-                        }
-                    }
-                    else
-                    {
-                        throw new NotSupportedException(string.Format("EdgeMap of type {0} is supported yet.", m.GetType().FullName));
-                    }
+                    throw new NotSupportedException(string.Format("EdgeMap of type {0} is supported yet.", m.GetType().FullName));
                 }
             }
         }
+    }
 
-        public override AbstractEdgeMap<T> Clear()
+    public override AbstractEdgeMap<T> Clear()
+    {
+        return new EmptyEdgeMap<T>(minIndex, maxIndex);
+    }
+
+    public override ReadOnlyDictionary<int, T> ToMap()
+    {
+        if (IsEmpty)
         {
-            return new EmptyEdgeMap<T>(minIndex, maxIndex);
+            return Sharpen.Collections.EmptyMap<int, T>();
         }
-
-        public override ReadOnlyDictionary<int, T> ToMap()
-        {
-            if (IsEmpty)
-            {
-                return Sharpen.Collections.EmptyMap<int, T>();
-            }
 
 #if COMPACT
-            IDictionary<int, T> result = new SortedList<int, T>();
+        IDictionary<int, T> result = new SortedList<int, T>();
 #elif PORTABLE && !NET45PLUS
-            IDictionary<int, T> result = new Dictionary<int, T>();
+        IDictionary<int, T> result = new Dictionary<int, T>();
 #else
-            IDictionary<int, T> result = new SortedDictionary<int, T>();
+        IDictionary<int, T> result = new SortedDictionary<int, T>();
 #endif
-            for (int i = 0; i < arrayData.Length; i++)
+        for (int i = 0; i < arrayData.Length; i++)
+        {
+            T element = arrayData[i];
+            if (element == null)
             {
-                T element = arrayData[i];
-                if (element == null)
-                {
-                    continue;
-                }
-                result[i + minIndex] = element;
+                continue;
             }
-            return new ReadOnlyDictionary<int, T>(result);
+            result[i + minIndex] = element;
         }
+        return new ReadOnlyDictionary<int, T>(result);
     }
 }

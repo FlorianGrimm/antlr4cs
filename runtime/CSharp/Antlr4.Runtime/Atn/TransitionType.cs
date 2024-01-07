@@ -3,20 +3,19 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+public enum TransitionType
 {
-    public enum TransitionType
-    {
-        Invalid,
-        Epsilon,
-        Range,
-        Rule,
-        Predicate,
-        Atom,
-        Action,
-        Set,
-        NotSet,
-        Wildcard,
-        Precedence
-    }
+    Invalid,
+    Epsilon,
+    Range,
+    Rule,
+    Predicate,
+    Atom,
+    Action,
+    Set,
+    NotSet,
+    Wildcard,
+    Precedence
 }

@@ -4,31 +4,30 @@
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+public sealed class NotSetTransition : SetTransition
 {
-    public sealed class NotSetTransition : SetTransition
+    public NotSetTransition([NotNull] ATNState target, IntervalSet? set)
+        : base(target, set)
     {
-        public NotSetTransition([NotNull] ATNState target, IntervalSet? set)
-            : base(target, set)
-        {
-        }
+    }
 
-        public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    {
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.TransitionType.NotSet;
-            }
+            return Antlr4.Runtime.Atn.TransitionType.NotSet;
         }
+    }
 
-        public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
-        {
-            return symbol >= minVocabSymbol && symbol <= maxVocabSymbol && !base.Matches(symbol, minVocabSymbol, maxVocabSymbol);
-        }
+    public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
+    {
+        return symbol >= minVocabSymbol && symbol <= maxVocabSymbol && !base.Matches(symbol, minVocabSymbol, maxVocabSymbol);
+    }
 
-        public override string ToString()
-        {
-            return '~' + base.ToString();
-        }
+    public override string ToString()
+    {
+        return '~' + base.ToString();
     }
 }

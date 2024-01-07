@@ -3,22 +3,21 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+public enum StateType
 {
-    public enum StateType
-    {
-        InvalidType,
-        Basic,
-        RuleStart,
-        BlockStart,
-        PlusBlockStart,
-        StarBlockStart,
-        TokenStart,
-        RuleStop,
-        BlockEnd,
-        StarLoopBack,
-        StarLoopEntry,
-        PlusLoopBack,
-        LoopEnd
-    }
+    InvalidType,
+    Basic,
+    RuleStart,
+    BlockStart,
+    PlusBlockStart,
+    StarBlockStart,
+    TokenStart,
+    RuleStop,
+    BlockEnd,
+    StarLoopBack,
+    StarLoopEntry,
+    PlusLoopBack,
+    LoopEnd
 }

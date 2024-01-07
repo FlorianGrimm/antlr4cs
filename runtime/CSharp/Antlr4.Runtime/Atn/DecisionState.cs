@@ -3,14 +3,13 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+public abstract class DecisionState : ATNState
 {
-    public abstract class DecisionState : ATNState
-    {
-        public int decision = -1;
+    public int decision = -1;
 
-        public bool nonGreedy;
+    public bool nonGreedy;
 
-        public bool sll;
-    }
+    public bool sll;
 }

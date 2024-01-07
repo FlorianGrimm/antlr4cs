@@ -3,13 +3,12 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <summary>Represents the type of recognizer an ATN applies to.</summary>
+/// <author>Sam Harwell</author>
+public enum ATNType
 {
-    /// <summary>Represents the type of recognizer an ATN applies to.</summary>
-    /// <author>Sam Harwell</author>
-    public enum ATNType
-    {
-        Lexer,
-        Parser
-    }
+    Lexer,
+    Parser
 }

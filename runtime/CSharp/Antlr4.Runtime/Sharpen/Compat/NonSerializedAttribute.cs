@@ -23,13 +23,12 @@ using System.Runtime.CompilerServices;
 **
 **
 ============================================================*/
-namespace System
+namespace System;
+
+[AttributeUsage(AttributeTargets.Field, Inherited = false)]
+//[System.Runtime.InteropServices.ComVisible(true)]
+internal sealed class NonSerializedAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Field, Inherited = false)]
-    //[System.Runtime.InteropServices.ComVisible(true)]
-    internal sealed class NonSerializedAttribute : Attribute
-    {
-    }
 }
 
 #endif

@@ -377,17 +377,18 @@
         {
             get
             {
-                string javaKey = "SOFTWARE\\JavaSoft\\Java Runtime Environment";
-#if NET40PLUS
-                using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey(javaKey))
-#else
-                using (var baseKey = Registry.LocalMachine.OpenSubKey(javaKey))
-#endif
-                {
-                    string currentVersion = baseKey.GetValue("CurrentVersion").ToString();
-                    using (var homeKey = baseKey.OpenSubKey(currentVersion))
-                        return homeKey.GetValue("JavaHome").ToString();
-                }
+                //                string javaKey = "SOFTWARE\\JavaSoft\\Java Runtime Environment";
+                //#if NET40PLUS
+                //                using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey(javaKey))
+                //#else
+                //                using (var baseKey = Registry.LocalMachine.OpenSubKey(javaKey))
+                //#endif
+                //                {
+                //                    string currentVersion = baseKey.GetValue("CurrentVersion").ToString();
+                //                    using (var homeKey = baseKey.OpenSubKey(currentVersion))
+                //                        return homeKey.GetValue("JavaHome").ToString();
+                //                }
+                return string.Empty;
             }
         }
 
@@ -395,20 +396,22 @@
         {
             get
             {
-                string mavenHome = Environment.GetEnvironmentVariable("M2_HOME");
-                if (!Directory.Exists(mavenHome))
-                    mavenHome = Path.Combine(UserProfile, ".m2");
+                //string mavenHome = Environment.GetEnvironmentVariable("M2_HOME");
+                //if (!Directory.Exists(mavenHome))
+                //    mavenHome = Path.Combine(UserProfile, ".m2");
 
-                return mavenHome;
+                //return mavenHome;
+                return string.Empty;
             }
         }
 
         protected virtual string GetMavenArtifact(string groupId, string artifactId, string version, string classifier = null)
         {
-            string folder = PathCombine(MavenHome, "repository", groupId.Replace('.', Path.DirectorySeparatorChar), artifactId, version);
-            string fileNameFormat = string.IsNullOrEmpty(classifier) ? "{0}-{1}.jar" : "{0}-{1}-{2}.jar";
-            string fileName = string.Format(fileNameFormat, artifactId, version, classifier);
-            return Path.Combine(folder, fileName);
+            //string folder = PathCombine(MavenHome, "repository", groupId.Replace('.', Path.DirectorySeparatorChar), artifactId, version);
+            //string fileNameFormat = string.IsNullOrEmpty(classifier) ? "{0}-{1}.jar" : "{0}-{1}-{2}.jar";
+            //string fileName = string.Format(fileNameFormat, artifactId, version, classifier);
+            //return Path.Combine(folder, fileName);
+            return string.Empty;
         }
 
         /** Return true if all is ok, no errors */

@@ -23,14 +23,14 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-      <PropertyGroup>
-        <DefineConstants>$(DefineConstants);NET45;NET45PLUS;NET40PLUS;NET35PLUS;NET30PLUS;NET20PLUS</DefineConstants>
-      </PropertyGroup>
-      <ItemGroup>
-        <ProjectReference Include="..\Antlr4.Runtime\Antlr4.Runtime.csproj">
-          <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
-        </ProjectReference>
-      </ItemGroup>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);NET45;NET45PLUS;NET40PLUS;NET35PLUS;NET30PLUS;NET20PLUS</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Antlr4.Runtime\Antlr4.Runtime.csproj">
+      <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
+    </ProjectReference>
+  </ItemGroup>
 
   <PropertyGroup>
     <Antlr4UseCSharpGenerator>True</Antlr4UseCSharpGenerator>

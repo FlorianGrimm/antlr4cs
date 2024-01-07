@@ -1,61 +1,60 @@
 // Copyright (c) Terence Parr, Sam Harwell. All Rights Reserved.
 // Licensed under the BSD License. See LICENSE.txt in the project root for license information.
 
-namespace Antlr4.Tool.Ast
+namespace Antlr4.Tool.Ast;
+
+using CommonErrorNode = Antlr.Runtime.Tree.CommonErrorNode;
+using IToken = Antlr.Runtime.IToken;
+using ITokenStream = Antlr.Runtime.ITokenStream;
+using RecognitionException = Antlr.Runtime.RecognitionException;
+
+/** A node representing erroneous token range in token stream */
+public class GrammarASTErrorNode : GrammarAST
 {
-    using CommonErrorNode = Antlr.Runtime.Tree.CommonErrorNode;
-    using IToken = Antlr.Runtime.IToken;
-    using ITokenStream = Antlr.Runtime.ITokenStream;
-    using RecognitionException = Antlr.Runtime.RecognitionException;
+    CommonErrorNode @delegate;
 
-    /** A node representing erroneous token range in token stream */
-    public class GrammarASTErrorNode : GrammarAST
+    public GrammarASTErrorNode(ITokenStream input, IToken start, IToken stop,
+                               RecognitionException e)
     {
-        CommonErrorNode @delegate;
+        @delegate = new CommonErrorNode(input, start, stop, e);
+    }
 
-        public GrammarASTErrorNode(ITokenStream input, IToken start, IToken stop,
-                                   RecognitionException e)
+    public override bool IsNil
+    {
+        get
         {
-            @delegate = new CommonErrorNode(input, start, stop, e);
+            return @delegate.IsNil;
+        }
+    }
+
+    public override int Type
+    {
+        get
+        {
+            return @delegate.Type;
         }
 
-        public override bool IsNil
+        set
         {
-            get
-            {
-                return @delegate.IsNil;
-            }
+            base.Type = value;
+        }
+    }
+
+    public override string Text
+    {
+        get
+        {
+            return @delegate.Text;
         }
 
-        public override int Type
+        set
         {
-            get
-            {
-                return @delegate.Type;
-            }
-
-            set
-            {
-                base.Type = value;
-            }
+            base.Text = value;
         }
+    }
 
-        public override string Text
-        {
-            get
-            {
-                return @delegate.Text;
-            }
-
-            set
-            {
-                base.Text = value;
-            }
-        }
-
-        public override string ToString()
-        {
-            return @delegate.ToString();
-        }
+    public override string ToString()
+    {
+        return @delegate.ToString();
     }
 }

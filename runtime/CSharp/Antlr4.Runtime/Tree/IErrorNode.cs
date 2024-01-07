@@ -3,9 +3,8 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Tree
+namespace Antlr4.Runtime.Tree;
+
+public interface IErrorNode : ITerminalNode
 {
-    public interface IErrorNode : ITerminalNode
-    {
-    }
 }

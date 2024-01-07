@@ -1,55 +1,54 @@
 // Copyright (c) Terence Parr, Sam Harwell. All Rights Reserved.
 // Licensed under the BSD License. See LICENSE.txt in the project root for license information.
 
-namespace Antlr4.Tool.Ast
+namespace Antlr4.Tool.Ast;
+
+using System.Collections.Generic;
+using Antlr.Runtime;
+using ITree = Antlr.Runtime.Tree.ITree;
+
+public class BlockAST : GrammarASTWithOptions, RuleElementAST
 {
-    using System.Collections.Generic;
-    using Antlr.Runtime;
-    using ITree = Antlr.Runtime.Tree.ITree;
+    // TODO: maybe I need a Subrule object like Rule so these options mov to that?
+    /** What are the default options for a subrule? */
+    public static readonly IDictionary<string, string> defaultBlockOptions =
+        new Dictionary<string, string>();
 
-    public class BlockAST : GrammarASTWithOptions, RuleElementAST
+    public static readonly IDictionary<string, string> defaultLexerBlockOptions =
+        new Dictionary<string, string>();
+
+    public BlockAST(BlockAST node)
+        : base(node)
     {
-        // TODO: maybe I need a Subrule object like Rule so these options mov to that?
-        /** What are the default options for a subrule? */
-        public static readonly IDictionary<string, string> defaultBlockOptions =
-            new Dictionary<string, string>();
+    }
 
-        public static readonly IDictionary<string, string> defaultLexerBlockOptions =
-            new Dictionary<string, string>();
+    public BlockAST(IToken t)
+        : base(t)
+    {
+    }
 
-        public BlockAST(BlockAST node)
-            : base(node)
-        {
-        }
+    public BlockAST(int type)
+        : base(type)
+    {
+    }
 
-        public BlockAST(IToken t)
-            : base(t)
-        {
-        }
+    public BlockAST(int type, IToken t)
+        : base(type, t)
+    {
+    }
 
-        public BlockAST(int type)
-            : base(type)
-        {
-        }
+    public BlockAST(int type, IToken t, string text)
+        : base(type, t, text)
+    {
+    }
 
-        public BlockAST(int type, IToken t)
-            : base(type, t)
-        {
-        }
+    public override ITree DupNode()
+    {
+        return new BlockAST(this);
+    }
 
-        public BlockAST(int type, IToken t, string text)
-            : base(type, t, text)
-        {
-        }
-
-        public override ITree DupNode()
-        {
-            return new BlockAST(this);
-        }
-
-        public override object Visit(GrammarASTVisitor v)
-        {
-            return v.Visit(this);
-        }
+    public override object Visit(GrammarASTVisitor v)
+    {
+        return v.Visit(this);
     }
 }

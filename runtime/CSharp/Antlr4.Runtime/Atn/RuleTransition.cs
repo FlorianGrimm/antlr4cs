@@ -5,57 +5,56 @@ using System;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+public sealed class RuleTransition : Transition
 {
-    public sealed class RuleTransition : Transition
+    /// <summary>Ptr to the rule definition object for this rule ref</summary>
+    public readonly int ruleIndex;
+
+    public readonly int precedence;
+
+    /// <summary>What node to begin computations following ref to rule</summary>
+    [NotNull]
+    public ATNState followState;
+
+    public bool tailCall;
+
+    public bool optimizedTailCall;
+
+    [Obsolete(@"UseRuleTransition(RuleStartState, int, int, ATNState) instead.")]
+    public RuleTransition([NotNull] RuleStartState ruleStart, int ruleIndex, [NotNull] ATNState followState)
+        : this(ruleStart, ruleIndex, 0, followState)
     {
-        /// <summary>Ptr to the rule definition object for this rule ref</summary>
-        public readonly int ruleIndex;
+    }
 
-        public readonly int precedence;
+    public RuleTransition([NotNull] RuleStartState ruleStart, int ruleIndex, int precedence, [NotNull] ATNState followState)
+        : base(ruleStart)
+    {
+        // no Rule object at runtime
+        this.ruleIndex = ruleIndex;
+        this.precedence = precedence;
+        this.followState = followState;
+    }
 
-        /// <summary>What node to begin computations following ref to rule</summary>
-        [NotNull]
-        public ATNState followState;
-
-        public bool tailCall;
-
-        public bool optimizedTailCall;
-
-        [Obsolete(@"UseRuleTransition(RuleStartState, int, int, ATNState) instead.")]
-        public RuleTransition([NotNull] RuleStartState ruleStart, int ruleIndex, [NotNull] ATNState followState)
-            : this(ruleStart, ruleIndex, 0, followState)
+    public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    {
+        get
         {
+            return Antlr4.Runtime.Atn.TransitionType.Rule;
         }
+    }
 
-        public RuleTransition([NotNull] RuleStartState ruleStart, int ruleIndex, int precedence, [NotNull] ATNState followState)
-            : base(ruleStart)
+    public override bool IsEpsilon
+    {
+        get
         {
-            // no Rule object at runtime
-            this.ruleIndex = ruleIndex;
-            this.precedence = precedence;
-            this.followState = followState;
+            return true;
         }
+    }
 
-        public override Antlr4.Runtime.Atn.TransitionType TransitionType
-        {
-            get
-            {
-                return Antlr4.Runtime.Atn.TransitionType.Rule;
-            }
-        }
-
-        public override bool IsEpsilon
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
-        {
-            return false;
-        }
+    public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
+    {
+        return false;
     }
 }

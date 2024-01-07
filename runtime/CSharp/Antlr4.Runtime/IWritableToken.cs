@@ -3,38 +3,37 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime
+namespace Antlr4.Runtime;
+
+public interface IWritableToken : IToken
 {
-    public interface IWritableToken : IToken
+    new string Text
     {
-        new string Text
-        {
-            set;
-        }
+        set;
+    }
 
-        new int Type
-        {
-            set;
-        }
+    new int Type
+    {
+        set;
+    }
 
-        new int Line
-        {
-            set;
-        }
+    new int Line
+    {
+        set;
+    }
 
-        new int Column
-        {
-            set;
-        }
+    new int Column
+    {
+        set;
+    }
 
-        new int Channel
-        {
-            set;
-        }
+    new int Channel
+    {
+        set;
+    }
 
-        new int TokenIndex
-        {
-            set;
-        }
+    new int TokenIndex
+    {
+        set;
     }
 }

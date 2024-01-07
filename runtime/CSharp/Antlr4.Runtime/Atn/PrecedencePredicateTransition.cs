@@ -4,51 +4,50 @@
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <author>Sam Harwell</author>
+public sealed class PrecedencePredicateTransition : AbstractPredicateTransition
 {
-    /// <author>Sam Harwell</author>
-    public sealed class PrecedencePredicateTransition : AbstractPredicateTransition
+    public readonly int precedence;
+
+    public PrecedencePredicateTransition([NotNull] ATNState target, int precedence)
+        : base(target)
     {
-        public readonly int precedence;
+        this.precedence = precedence;
+    }
 
-        public PrecedencePredicateTransition([NotNull] ATNState target, int precedence)
-            : base(target)
+    public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    {
+        get
         {
-            this.precedence = precedence;
+            return Antlr4.Runtime.Atn.TransitionType.Precedence;
         }
+    }
 
-        public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    public override bool IsEpsilon
+    {
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.TransitionType.Precedence;
-            }
+            return true;
         }
+    }
 
-        public override bool IsEpsilon
-        {
-            get
-            {
-                return true;
-            }
-        }
+    public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
+    {
+        return false;
+    }
 
-        public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
+    public SemanticContext.PrecedencePredicate Predicate
+    {
+        get
         {
-            return false;
+            return new SemanticContext.PrecedencePredicate(precedence);
         }
+    }
 
-        public SemanticContext.PrecedencePredicate Predicate
-        {
-            get
-            {
-                return new SemanticContext.PrecedencePredicate(precedence);
-            }
-        }
-
-        public override string ToString()
-        {
-            return precedence + " >= _p";
-        }
+    public override string ToString()
+    {
+        return precedence + " >= _p";
     }
 }

@@ -4,50 +4,49 @@
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <summary>A transition containing a set of values.</summary>
+public class SetTransition : Transition
 {
-    /// <summary>A transition containing a set of values.</summary>
-    public class SetTransition : Transition
+    [NotNull]
+    public readonly IntervalSet set;
+
+    public SetTransition([NotNull] ATNState target, IntervalSet? set)
+        : base(target)
     {
-        [NotNull]
-        public readonly IntervalSet set;
-
-        public SetTransition([NotNull] ATNState target, IntervalSet? set)
-            : base(target)
+        // TODO (sam): should we really allow null here?
+        if (set == null)
         {
-            // TODO (sam): should we really allow null here?
-            if (set == null)
-            {
-                set = IntervalSet.Of(TokenConstants.InvalidType);
-            }
-            this.set = set;
+            set = IntervalSet.Of(TokenConstants.InvalidType);
         }
+        this.set = set;
+    }
 
-        public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    {
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.TransitionType.Set;
-            }
+            return Antlr4.Runtime.Atn.TransitionType.Set;
         }
+    }
 
-        public override IntervalSet Label
+    public override IntervalSet Label
+    {
+        get
         {
-            get
-            {
-                return set;
-            }
+            return set;
         }
+    }
 
-        public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
-        {
-            return set.Contains(symbol);
-        }
+    public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
+    {
+        return set.Contains(symbol);
+    }
 
-        [return: NotNull]
-        public override string ToString()
-        {
-            return set.ToString();
-        }
+    [return: NotNull]
+    public override string ToString()
+    {
+        return set.ToString();
     }
 }

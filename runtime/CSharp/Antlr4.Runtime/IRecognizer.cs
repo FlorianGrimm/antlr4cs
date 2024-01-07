@@ -1,47 +1,46 @@
 ﻿// Copyright (c) Terence Parr, Sam Harwell. All Rights Reserved.
 // Licensed under the BSD License. See LICENSE.txt in the project root for license information.
 
-namespace Antlr4.Runtime
+namespace Antlr4.Runtime;
+
+using System;
+using Antlr4.Runtime.Atn;
+
+public interface IRecognizer
 {
-    using System;
-    using Antlr4.Runtime.Atn;
-
-    public interface IRecognizer
+    [Obsolete("Use IRecognizer.Vocabulary instead.")]
+    string[] TokenNames
     {
-        [Obsolete("Use IRecognizer.Vocabulary instead.")]
-        string[] TokenNames
-        {
-            get;
-        }
+        get;
+    }
 
-        IVocabulary Vocabulary
-        {
-            get;
-        }
+    IVocabulary Vocabulary
+    {
+        get;
+    }
 
-        string[] RuleNames
-        {
-            get;
-        }
+    string[] RuleNames
+    {
+        get;
+    }
 
-        string GrammarFileName
-        {
-            get;
-        }
+    string GrammarFileName
+    {
+        get;
+    }
 
-        ATN Atn
-        {
-            get;
-        }
+    ATN Atn
+    {
+        get;
+    }
 
-        int State
-        {
-            get;
-        }
+    int State
+    {
+        get;
+    }
 
-        IIntStream InputStream
-        {
-            get;
-        }
+    IIntStream InputStream
+    {
+        get;
     }
 }

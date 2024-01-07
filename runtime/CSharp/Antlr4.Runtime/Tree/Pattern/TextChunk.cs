@@ -5,67 +5,66 @@ using System;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Tree.Pattern
+namespace Antlr4.Runtime.Tree.Pattern;
+
+/// <summary>
+/// Represents a span of raw text (concrete syntax) between tags in a tree
+/// pattern string.
+/// </summary>
+internal class TextChunk : Chunk
 {
     /// <summary>
-    /// Represents a span of raw text (concrete syntax) between tags in a tree
-    /// pattern string.
+    /// This is the backing field for
+    /// <see cref="Text()"/>
+    /// .
     /// </summary>
-    internal class TextChunk : Chunk
+    [NotNull]
+    private readonly string text;
+
+    /// <summary>
+    /// Constructs a new instance of
+    /// <see cref="TextChunk"/>
+    /// with the specified text.
+    /// </summary>
+    /// <param name="text">The text of this chunk.</param>
+    /// <exception>
+    /// IllegalArgumentException
+    /// if
+    /// <paramref name="text"/>
+    /// is
+    /// <see langword="null"/>
+    /// .
+    /// </exception>
+    public TextChunk([NotNull] string text)
     {
-        /// <summary>
-        /// This is the backing field for
-        /// <see cref="Text()"/>
-        /// .
-        /// </summary>
-        [NotNull]
-        private readonly string text;
-
-        /// <summary>
-        /// Constructs a new instance of
-        /// <see cref="TextChunk"/>
-        /// with the specified text.
-        /// </summary>
-        /// <param name="text">The text of this chunk.</param>
-        /// <exception>
-        /// IllegalArgumentException
-        /// if
-        /// <paramref name="text"/>
-        /// is
-        /// <see langword="null"/>
-        /// .
-        /// </exception>
-        public TextChunk([NotNull] string text)
+        if (text == null)
         {
-            if (text == null)
-            {
-                throw new ArgumentException("text cannot be null");
-            }
-            this.text = text;
+            throw new ArgumentException("text cannot be null");
         }
+        this.text = text;
+    }
 
-        /// <summary>Gets the raw text of this chunk.</summary>
-        /// <returns>The text of the chunk.</returns>
-        [NotNull]
-        public string Text
+    /// <summary>Gets the raw text of this chunk.</summary>
+    /// <returns>The text of the chunk.</returns>
+    [NotNull]
+    public string Text
+    {
+        get
         {
-            get
-            {
-                return text;
-            }
+            return text;
         }
+    }
 
-        /// <summary>
-        /// <inheritDoc/>
-        /// <p>The implementation for
-        /// <see cref="TextChunk"/>
-        /// returns the result of
-        /// <see cref="Text()"/>
-        /// in single quotes.</p>
-        /// </summary>
-        public override string ToString()
-        {
-            return "'" + text + "'";
-        }
+    /// <summary>
+    /// <inheritDoc/>
+    /// <p>The implementation for
+    /// <see cref="TextChunk"/>
+    /// returns the result of
+    /// <see cref="Text()"/>
+    /// in single quotes.</p>
+    /// </summary>
+    public override string ToString()
+    {
+        return "'" + text + "'";
     }
 }

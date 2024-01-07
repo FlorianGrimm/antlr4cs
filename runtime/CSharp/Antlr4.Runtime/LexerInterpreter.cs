@@ -8,103 +8,102 @@ using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime
+namespace Antlr4.Runtime;
+
+public class LexerInterpreter : Lexer
 {
-    public class LexerInterpreter : Lexer
+    protected internal readonly string grammarFileName;
+
+    protected internal readonly ATN atn;
+
+    [Obsolete]
+    protected internal readonly string[] tokenNames;
+
+    protected internal readonly string[] ruleNames;
+
+    protected internal readonly string[] modeNames;
+
+    [NotNull]
+    private readonly IVocabulary vocabulary;
+
+    [Obsolete]
+    public LexerInterpreter(string grammarFileName, IEnumerable<string> tokenNames, IEnumerable<string> ruleNames, IEnumerable<string> modeNames, ATN atn, ICharStream input)
+        : this(grammarFileName, Antlr4.Runtime.Vocabulary.FromTokenNames(tokenNames.ToArray()), ruleNames, modeNames, atn, input)
     {
-        protected internal readonly string grammarFileName;
+    }
 
-        protected internal readonly ATN atn;
-
-        [Obsolete]
-        protected internal readonly string[] tokenNames;
-
-        protected internal readonly string[] ruleNames;
-
-        protected internal readonly string[] modeNames;
-
-        [NotNull]
-        private readonly IVocabulary vocabulary;
-
-        [Obsolete]
-        public LexerInterpreter(string grammarFileName, IEnumerable<string> tokenNames, IEnumerable<string> ruleNames, IEnumerable<string> modeNames, ATN atn, ICharStream input)
-            : this(grammarFileName, Antlr4.Runtime.Vocabulary.FromTokenNames(tokenNames.ToArray()), ruleNames, modeNames, atn, input)
+    public LexerInterpreter(string grammarFileName, [NotNull] IVocabulary vocabulary, IEnumerable<string> ruleNames, IEnumerable<string> modeNames, ATN atn, ICharStream input)
+        : base(input)
+    {
+        if (atn.grammarType != ATNType.Lexer)
         {
+            throw new ArgumentException("The ATN must be a lexer ATN.");
         }
-
-        public LexerInterpreter(string grammarFileName, [NotNull] IVocabulary vocabulary, IEnumerable<string> ruleNames, IEnumerable<string> modeNames, ATN atn, ICharStream input)
-            : base(input)
-        {
-            if (atn.grammarType != ATNType.Lexer)
-            {
-                throw new ArgumentException("The ATN must be a lexer ATN.");
-            }
-            this.grammarFileName = grammarFileName;
-            this.atn = atn;
+        this.grammarFileName = grammarFileName;
+        this.atn = atn;
 #pragma warning disable 612 // 'fieldName' is obsolete
-            this.tokenNames = new string[atn.maxTokenType];
-            for (int i = 0; i < tokenNames.Length; i++)
-            {
-                tokenNames[i] = vocabulary.GetDisplayName(i);
-            }
+        this.tokenNames = new string[atn.maxTokenType];
+        for (int i = 0; i < tokenNames.Length; i++)
+        {
+            tokenNames[i] = vocabulary.GetDisplayName(i);
+        }
 #pragma warning restore 612
-            this.ruleNames = ruleNames.ToArray();
-            this.modeNames = modeNames.ToArray();
-            this.vocabulary = vocabulary;
-            this._interp = new LexerATNSimulator(this, atn);
-        }
+        this.ruleNames = ruleNames.ToArray();
+        this.modeNames = modeNames.ToArray();
+        this.vocabulary = vocabulary;
+        this._interp = new LexerATNSimulator(this, atn);
+    }
 
-        public override ATN Atn
+    public override ATN Atn
+    {
+        get
         {
-            get
-            {
-                return atn;
-            }
+            return atn;
         }
+    }
 
-        public override string GrammarFileName
+    public override string GrammarFileName
+    {
+        get
         {
-            get
-            {
-                return grammarFileName;
-            }
+            return grammarFileName;
         }
+    }
 
-        [Obsolete("Use IRecognizer.Vocabulary instead.")]
-        public override string[] TokenNames
+    [Obsolete("Use IRecognizer.Vocabulary instead.")]
+    public override string[] TokenNames
+    {
+        get
         {
-            get
-            {
-                return tokenNames;
-            }
+            return tokenNames;
         }
+    }
 
-        public override string[] RuleNames
+    public override string[] RuleNames
+    {
+        get
         {
-            get
-            {
-                return ruleNames;
-            }
+            return ruleNames;
         }
+    }
 
-        public override string[] ModeNames
+    public override string[] ModeNames
+    {
+        get
         {
-            get
-            {
-                return modeNames;
-            }
+            return modeNames;
         }
+    }
 
-        public override IVocabulary Vocabulary
+    public override IVocabulary Vocabulary
+    {
+        get
         {
-            get
+            if (vocabulary != null)
             {
-                if (vocabulary != null)
-                {
-                    return vocabulary;
-                }
-                return base.Vocabulary;
+                return vocabulary;
             }
+            return base.Vocabulary;
         }
     }
 }

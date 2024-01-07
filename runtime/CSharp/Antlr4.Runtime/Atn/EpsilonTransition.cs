@@ -4,63 +4,62 @@
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+public sealed class EpsilonTransition : Transition
 {
-    public sealed class EpsilonTransition : Transition
+    private readonly int outermostPrecedenceReturn;
+
+    public EpsilonTransition([NotNull] ATNState target)
+        : this(target, -1)
     {
-        private readonly int outermostPrecedenceReturn;
+    }
 
-        public EpsilonTransition([NotNull] ATNState target)
-            : this(target, -1)
-        {
-        }
+    public EpsilonTransition([NotNull] ATNState target, int outermostPrecedenceReturn)
+        : base(target)
+    {
+        this.outermostPrecedenceReturn = outermostPrecedenceReturn;
+    }
 
-        public EpsilonTransition([NotNull] ATNState target, int outermostPrecedenceReturn)
-            : base(target)
+    /// <returns>
+    /// the rule index of a precedence rule for which this transition is
+    /// returning from, where the precedence value is 0; otherwise, -1.
+    /// </returns>
+    /// <seealso cref="ATNConfig.PrecedenceFilterSuppressed()"/>
+    /// <seealso cref="ParserATNSimulator.ApplyPrecedenceFilter(ATNConfigSet, ParserRuleContext, PredictionContextCache)"></seealso>
+    /// <since>4.4.1</since>
+    public int OutermostPrecedenceReturn
+    {
+        get
         {
-            this.outermostPrecedenceReturn = outermostPrecedenceReturn;
+            return outermostPrecedenceReturn;
         }
+    }
 
-        /// <returns>
-        /// the rule index of a precedence rule for which this transition is
-        /// returning from, where the precedence value is 0; otherwise, -1.
-        /// </returns>
-        /// <seealso cref="ATNConfig.PrecedenceFilterSuppressed()"/>
-        /// <seealso cref="ParserATNSimulator.ApplyPrecedenceFilter(ATNConfigSet, ParserRuleContext, PredictionContextCache)"></seealso>
-        /// <since>4.4.1</since>
-        public int OutermostPrecedenceReturn
+    public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    {
+        get
         {
-            get
-            {
-                return outermostPrecedenceReturn;
-            }
+            return Antlr4.Runtime.Atn.TransitionType.Epsilon;
         }
+    }
 
-        public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    public override bool IsEpsilon
+    {
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.TransitionType.Epsilon;
-            }
+            return true;
         }
+    }
 
-        public override bool IsEpsilon
-        {
-            get
-            {
-                return true;
-            }
-        }
+    public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
+    {
+        return false;
+    }
 
-        public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
-        {
-            return false;
-        }
-
-        [return: NotNull]
-        public override string ToString()
-        {
-            return "epsilon";
-        }
+    [return: NotNull]
+    public override string ToString()
+    {
+        return "epsilon";
     }
 }

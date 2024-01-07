@@ -1,175 +1,174 @@
 // Copyright (c) Terence Parr, Sam Harwell. All Rights Reserved.
 // Licensed under the BSD License. See LICENSE.txt in the project root for license information.
 
-namespace Antlr4.Parse
+namespace Antlr4.Parse;
+
+using Antlr.Runtime;
+using Antlr4.Tool;
+using CommonToken = Antlr.Runtime.CommonToken;
+using IToken = Antlr.Runtime.IToken;
+
+/** A CommonToken that can also track it's original location,
+ *  derived from options on the element ref like BEGIN&lt;line=34,...&gt;.
+ */
+public class GrammarToken : IToken
 {
-    using Antlr.Runtime;
-    using Antlr4.Tool;
-    using CommonToken = Antlr.Runtime.CommonToken;
-    using IToken = Antlr.Runtime.IToken;
+    public Grammar g;
+    public int originalTokenIndex = -1;
+    private CommonToken _token;
 
-    /** A CommonToken that can also track it's original location,
-     *  derived from options on the element ref like BEGIN&lt;line=34,...&gt;.
-     */
-    public class GrammarToken : IToken
+    public GrammarToken(Grammar g, IToken oldToken)
     {
-        public Grammar g;
-        public int originalTokenIndex = -1;
-        private CommonToken _token;
+        this.g = g;
+        _token = new CommonToken(oldToken);
+    }
 
-        public GrammarToken(Grammar g, IToken oldToken)
+    public int CharPositionInLine
+    {
+        get
         {
-            this.g = g;
-            _token = new CommonToken(oldToken);
+            if (originalTokenIndex >= 0)
+                return g.originalTokenStream.Get(originalTokenIndex).CharPositionInLine;
+
+            return _token.CharPositionInLine;
         }
 
-        public int CharPositionInLine
+        set
         {
-            get
-            {
-                if (originalTokenIndex >= 0)
-                    return g.originalTokenStream.Get(originalTokenIndex).CharPositionInLine;
+            _token.CharPositionInLine = value;
+        }
+    }
 
-                return _token.CharPositionInLine;
-            }
+    public int Line
+    {
+        get
+        {
+            if (originalTokenIndex >= 0)
+                return g.originalTokenStream.Get(originalTokenIndex).Line;
 
-            set
-            {
-                _token.CharPositionInLine = value;
-            }
+            return _token.Line;
         }
 
-        public int Line
+        set
         {
-            get
-            {
-                if (originalTokenIndex >= 0)
-                    return g.originalTokenStream.Get(originalTokenIndex).Line;
+            _token.Line = value;
+        }
+    }
 
-                return _token.Line;
-            }
-
-            set
-            {
-                _token.Line = value;
-            }
+    public int TokenIndex
+    {
+        get
+        {
+            return originalTokenIndex;
         }
 
-        public int TokenIndex
+        set
         {
-            get
-            {
-                return originalTokenIndex;
-            }
+            _token.TokenIndex = value;
+        }
+    }
 
-            set
-            {
-                _token.TokenIndex = value;
-            }
+    public int StartIndex
+    {
+        get
+        {
+            if (originalTokenIndex >= 0)
+                return g.originalTokenStream.Get(originalTokenIndex).StartIndex;
+
+            return _token.StartIndex;
         }
 
-        public int StartIndex
+        set
         {
-            get
-            {
-                if (originalTokenIndex >= 0)
-                    return g.originalTokenStream.Get(originalTokenIndex).StartIndex;
+            _token.StartIndex = value;
+        }
+    }
 
-                return _token.StartIndex;
-            }
-
-            set
-            {
-                _token.StartIndex = value;
-            }
+    public int StopIndex
+    {
+        get
+        {
+            int n = _token.StopIndex - _token.StartIndex + 1;
+            return StartIndex + n - 1;
         }
 
-        public int StopIndex
+        set
         {
-            get
-            {
-                int n = _token.StopIndex - _token.StartIndex + 1;
-                return StartIndex + n - 1;
-            }
+            _token.StopIndex = value;
+        }
+    }
 
-            set
-            {
-                _token.StopIndex = value;
-            }
+    public int Channel
+    {
+        get
+        {
+            return _token.Channel;
         }
 
-        public int Channel
+        set
         {
-            get
-            {
-                return _token.Channel;
-            }
+            _token.Channel = value;
+        }
+    }
 
-            set
-            {
-                _token.Channel = value;
-            }
+    public ICharStream InputStream
+    {
+        get
+        {
+            return _token.InputStream;
         }
 
-        public ICharStream InputStream
+        set
         {
-            get
-            {
-                return _token.InputStream;
-            }
+            _token.InputStream = value;
+        }
+    }
 
-            set
-            {
-                _token.InputStream = value;
-            }
+    public string Text
+    {
+        get
+        {
+            return _token.Text;
         }
 
-        public string Text
+        set
         {
-            get
-            {
-                return _token.Text;
-            }
+            _token.Text = value;
+        }
+    }
 
-            set
-            {
-                _token.Text = value;
-            }
+    public int Type
+    {
+        get
+        {
+            return _token.Type;
         }
 
-        public int Type
+        set
         {
-            get
-            {
-                return _token.Type;
-            }
-
-            set
-            {
-                _token.Type = value;
-            }
+            _token.Type = value;
         }
+    }
 
-        public override string ToString()
+    public override string ToString()
+    {
+        string channelStr = "";
+        if (Channel > 0)
         {
-            string channelStr = "";
-            if (Channel > 0)
-            {
-                channelStr = ",channel=" + Channel;
-            }
-            string txt = Text;
-            if (txt != null)
-            {
-                txt = txt.Replace("\n", "\\n");
-                txt = txt.Replace("\r", "\\r");
-                txt = txt.Replace("\t", "\\t");
-            }
-            else
-            {
-                txt = "<no text>";
-            }
-            return "[@" + TokenIndex + "," + StartIndex + ":" + StopIndex +
-                   "='" + txt + "',<" + Type + ">" + channelStr + "," + Line + ":" + CharPositionInLine + "]";
+            channelStr = ",channel=" + Channel;
         }
+        string txt = Text;
+        if (txt != null)
+        {
+            txt = txt.Replace("\n", "\\n");
+            txt = txt.Replace("\r", "\\r");
+            txt = txt.Replace("\t", "\\t");
+        }
+        else
+        {
+            txt = "<no text>";
+        }
+        return "[@" + TokenIndex + "," + StartIndex + ":" + StopIndex +
+               "='" + txt + "',<" + Type + ">" + channelStr + "," + Line + ":" + CharPositionInLine + "]";
     }
 }

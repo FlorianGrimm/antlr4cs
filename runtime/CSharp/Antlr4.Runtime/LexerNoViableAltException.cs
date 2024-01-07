@@ -6,59 +6,58 @@ using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime
+namespace Antlr4.Runtime;
+
+[System.Serializable]
+public class LexerNoViableAltException : RecognitionException
 {
-    [System.Serializable]
-    public class LexerNoViableAltException : RecognitionException
+    private const long serialVersionUID = -730999203913001726L;
+
+    /// <summary>Matching attempted at what input index?</summary>
+    private readonly int startIndex;
+
+    /// <summary>Which configurations did we try at input.index() that couldn't match input.LA(1)?</summary>
+    private readonly ATNConfigSet? deadEndConfigs;
+
+    public LexerNoViableAltException(Lexer? lexer, [NotNull] ICharStream input, int startIndex, ATNConfigSet? deadEndConfigs)
+        : base(lexer, input)
     {
-        private const long serialVersionUID = -730999203913001726L;
+        this.startIndex = startIndex;
+        this.deadEndConfigs = deadEndConfigs;
+    }
 
-        /// <summary>Matching attempted at what input index?</summary>
-        private readonly int startIndex;
-
-        /// <summary>Which configurations did we try at input.index() that couldn't match input.LA(1)?</summary>
-        private readonly ATNConfigSet? deadEndConfigs;
-
-        public LexerNoViableAltException(Lexer? lexer, [NotNull] ICharStream input, int startIndex, ATNConfigSet? deadEndConfigs)
-            : base(lexer, input)
+    public virtual int StartIndex
+    {
+        get
         {
-            this.startIndex = startIndex;
-            this.deadEndConfigs = deadEndConfigs;
+            return startIndex;
         }
+    }
 
-        public virtual int StartIndex
+    public virtual ATNConfigSet? DeadEndConfigs
+    {
+        get
         {
-            get
-            {
-                return startIndex;
-            }
+            return deadEndConfigs;
         }
+    }
 
-        public virtual ATNConfigSet? DeadEndConfigs
+    public override IIntStream InputStream
+    {
+        get
         {
-            get
-            {
-                return deadEndConfigs;
-            }
+            return (ICharStream)base.InputStream;
         }
+    }
 
-        public override IIntStream InputStream
+    public override string ToString()
+    {
+        string symbol = string.Empty;
+        if (startIndex >= 0 && startIndex < ((ICharStream)InputStream).Size)
         {
-            get
-            {
-                return (ICharStream)base.InputStream;
-            }
+            symbol = ((ICharStream)InputStream).GetText(Interval.Of(startIndex, startIndex));
+            symbol = Utils.EscapeWhitespace(symbol, false);
         }
-
-        public override string ToString()
-        {
-            string symbol = string.Empty;
-            if (startIndex >= 0 && startIndex < ((ICharStream)InputStream).Size)
-            {
-                symbol = ((ICharStream)InputStream).GetText(Interval.Of(startIndex, startIndex));
-                symbol = Utils.EscapeWhitespace(symbol, false);
-            }
-            return string.Format(CultureInfo.CurrentCulture, "{0}('{1}')", typeof(Antlr4.Runtime.LexerNoViableAltException).Name, symbol);
-        }
+        return string.Format(CultureInfo.CurrentCulture, "{0}('{1}')", typeof(Antlr4.Runtime.LexerNoViableAltException).Name, symbol);
     }
 }

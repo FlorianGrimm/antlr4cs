@@ -8,40 +8,39 @@ using Antlr4.Runtime.Sharpen;
 using OperationCanceledException = System.Exception;
 #endif
 
-namespace Antlr4.Runtime.Misc
+namespace Antlr4.Runtime.Misc;
+
+/// <summary>This exception is thrown to cancel a parsing operation.</summary>
+/// <remarks>
+/// This exception is thrown to cancel a parsing operation. This exception does
+/// not extend
+/// <see cref="Antlr4.Runtime.RecognitionException"/>
+/// , allowing it to bypass the standard
+/// error recovery mechanisms.
+/// <see cref="Antlr4.Runtime.BailErrorStrategy"/>
+/// throws this exception in
+/// response to a parse error.
+/// </remarks>
+/// <author>Sam Harwell</author>
+[System.Serializable]
+public class ParseCanceledException : OperationCanceledException
 {
-    /// <summary>This exception is thrown to cancel a parsing operation.</summary>
-    /// <remarks>
-    /// This exception is thrown to cancel a parsing operation. This exception does
-    /// not extend
-    /// <see cref="Antlr4.Runtime.RecognitionException"/>
-    /// , allowing it to bypass the standard
-    /// error recovery mechanisms.
-    /// <see cref="Antlr4.Runtime.BailErrorStrategy"/>
-    /// throws this exception in
-    /// response to a parse error.
-    /// </remarks>
-    /// <author>Sam Harwell</author>
-    [System.Serializable]
-    public class ParseCanceledException : OperationCanceledException
+    public ParseCanceledException()
     {
-        public ParseCanceledException()
-        {
-        }
+    }
 
-        public ParseCanceledException(string message)
-            : base(message)
-        {
-        }
+    public ParseCanceledException(string message)
+        : base(message)
+    {
+    }
 
-        public ParseCanceledException(Exception cause)
-            : base("The parse operation was cancelled.", cause)
-        {
-        }
+    public ParseCanceledException(Exception cause)
+        : base("The parse operation was cancelled.", cause)
+    {
+    }
 
-        public ParseCanceledException(string message, Exception cause)
-            : base(message, cause)
-        {
-        }
+    public ParseCanceledException(string message, Exception cause)
+        : base(message, cause)
+    {
     }
 }

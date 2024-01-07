@@ -3,19 +3,18 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
-{
-    /// <summary>Mark the end of a * or + loop.</summary>
-    public sealed class LoopEndState : ATNState
-    {
-        public ATNState loopBackState;
+namespace Antlr4.Runtime.Atn;
 
-        public override Antlr4.Runtime.Atn.StateType StateType
+/// <summary>Mark the end of a * or + loop.</summary>
+public sealed class LoopEndState : ATNState
+{
+    public ATNState loopBackState;
+
+    public override Antlr4.Runtime.Atn.StateType StateType
+    {
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.StateType.LoopEnd;
-            }
+            return Antlr4.Runtime.Atn.StateType.LoopEnd;
         }
     }
 }

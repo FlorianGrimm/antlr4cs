@@ -4,32 +4,31 @@
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+public sealed class WildcardTransition : Transition
 {
-    public sealed class WildcardTransition : Transition
+    public WildcardTransition([NotNull] ATNState target)
+        : base(target)
     {
-        public WildcardTransition([NotNull] ATNState target)
-            : base(target)
-        {
-        }
+    }
 
-        public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    public override Antlr4.Runtime.Atn.TransitionType TransitionType
+    {
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.TransitionType.Wildcard;
-            }
+            return Antlr4.Runtime.Atn.TransitionType.Wildcard;
         }
+    }
 
-        public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
-        {
-            return symbol >= minVocabSymbol && symbol <= maxVocabSymbol;
-        }
+    public override bool Matches(int symbol, int minVocabSymbol, int maxVocabSymbol)
+    {
+        return symbol >= minVocabSymbol && symbol <= maxVocabSymbol;
+    }
 
-        [return: NotNull]
-        public override string ToString()
-        {
-            return ".";
-        }
+    [return: NotNull]
+    public override string ToString()
+    {
+        return ".";
     }
 }

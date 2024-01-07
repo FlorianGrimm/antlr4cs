@@ -5,115 +5,114 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <summary>
+/// Implements the
+/// <c>type</c>
+/// lexer action by calling
+/// <see cref="Lexer.Type"/>
+/// with the assigned type.
+/// </summary>
+/// <author>Sam Harwell</author>
+/// <since>4.2</since>
+public class LexerTypeAction : ILexerAction
 {
+    private readonly int type;
+
     /// <summary>
-    /// Implements the
-    /// <c>type</c>
-    /// lexer action by calling
-    /// <see cref="Lexer.Type"/>
-    /// with the assigned type.
+    /// Constructs a new
+    /// <paramref name="type"/>
+    /// action with the specified token type value.
     /// </summary>
-    /// <author>Sam Harwell</author>
-    /// <since>4.2</since>
-    public class LexerTypeAction : ILexerAction
+    /// <param name="type">
+    /// The type to assign to the token using
+    /// <see cref="Lexer.Type"/>
+    /// .
+    /// </param>
+    public LexerTypeAction(int type)
     {
-        private readonly int type;
+        this.type = type;
+    }
 
-        /// <summary>
-        /// Constructs a new
-        /// <paramref name="type"/>
-        /// action with the specified token type value.
-        /// </summary>
-        /// <param name="type">
-        /// The type to assign to the token using
-        /// <see cref="Lexer.Type"/>
-        /// .
-        /// </param>
-        public LexerTypeAction(int type)
+    /// <summary>Gets the type to assign to a token created by the lexer.</summary>
+    /// <returns>The type to assign to a token created by the lexer.</returns>
+    public virtual int Type
+    {
+        get
         {
-            this.type = type;
+            return type;
         }
+    }
 
-        /// <summary>Gets the type to assign to a token created by the lexer.</summary>
-        /// <returns>The type to assign to a token created by the lexer.</returns>
-        public virtual int Type
+    /// <summary><inheritDoc/></summary>
+    /// <returns>
+    /// This method returns
+    /// <see cref="LexerActionType.Type"/>
+    /// .
+    /// </returns>
+    public virtual LexerActionType ActionType
+    {
+        get
         {
-            get
-            {
-                return type;
-            }
+            return LexerActionType.Type;
         }
+    }
 
-        /// <summary><inheritDoc/></summary>
-        /// <returns>
-        /// This method returns
-        /// <see cref="LexerActionType.Type"/>
-        /// .
-        /// </returns>
-        public virtual LexerActionType ActionType
+    /// <summary><inheritDoc/></summary>
+    /// <returns>
+    /// This method returns
+    /// <see langword="false"/>
+    /// .
+    /// </returns>
+    public virtual bool IsPositionDependent
+    {
+        get
         {
-            get
-            {
-                return LexerActionType.Type;
-            }
+            return false;
         }
+    }
 
-        /// <summary><inheritDoc/></summary>
-        /// <returns>
-        /// This method returns
-        /// <see langword="false"/>
-        /// .
-        /// </returns>
-        public virtual bool IsPositionDependent
+    /// <summary>
+    /// <inheritDoc/>
+    /// <p>This action is implemented by calling
+    /// <see cref="Lexer.Type"/>
+    /// with the
+    /// value provided by
+    /// <see cref="Type()"/>
+    /// .</p>
+    /// </summary>
+    public virtual void Execute([NotNull] Lexer lexer)
+    {
+        lexer.Type = type;
+    }
+
+    public override int GetHashCode()
+    {
+        int hash = MurmurHash.Initialize();
+        hash = MurmurHash.Update(hash, (int)(ActionType));
+        hash = MurmurHash.Update(hash, type);
+        return MurmurHash.Finish(hash, 2);
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == this)
         {
-            get
+            return true;
+        }
+        else
+        {
+            if (!(obj is Antlr4.Runtime.Atn.LexerTypeAction))
             {
                 return false;
             }
         }
+        return type == ((Antlr4.Runtime.Atn.LexerTypeAction)obj).type;
+    }
 
-        /// <summary>
-        /// <inheritDoc/>
-        /// <p>This action is implemented by calling
-        /// <see cref="Lexer.Type"/>
-        /// with the
-        /// value provided by
-        /// <see cref="Type()"/>
-        /// .</p>
-        /// </summary>
-        public virtual void Execute([NotNull] Lexer lexer)
-        {
-            lexer.Type = type;
-        }
-
-        public override int GetHashCode()
-        {
-            int hash = MurmurHash.Initialize();
-            hash = MurmurHash.Update(hash, (int)(ActionType));
-            hash = MurmurHash.Update(hash, type);
-            return MurmurHash.Finish(hash, 2);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == this)
-            {
-                return true;
-            }
-            else
-            {
-                if (!(obj is Antlr4.Runtime.Atn.LexerTypeAction))
-                {
-                    return false;
-                }
-            }
-            return type == ((Antlr4.Runtime.Atn.LexerTypeAction)obj).type;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("type({0})", type);
-        }
+    public override string ToString()
+    {
+        return string.Format("type({0})", type);
     }
 }

@@ -3,17 +3,16 @@
 
 using Antlr4.Runtime.Sharpen;
 
-namespace Antlr4.Runtime.Atn
+namespace Antlr4.Runtime.Atn;
+
+/// <summary>The Tokens rule start state linking to each lexer rule start state</summary>
+public sealed class TokensStartState : DecisionState
 {
-    /// <summary>The Tokens rule start state linking to each lexer rule start state</summary>
-    public sealed class TokensStartState : DecisionState
+    public override Antlr4.Runtime.Atn.StateType StateType
     {
-        public override Antlr4.Runtime.Atn.StateType StateType
+        get
         {
-            get
-            {
-                return Antlr4.Runtime.Atn.StateType.TokenStart;
-            }
+            return Antlr4.Runtime.Atn.StateType.TokenStart;
         }
     }
 }

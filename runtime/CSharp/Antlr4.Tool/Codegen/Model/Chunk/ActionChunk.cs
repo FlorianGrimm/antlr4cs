@@ -1,19 +1,18 @@
 // Copyright (c) Terence Parr, Sam Harwell. All Rights Reserved.
 // Licensed under the BSD License. See LICENSE.txt in the project root for license information.
 
-namespace Antlr4.Codegen.Model.Chunk
+namespace Antlr4.Codegen.Model.Chunk;
+
+using Antlr4.Codegen.Model.Decl;
+
+/** */
+public class ActionChunk : OutputModelObject
 {
-    using Antlr4.Codegen.Model.Decl;
+    /** Where is the ctx that defines attrs,labels etc... for this action? */
+    public StructDecl ctx;
 
-    /** */
-    public class ActionChunk : OutputModelObject
+    public ActionChunk(StructDecl ctx)
     {
-        /** Where is the ctx that defines attrs,labels etc... for this action? */
-        public StructDecl ctx;
-
-        public ActionChunk(StructDecl ctx)
-        {
-            this.ctx = ctx;
-        }
+        this.ctx = ctx;
     }
 }
