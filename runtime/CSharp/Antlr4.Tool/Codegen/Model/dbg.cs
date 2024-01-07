@@ -3,7 +3,8 @@
 
 namespace Antlr4.Codegen.Model;
 
-/** */
+/*
 public class dbg : OutputModelObject
 {
 }
+*/
